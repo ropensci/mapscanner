@@ -1,0 +1,6 @@
+^README\.Rmd$
+^\.travis\.yml$
+^README\.md$
+^makefile$
+^appveyor\.yml$
+^aaa.Rmd$
