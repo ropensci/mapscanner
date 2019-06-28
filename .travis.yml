@@ -1,4 +1,9 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
+addons:
+    apt:
+        packages:
+            - libproj-dev
+
 language: R
 cache: packages
