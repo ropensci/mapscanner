@@ -1,7 +1,9 @@
 Package: mapscanner
 Title: What the Package Does
 Version: 0.0.0.9000
-Authors@R: person("Mark", "Padgham", email = "mark.padgham@email.com", role = c("aut", "cre"))
+Authors@R: c(
+    person("Mark", "Padgham", email="mark.padgham@email.com", role=c("aut", "cre")),
+    person("Michael D.", "Sumner", role = "aut", email = "mdsumner@gmail.com")) 
 Description: What the package does (one paragraph).
 License: GPL-3
 Encoding: UTF-8
