@@ -60,11 +60,27 @@ ms_map_to_pdf <- function (my_map, file)
     grDevices::graphics.off ()
 }
 
+map_to_jpg <- function (my_map, file)
+{
+    ex <- attributes (raster::extent (my_map))
+    aspect <- (ex$ymax - ex$ymin) / (ex$xmax - ex$xmin)
+    w <- h <- 480 * 4
+    if (aspect < 1) {
+        h <- 480 * 4 * aspect
+    } else {
+        w <- 480 * 4 / aspect
+    }
+
+    grDevices::jpeg (file = file, width = w, height = h, units = "px")
+    raster::plotRGB (my_map)
+    grDevices::graphics.off ()
+}
+
 convert_bbox <- function (bbox)
 {
     if (is.character (bbox))
     {
-        requireNamespace (osmdata)
+        requireNamespace ("osmdata")
         bbox <- osmdata::getbb (bbox)
     }
 
