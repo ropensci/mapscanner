@@ -31,6 +31,37 @@ ms_get_map <- function (bbox, max_tiles = 16L)
     raster::crop (out, tiles$extent , snap = "out")
 }
 
+#' print map to a pdf file
+#'
+#' @param my_map A map produced with \link{ms_get_map}.
+#' @param file Name of pdf file to print to (extension with be automatically
+#' added).
+#' @return Nothing
+#' @export
+ms_map_to_pdf <- function (my_map, file)
+{
+    file <- paste0 (tools::file_path_sans_ext (file), ".pdf")
+
+    ex <- attributes (raster::extent (my_map))
+    aspect <- (ex$ymax - ex$ymin) / (ex$xmax - ex$xmin)
+    A4L <- 11.7 # A4 paper is 8.3-by-11.7
+    A4H <- 8.3
+    # the following issue warnings about mode(onefile)
+    suppressWarnings ({
+        if (aspect < 1) {
+            pdf (my_map, width = A4L, paper = "a4r", colormodel = "gray",
+                 file = file)
+            #pdf (my_map, paper = "a4r", colormodel = "gray", file = file)
+        } else {
+            pdf (my_map, height = A4L, paper = "a4", colormodel = "gray",
+                 file = file)
+            #pdf (my_map, paper = "a4", colormodel = "gray", file = file)
+        }
+    })
+    raster::plotRGB (my_map)
+    graphics.off ()
+}
+
 convert_bbox <- function (bbox)
 {
     if (is.character (bbox))
