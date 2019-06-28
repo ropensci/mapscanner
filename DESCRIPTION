@@ -6,11 +6,21 @@ Description: What the package does (one paragraph).
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Depends:
+Imports:
+    curl,
+    dplyr,
+    fs,
+    glue,
     jpeg,
     magrittr,
     mmand,
-    RNiftyReg
+    png,
+    purrr,
+    raster,
+    reproj,
+    RNiftyReg,
+    slippymath,
+    tibble
 Suggests: 
     testthat
 RoxygenNote: 6.1.1
