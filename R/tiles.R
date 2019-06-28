@@ -49,17 +49,15 @@ ms_map_to_pdf <- function (my_map, file)
     # the following issue warnings about mode(onefile)
     suppressWarnings ({
         if (aspect < 1) {
-            pdf (my_map, width = A4L, paper = "a4r", colormodel = "gray",
-                 file = file)
-            #pdf (my_map, paper = "a4r", colormodel = "gray", file = file)
+            grDevices::pdf (my_map, width = A4L, paper = "a4r",
+                            colormodel = "gray", file = file)
         } else {
-            pdf (my_map, height = A4L, paper = "a4", colormodel = "gray",
-                 file = file)
-            #pdf (my_map, paper = "a4", colormodel = "gray", file = file)
+            grDevices::pdf (my_map, height = A4L, paper = "a4",
+                            colormodel = "gray", file = file)
         }
     })
     raster::plotRGB (my_map)
-    graphics.off ()
+    grDevices::graphics.off ()
 }
 
 convert_bbox <- function (bbox)
