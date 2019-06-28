@@ -15,12 +15,14 @@ Imports:
     glue,
     jpeg,
     magrittr,
-    mmand,
+    magick,
+    pdftools,
     png,
     purrr,
     raster,
     reproj,
     RNiftyReg,
+    sf,
     slippymath,
     tibble
 Suggests: 

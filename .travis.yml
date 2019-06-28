@@ -3,7 +3,12 @@
 addons:
     apt:
         packages:
+            - libudunits2-dev
             - libproj-dev
+            - libgeos-dev
+            - libgdal-dev
+            - libmagick++-dev
+            - libpoppler-cpp-dev
 
 language: R
 cache: packages
