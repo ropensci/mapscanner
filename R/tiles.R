@@ -1,6 +1,53 @@
 # most of this pilfered and otherwise mildly adapted from code by @mdsumner from
 # hypertidy/ceramic
 
+#' ms_get_map
+#'
+#' Get a map image for a specified area or bounding box
+#'
+#' @param bbox Either a string specifying the location, or a numeric bounding
+#' box as a single vector of (xmin, ymin, xmax, ymax), or a 2-by-2 matrix with
+#' columns of (min, max) and rows of (x, y), respectively.
+#' @param max_tiles Maximum number of tiles to use to create map
+#' @return A map
+#' @export
+ms_get_map <- function (bbox, max_tiles = 16L)
+{
+    bbox <- convert_bbox (bbox)
+    bbox_pair <- slippy_bbox (bbox)
+    tiles <- get_tiles (bbox_pair, max_tiles = max_tiles)
+    tgrid <- tiles$tiles
+    br <- lapply (tiles$files, raster_brick)
+
+    for (i in seq_along (br)) {
+        br [[i]] <- raster::setExtent (br [[i]],
+                                       mercator_tile_extent (tgrid$tiles$x [i],
+                                                             tgrid$tiles$y [i],
+                                                             zoom = tgrid$zoom))
+    }
+
+    out <- fast_merge (br)
+    raster::projection (out) <- "+proj=merc +a=6378137 +b=6378137"
+    raster::crop (out, tiles$extent , snap = "out")
+}
+
+convert_bbox <- function (bbox)
+{
+    if (is.character (bbox))
+    {
+        requireNamespace (osmdata)
+        bbox <- osmdata::getbb (bbox)
+    }
+
+    if (!is.matrix (bbox))
+    {
+        bbox <- matrix (bbox, nrow = 2)
+        if (ncol (bbox) != 2)
+            stop ("bbox must have four elements")
+    }
+    return (bbox)
+}
+
 slippy_bbox <- function (bbox)
 {
     pxy <- matrix (rowMeans (bbox), nrow = 1)
