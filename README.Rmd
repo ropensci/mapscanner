@@ -32,35 +32,46 @@ devtools::load_all (".", export_all = FALSE)
 ```{r omaha-fakey, eval = FALSE}
 bbox <- rbind (c (-96.12923, -96.01011),
                c (41.26145, 41.32220))
-omaha <- ms_get_map (loc, max_tiles = 16L)
+omaha <- ms_get_map (bbox, max_tiles = 16L)
 ```
 ```{r omaha, echo = FALSE}
 omaha <- readRDS ("my_map.Rds")
 ```
 
 That map it itself a `RasterBrick` object from the [`raster`
-package](https://cran.r-project.org/package=raster), which can be converted to
-`pdf` format for printing with 
+package](https://cran.r-project.org/package=raster), which can be viewed with 
+the `raster::plotRGB()` function. To generate a printable version, it can be
+converted to `pdf` format with,
 ```{r map2pdf, eval = FALSE}
 ms_map_to_pdf (omaha, file = "omaha")
 ```
 
 That version can then be printed out and either scanned back in, or simply
-photographed with a mobile device. The original `raster` object is all 
-that's need to rectify the scanned image with the original map. The magic is
-performed via the [`RNiftyReg`
+photographed with a mobile device. The `pdf` file produced with the
+`ms_map_to_pdf()` function is the "master" object used to rectify subsequently
+scanned or photographed images - it must be retained at all times!
+
+Scanned objects are rectified against this master copy with the [`RNiftyReg`
 package](https://github.com/jonclayden/RNiftyReg), itself primarily intended to
 align brain scans and other medical images, but which is precisely the tool
 needed here.
 
 To try it out here, we can use the [`magick`
 package](https://github.com/ropensci/magick) to convert the internally bundled
-image files to `pdf` versions:
+image files to `pdf` versions. Note that the `pdf` files produced by the
+`ms_map_to_pdf()` function embed meta-information on the bounding box. To
+replicate this, we need to add that information manually here.
 
 ```{r jpg2pdf-fakey, eval = FALSE}
+bb <- c (-10701069.3043822, 5050977.93834152,
+         -10687788.3707177, 5059997.50767917)
+bb <- paste0 ("EX", paste0 (bb, collapse = "+"))
+
 system.file ("extdata", "omaha.jpg", package = "mapscanner") %>%
     magick::image_read () %>%
-    magick::image_write (path = "omaha.pdf", format = "pdf")
+    magick::image_write (path = "omaha.pdf",
+                         comment = bb,
+                         format = "pdf")
 system.file ("extdata", "omaha_drawn.jpg", package = "mapscanner") %>%
     magick::image_read () %>%
     magick::image_write (path = "omaha.pdf", format = "pdf")
