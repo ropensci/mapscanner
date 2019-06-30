@@ -1,17 +1,36 @@
 # most of this pilfered and otherwise mildly adapted from code by @mdsumner from
 # hypertidy/ceramic
 
-#' ms_get_map
+#' ms_generate_map
 #'
-#' Get a map image for a specified area or bounding box
+#' Generate a map image for a specified area or bounding box. Map is
+#' automatically save in both `.pdf` and `.jpg` formats.
 #'
 #' @param bbox Either a string specifying the location, or a numeric bounding
 #' box as a single vector of (xmin, ymin, xmax, ymax), or a 2-by-2 matrix with
 #' columns of (min, max) and rows of (x, y), respectively.
 #' @param max_tiles Maximum number of tiles to use to create map
-#' @return A map
+#' @param mapname Name of map to be produced, optionally including full path.
+#' Extension will be ignored.
+#' @param raster_brick Instead of automatically downloading tiles within a given
+#' `bbox`, a pre-downloaded `raster::rasterBrick` object may be submitted and
+#' used to generate the `.pdf` and `.jpg` equivalents.
+#' @return Invisibly returns `TRUE` is both `.pdf` and `.jpg` maps successfully
+#' created.
 #' @export
-ms_get_map <- function (bbox, max_tiles = 16L)
+ms_generate_map <- function (bbox, max_tiles = 16L, mapname,
+                             raster_brick = NULL)
+{
+    if (is.null (raster_brick))
+        raster_brick <- get_raster_brick (bbox = bbox, max_tiles = max_tiles)
+
+    map_to_pdf (raster_brick, mapname)
+    map_to_jpg (raster_brick, mapname)
+
+    invisible (TRUE)
+}
+
+get_raster_brick <- function (bbox, max_tiles = 16L)
 {
     bbox <- convert_bbox (bbox)
     bbox_pair <- slippy_bbox (bbox)
@@ -31,14 +50,7 @@ ms_get_map <- function (bbox, max_tiles = 16L)
     raster::crop (out, tiles$extent , snap = "out")
 }
 
-#' print map to a pdf file
-#'
-#' @param my_map A map produced with \link{ms_get_map}.
-#' @param file Name of pdf file to print to (extension with be automatically
-#' added).
-#' @return Nothing
-#' @export
-ms_map_to_pdf <- function (my_map, file)
+map_to_pdf <- function (my_map, file)
 {
     file <- paste0 (tools::file_path_sans_ext (file), ".pdf")
 
@@ -55,16 +67,41 @@ ms_map_to_pdf <- function (my_map, file)
     suppressWarnings ({
         if (aspect < 1) {
             grDevices::pdf (my_map, width = A4L, paper = "a4r",
-                            colormodel = "gray",
-                            title = fname, file = file)
+                                   colormodel = "gray",
+                                   title = fname, file = file)
         } else {
             grDevices::pdf (my_map, height = A4L, paper = "a4",
-                            colormodel = "gray",
-                            title = fname, file = file)
+                                   colormodel = "gray",
+                                   title = fname, file = file)
         }
     })
     raster::plotRGB (my_map)
     grDevices::graphics.off ()
+}
+
+map_to_jpg <- function (my_map, file)
+{
+    file <- paste0 (tools::file_path_sans_ext (file), ".jpg")
+
+    ex <- attributes (raster::extent (my_map))
+    bb_comment <- paste0 ("EX", ex$xmin, "+", ex$ymin, "+",
+                       ex$xmax, "+", ex$ymax)
+
+    aspect <- (ex$ymax - ex$ymin) / (ex$xmax - ex$xmin)
+    w <- h <- 480 * 4
+    if (aspect < 1) {
+        h <- 480 * 4 * aspect
+    } else {
+        w <- 480 * 4 / aspect
+    }
+
+    grDevices::jpeg (file = file, width = w, height = h, units = "px")
+    raster::plotRGB (my_map)
+    grDevices::graphics.off ()
+
+    # Then read in jpg, attach comment containing bbox, and re-save
+    img <- magick::image_read (file)
+    magick::image_write (img, path = file, comment = bb_comment)
 }
 
 convert_bbox <- function (bbox)
