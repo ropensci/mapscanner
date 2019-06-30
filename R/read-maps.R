@@ -28,6 +28,15 @@ bbox_from_pdf <- function (file, asString = FALSE)
     return (bbox)
 }
 
+bbox_from_jpg <- function (file)
+{
+    img <- magick::image_read (file)
+    bbox <- magick::image_comment (img)
+    bbox <- strsplit (bbox, "\\+") [[1]]
+    bbox [1] <- substring (bbox [1], 3, nchar (bbox [1])) # rm "EX"
+    as.numeric (bbox)
+}
+
 # Convert input fname as pdf to jpg and trim white space from border
 trim_white <- function (fname)
 {
