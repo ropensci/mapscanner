@@ -20,18 +20,28 @@ pdf_to_jpg <- function (file)
     file <- paste0 (tools::file_path_sans_ext (file), ".pdf")
     if (!file.exists (file))
         stop ("file ", file, " does not exist")
-    pdftools::pdf_convert (file, format = "jpg")
+
+    bb <- bbox_from_pdf (file, asString = TRUE)
+
+    fout <- paste0 (tools::file_path_sans_ext (file), ".jpg")
+    pdftools::pdf_convert (file, format = "jpg", filenames = fout)
+    img <- magick::image_read (fout)
+    magick::image_write (img, path = fout, comment = bb)
 }
 
-bbox_from_pdf <- function (file)
+bbox_from_pdf <- function (file, asString = FALSE)
 {
     file <- paste0 (tools::file_path_sans_ext (file), ".pdf")
     if (!file.exists (file))
         stop ("file ", file, " does not exist")
-    info <- pdftools::pdf_info (file)
-    bbox <- strsplit (info$keys$Title, "\\+") [[1]]
-    bbox [1] <- substring (bbox [1], 3, nchar (bbox [1])) # rm "EX"
-    as.numeric (bbox)
+    bbox <- pdftools::pdf_info (file)$keys$Title
+    if (!asString)
+    {
+        bbox <- strsplit (bbox, "\\+") [[1]]
+        bbox [1] <- substring (bbox [1], 3, nchar (bbox [1])) # rm "EX"
+        bbox <- as.numeric (bbox)
+    }
+    return (bbox)
 }
 
 # Convert input fname as pdf to jpg and trim white space from border
