@@ -37,6 +37,13 @@ trim_white <- function (fname)
     return (fname)
 }
 
+#' scan_maps
+#'
+#' Scan in two pdf maps and rectify them with `RNiftyReg`
+#' @param map_original The original map without anything drawn over it.
+#' @param map_modified The modified version with drawings
+#' @return An \pkg{RNiftyReg} object
+#' @export
 scan_maps <- function (map_original, map_modified)
 {
     f1 <- trim_white (map_original)
