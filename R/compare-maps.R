@@ -33,7 +33,7 @@ rectify_channel <- function (channel, original)
     x <- x [which (channel == 1)]
     y <- y [which (channel == 1)]
 
-    index <- chull (x, y)
+    index <- grDevices::chull (x, y)
     xy <- cbind (x, y) [c (index, index [1]), ]
     xy <- sf::st_polygon (list (xy))
 
