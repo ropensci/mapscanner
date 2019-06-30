@@ -46,14 +46,21 @@ ms_map_to_pdf <- function (my_map, file)
     aspect <- (ex$ymax - ex$ymin) / (ex$xmax - ex$xmin)
     A4L <- 11.7 # A4 paper is 8.3-by-11.7
     A4H <- 8.3
+
+    # embed extent as file name
+    fname <- paste0 ("EX", ex$xmin, "+", ex$ymin, "+",
+                     ex$xmax, "+", ex$ymax)
+
     # the following issue warnings about mode(onefile)
     suppressWarnings ({
         if (aspect < 1) {
             grDevices::pdf (my_map, width = A4L, paper = "a4r",
-                            colormodel = "gray", file = file)
+                            colormodel = "gray",
+                            title = fname, file = file)
         } else {
             grDevices::pdf (my_map, height = A4L, paper = "a4",
-                            colormodel = "gray", file = file)
+                            colormodel = "gray",
+                            title = fname, file = file)
         }
     })
     raster::plotRGB (my_map)

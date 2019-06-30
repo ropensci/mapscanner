@@ -23,6 +23,17 @@ pdf_to_jpg <- function (file)
     pdftools::pdf_convert (file, format = "jpg")
 }
 
+bbox_from_pdf <- function (file)
+{
+    file <- paste0 (tools::file_path_sans_ext (file), ".pdf")
+    if (!file.exists (file))
+        stop ("file ", file, " does not exist")
+    info <- pdftools::pdf_info (file)
+    bbox <- strsplit (info$keys$Title, "\\+") [[1]]
+    bbox [1] <- substring (bbox [1], 3, nchar (bbox [1])) # rm "EX"
+    as.numeric (bbox)
+}
+
 # Convert input fname as pdf to jpg and trim white space from border
 trim_white <- function (fname)
 {
