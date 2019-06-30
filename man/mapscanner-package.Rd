@@ -4,9 +4,10 @@
 \name{mapscanner-package}
 \alias{mapscanner}
 \alias{mapscanner-package}
-\title{mapscanner: What the Package Does}
+\title{mapscanner: Print Maps, Draw on Them, Scan Them Back In}
 \description{
-What the package does (one paragraph).
+Print maps, draw on them, scan them back in, and convert to spatial
+    objects.
 }
 \author{
 \strong{Maintainer}: Mark Padgham \email{mark.padgham@email.com}

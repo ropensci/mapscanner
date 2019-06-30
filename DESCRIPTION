@@ -1,10 +1,11 @@
 Package: mapscanner
-Title: What the Package Does
+Title: Print Maps, Draw on Them, Scan Them Back In
 Version: 0.0.0.9000
 Authors@R: c(
     person("Mark", "Padgham", email="mark.padgham@email.com", role=c("aut", "cre")),
     person("Michael D.", "Sumner", role = "aut", email = "mdsumner@gmail.com")) 
-Description: What the package does (one paragraph).
+Description: Print maps, draw on them, scan them back in, and convert to spatial
+    objects.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
