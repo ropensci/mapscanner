@@ -3,4 +3,5 @@
 export("%>%")
 export(ms_get_map)
 export(ms_map_to_pdf)
+export(scan_maps)
 importFrom(magrittr,"%>%")
