@@ -80,8 +80,9 @@ leaflet (res) %>%
     addProviderTiles ("CartoDB.Positron") %>%
     setView (lng = mean (bbox [1, ]),
              lat = mean (bbox [2, ]),
-             zoom = 11)
+             zoom = 12)
 ```
+
 ![](./man/figures/leaflet-1.png)
 
 And our hand-drawn line shown above has been converted to a standard spatial
