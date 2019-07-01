@@ -3,4 +3,6 @@
 export("%>%")
 export(ms_generate_map)
 export(ms_rectify_maps)
+importFrom(Rcpp,evalCpp)
 importFrom(magrittr,"%>%")
+useDynLib(mapscanner, .registration = TRUE)
