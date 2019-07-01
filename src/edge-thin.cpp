@@ -1,4 +1,4 @@
-#include <Rcpp.h>
+#include "edge-thin.h"
 
 
 //' rcpp_edge_thin
