@@ -15,8 +15,8 @@
 #' @param raster_brick Instead of automatically downloading tiles within a given
 #' `bbox`, a pre-downloaded `raster::rasterBrick` object may be submitted and
 #' used to generate the `.pdf` and `.jpg` equivalents.
-#' @return Invisibly returns `TRUE` is both `.pdf` and `.jpg` maps successfully
-#' created.
+#' @return Invisibly returns a `rasterBrick` object from the \pkg{raster}
+#' package containing all data used to generate the map.
 #' @export
 ms_generate_map <- function (bbox, max_tiles = 16L, mapname,
                              raster_brick = NULL)
@@ -27,7 +27,7 @@ ms_generate_map <- function (bbox, max_tiles = 16L, mapname,
     map_to_pdf (raster_brick, mapname)
     map_to_jpg (raster_brick, mapname)
 
-    invisible (TRUE)
+    invisible (raster_brick)
 }
 
 get_raster_brick <- function (bbox, max_tiles = 16L)
