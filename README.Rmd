@@ -30,65 +30,52 @@ The original map was generated with
 devtools::load_all (".", export_all = FALSE)
 ```
 ```{r omaha-fakey, eval = FALSE}
-bbox <- rbind (c (-96.12923, -96.01011),
-               c (41.26145, 41.32220))
-omaha <- ms_get_map (bbox, max_tiles = 16L)
+bbox <- osmdata:getbb ("omaha nebraska")
+ms_generate_map (bbox, max_tiles = 16L, mapname = "omaha")
 ```
 ```{r omaha, echo = FALSE}
-omaha <- readRDS ("my_map.Rds")
+bbox <- rbind (c (-96.12923, -96.01011),
+               c (41.26145, 41.32220))
+message ("Successfully generated 'omaha.pdf' and 'omaha.jpg'")
+readRDS ("my_map.Rds")
 ```
-
-That map it itself a `RasterBrick` object from the [`raster`
-package](https://cran.r-project.org/package=raster), which can be viewed with 
-the `raster::plotRGB()` function. To generate a printable version, it can be
-converted to `pdf` format with,
-```{r map2pdf, eval = FALSE}
-ms_map_to_pdf (omaha, file = "omaha")
-```
-
-That version can then be printed out and either scanned back in, or simply
-photographed with a mobile device. The `pdf` file produced with the
-`ms_map_to_pdf()` function is the "master" object used to rectify subsequently
-scanned or photographed images - it must be retained at all times!
-
-Scanned objects are rectified against this master copy with the [`RNiftyReg`
+As indicated, the function generates a map in both `.pdf` and `.jpg` formats.
+These files must be retained as the "master" maps against which subsequently
+modified -- draw-over and scanned-in -- versions will be rectified. The `.pdf`
+format is generated because it will generally be the most convenient for
+printing, while the rectification itself requires `.jpg`-format images. The
+magic happens via the [`RNiftyReg`
 package](https://github.com/jonclayden/RNiftyReg), itself primarily intended to
 align brain scans and other medical images, but which is precisely the tool
 needed here.
 
-To try it out here, we can use the [`magick`
-package](https://github.com/ropensci/magick) to convert the internally bundled
-image files to `pdf` versions. Note that the `pdf` files produced by the
-`ms_map_to_pdf()` function embed meta-information on the bounding box. To
-replicate this, we need to add that information manually here.
-
-```{r jpg2pdf-fakey, eval = FALSE}
-bb <- c (-10701069.3043822, 5050977.93834152,
-         -10687788.3707177, 5059997.50767917)
-bb <- paste0 ("EX", paste0 (bb, collapse = "+"))
-
-system.file ("extdata", "omaha.jpg", package = "mapscanner") %>%
-    magick::image_read () %>%
-    magick::image_write (path = "omaha.pdf",
-                         comment = bb,
-                         format = "pdf")
-system.file ("extdata", "omaha_drawn.jpg", package = "mapscanner") %>%
-    magick::image_read () %>%
-    magick::image_write (path = "omaha.pdf", format = "pdf")
+The `mapscanner` package comes with two `.jpg` images which can be used to
+demonstrate, where `f_modified` is the image shown above, modified from the
+original by drawing a red line around a particular region of Omaha.
+```{r scan_maps}
+f_original <- file.path ("inst", "extdata", "omaha.jpg")
+f_modified <- file.path ("inst", "extdata", "omaha_drawn.jpg")
+system.time (res <- ms_rectify_maps (f_original, f_modified))
+res
 ```
-```{r jpg2pdf, echo = FALSE}
-file.path ("inst", "extdata", "omaha.jpg") %>%
-    magick::image_read () %>%
-    magick::image_write (path = "omaha.pdf", format = "pdf")
-file.path ("inst", "extdata", "omaha_drawn.jpg") %>%
-    magick::image_read () %>%
-    magick::image_write (path = "omaha_drawn.pdf", format = "pdf")
-```
+The rectification can take quite some time, during which [`RNiftyReg`
+package](https://github.com/jonclayden/RNiftyReg) is constructing the best
+transformation of the modified image back on to the original.
 
-That gives us `pdf` versions of the above image file, and the original before
-it was drawn on. The two can be rectified with the single command:
-```{r scan-maps, eval = FALSE}
-result <- scan_maps ("omaha.pdf", "omaha_drawn.pdf")
-```
+Finally, we can plot the result as an interactive map using packages like
+[`mapdeck`](https://github.com/symbolixAU/mapdeck), or
+[`mapview`](https://github.com/r-spatial/mapview):
 
+```{r leaflet, echo = FALSE, eval = FALSE}
+library(leaflet)
+
+leaflet (res) %>%
+    addPolygons (color = "#FF1111", weight = 1, opacity = 1.0,
+                 fillOpacity = 0.5) %>%
+    addProviderTiles ("CartoDB.Positron") %>%
+    setView (lng = mean (bbox [1, ]),
+             lat = mean (bbox [2, ]),
+             zoom = 12)
+```
+![](./man/figures/leaflet-1.png)
 

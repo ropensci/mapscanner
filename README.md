@@ -23,44 +23,59 @@ devtools::load_all (".", export_all = FALSE)
 ```
 
 ``` r
-bbox <- rbind (c (-96.12923, -96.01011),
-               c (41.26145, 41.32220))
-omaha <- ms_get_map (loc, max_tiles = 16L)
+bbox <- osmdata:getbb ("omaha nebraska")
+ms_generate_map (bbox, max_tiles = 16L, mapname = "omaha")
 ```
 
-That map it itself a `RasterBrick` object from the [`raster`
-package](https://cran.r-project.org/package=raster), which can be
-converted to `pdf` format for printing with
+    #> Successfully generated 'omaha.pdf' and 'omaha.jpg'
+    #> class      : RasterBrick 
+    #> dimensions : 472, 695, 328040, 3  (nrow, ncol, ncell, nlayers)
+    #> resolution : 19.10926, 19.10926  (x, y)
+    #> extent     : -10701069, -10687788, 5050978, 5059998  (xmin, xmax, ymin, ymax)
+    #> crs        : +proj=merc +a=6378137 +b=6378137 
+    #> source     : memory
+    #> names      : layer.1, layer.2, layer.3 
+    #> min values :      95,      95,      95 
+    #> max values :     255,     255,     255
 
-``` r
-ms_map_to_pdf (omaha, file = "omaha")
-```
-
-That version can then be printed out and either scanned back in, or
-simply photographed with a mobile device. The original `raster` object
-is all that’s need to rectify the scanned image with the original map.
-The magic is performed via the [`RNiftyReg`
+As indicated, the function generates a map in both `.pdf` and `.jpg`
+formats. These files must be retained as the “master” maps against which
+subsequently modified – draw-over and scanned-in – versions will be
+rectified. The `.pdf` format is generated because it will generally be
+the most convenient for printing, while the rectification itself
+requires `.jpg`-format images. The magic happens via the [`RNiftyReg`
 package](https://github.com/jonclayden/RNiftyReg), itself primarily
 intended to align brain scans and other medical images, but which is
 precisely the tool needed here.
 
-To try it out here, we can use the [`magick`
-package](https://github.com/ropensci/magick) to convert the internally
-bundled image files to `pdf` versions:
+The `mapscanner` package comes with two `.jpg` images which can be used
+to demonstrate, where `f_modified` is the image shown above, modified
+from the original by drawing a red line around a particular region of
+Omaha.
 
 ``` r
-system.file ("extdata", "omaha.jpg", package = "mapscanner") %>%
-    magick::image_read () %>%
-    magick::image_write (path = "omaha.pdf", format = "pdf")
-system.file ("extdata", "omaha_drawn.jpg", package = "mapscanner") %>%
-    magick::image_read () %>%
-    magick::image_write (path = "omaha.pdf", format = "pdf")
+f_original <- file.path ("inst", "extdata", "omaha.jpg")
+f_modified <- file.path ("inst", "extdata", "omaha_drawn.jpg")
+system.time (res <- ms_rectify_maps (f_original, f_modified))
+#>    user  system elapsed 
+#>  66.647   0.827  15.488
+res
+#> Simple feature collection with 1 feature and 0 fields
+#> geometry type:  POLYGON
+#> dimension:      XY
+#> bbox:           xmin: -96.04199 ymin: 41.29294 xmax: -96.02757 ymax: 41.30084
+#> epsg (SRID):    4326
+#> proj4string:    +proj=longlat +datum=WGS84 +no_defs
+#>                         geometry
+#> 1 POLYGON ((-96.02782 41.2962...
 ```
 
-That gives us `pdf` versions of the above image file, and the original
-before it was drawn on. The two can be rectified with the single
-command:
+The rectification can take quite some time, during which [`RNiftyReg`
+package](https://github.com/jonclayden/RNiftyReg) is constructing the
+best transformation of the modified image back on to the original.
 
-``` r
-result <- scan_maps ("omaha.pdf", "omaha_drawn.pdf")
-```
+Finally, we can plot the result as an interactive map using packages
+like [`mapdeck`](https://github.com/symbolixAU/mapdeck), or
+[`mapview`](https://github.com/r-spatial/mapview):
+
+![](./man/figures/leaflet-1.png)
