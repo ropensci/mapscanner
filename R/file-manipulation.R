@@ -51,8 +51,16 @@ bbox_from_jpg <- function (file)
 # trim white space from border of jpg images
 trim_white <- function (fname)
 {
-    magick::image_read (fname) %>%
-        magick::image_trim (fuzz = 1) %>%
-        magick::image_write (fname)
+    bbox <- magick::image_read (fname) %>%
+        magick::image_comment ()
+    # change "EX" at start of file comment to "TX" to flag trimmed:
+    if (substring (bbox, 1, 1) != "T")
+    {
+        img <- magick::image_read (fname) %>%
+            magick::image_trim (fuzz = 1)
+        bbox <- paste0 ("T", substring (bbox, 2, nchar (bbox)))
+        magick::image_write (img, path = fname, comment = bbox)
+    }
+
     return (fname)
 }
