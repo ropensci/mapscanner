@@ -28,15 +28,6 @@ ms_generate_map (bbox, max_tiles = 16L, mapname = "omaha")
 ```
 
     #> Successfully generated 'omaha.pdf' and 'omaha.jpg'
-    #> class      : RasterBrick 
-    #> dimensions : 472, 695, 328040, 3  (nrow, ncol, ncell, nlayers)
-    #> resolution : 19.10926, 19.10926  (x, y)
-    #> extent     : -10701069, -10687788, 5050978, 5059998  (xmin, xmax, ymin, ymax)
-    #> crs        : +proj=merc +a=6378137 +b=6378137 
-    #> source     : memory
-    #> names      : layer.1, layer.2, layer.3 
-    #> min values :      95,      95,      95 
-    #> max values :     255,     255,     255
 
 As indicated, the function generates a map in both `.pdf` and `.jpg`
 formats. These files must be retained as the “master” maps against which
@@ -48,17 +39,17 @@ package](https://github.com/jonclayden/RNiftyReg), itself primarily
 intended to align brain scans and other medical images, but which is
 precisely the tool needed here.
 
-The `mapscanner` package comes with two `.jpg` images which can be used
-to demonstrate, where `f_modified` is the image shown above, modified
-from the original by drawing a red line around a particular region of
-Omaha.
+The `mapscanner` package comes with two sample `.jpg` images which can
+be used to demonstrate functionality. In the following code,
+`f_modified` is the image shown above, modified from the original by
+drawing a red line around a particular region of Omaha.
 
 ``` r
 f_original <- file.path ("inst", "extdata", "omaha.jpg")
 f_modified <- file.path ("inst", "extdata", "omaha_drawn.jpg")
 system.time (res <- ms_rectify_maps (f_original, f_modified))
 #>    user  system elapsed 
-#>  66.647   0.827  15.488
+#>  64.896   1.014  15.739
 res
 #> Simple feature collection with 1 feature and 0 fields
 #> geometry type:  POLYGON
@@ -72,10 +63,15 @@ res
 
 The rectification can take quite some time, during which [`RNiftyReg`
 package](https://github.com/jonclayden/RNiftyReg) is constructing the
-best transformation of the modified image back on to the original.
-
+best transformation of the modified image back on to the original. The
+result of `ms_rectify_maps()` is a spatial object in
+[`sf`](https://cran.r-project.org/package=sf)-format representing the
+convex hull constructed around the red lines shown in the above map.
 Finally, we can plot the result as an interactive map using packages
 like [`mapdeck`](https://github.com/symbolixAU/mapdeck), or
 [`mapview`](https://github.com/r-spatial/mapview):
 
 ![](./man/figures/leaflet-1.png)
+
+And our hand-drawn line shown above has been converted to a standard
+spatial object able to be analysed in any desired way.
