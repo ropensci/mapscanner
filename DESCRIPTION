@@ -11,12 +11,14 @@ Encoding: UTF-8
 LazyData: true
 Imports:
     curl,
+    dbscan,
     dplyr,
     fs,
     glue,
     jpeg,
     magrittr,
     magick,
+    memoise,
     pdftools,
     png,
     purrr,
