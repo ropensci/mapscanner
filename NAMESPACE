@@ -2,5 +2,5 @@
 
 export("%>%")
 export(ms_generate_map)
-export(scan_maps)
+export(ms_rectify_maps)
 importFrom(magrittr,"%>%")

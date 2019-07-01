@@ -18,14 +18,19 @@
 #' @return Invisibly returns a `rasterBrick` object from the \pkg{raster}
 #' package containing all data used to generate the map.
 #' @export
-ms_generate_map <- function (bbox, max_tiles = 16L, mapname,
+ms_generate_map <- function (bbox, max_tiles = 16L, mapname = NULL,
                              raster_brick = NULL)
 {
+    if (is.null (mapname))
+        stop ("Please provide a 'mapname' (with optional path) ",
+              "for the maps to be generated")
     if (is.null (raster_brick))
         raster_brick <- get_raster_brick (bbox = bbox, max_tiles = max_tiles)
 
-    map_to_pdf (raster_brick, mapname)
-    map_to_jpg (raster_brick, mapname)
+    fname_p <- map_to_pdf (raster_brick, mapname)
+    fname_j <- map_to_jpg (raster_brick, mapname)
+
+    message ("Successfully generated '", fname_p, "' and '", fname_j, "'")
 
     invisible (raster_brick)
 }
@@ -77,6 +82,8 @@ map_to_pdf <- function (my_map, file)
     })
     raster::plotRGB (my_map)
     grDevices::graphics.off ()
+
+    invisible (file)
 }
 
 map_to_jpg <- function (my_map, file)
@@ -102,6 +109,8 @@ map_to_jpg <- function (my_map, file)
     # Then read in jpg, attach comment containing bbox, and re-save
     img <- magick::image_read (file)
     magick::image_write (img, path = file, comment = bb_comment)
+
+    invisible (file)
 }
 
 convert_bbox <- function (bbox)
