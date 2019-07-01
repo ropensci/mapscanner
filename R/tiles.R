@@ -243,6 +243,17 @@ is_png <- function (x)
   all (rawb == as.raw (c (0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a)))
 }
 
+is_pdf <- function (x)
+{
+  #"25 50 44 46 2d
+  if (!file.exists (x[1]))
+      return (FALSE)
+  if (file.info (x [1])$size <= 8L)
+      return (FALSE)
+  rawb <- readBin (x[1], "raw", n = 5L)
+  all (rawb == as.raw (c (0x25, 0x50, 0x44, 0x46, 0x2d)))
+}
+
 raster_brick <- function (x) {
   out <- NULL
   if (is_jpeg (x))
