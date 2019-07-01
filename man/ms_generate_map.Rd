@@ -21,8 +21,8 @@ Extension will be ignored.}
 used to generate the `.pdf` and `.jpg` equivalents.}
 }
 \value{
-Invisibly returns `TRUE` is both `.pdf` and `.jpg` maps successfully
-created.
+Invisibly returns a `rasterBrick` object from the \pkg{raster}
+package containing all data used to generate the map.
 }
 \description{
 Generate a map image for a specified area or bounding box. Map is
