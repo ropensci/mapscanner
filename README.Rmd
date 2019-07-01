@@ -28,7 +28,7 @@ lines drawn on it:
 That's just a standard `jpeg` image with no notion of geographical coordinates.
 The original map was generated with
 
-```{r load}
+```{r load, echo = FALSE, message = FALSE}
 devtools::load_all (".", export_all = FALSE)
 ```
 ```{r omaha-fakey, eval = FALSE}
@@ -57,7 +57,7 @@ particular region of Omaha.
 ```{r scan_maps}
 f_original <- file.path ("inst", "extdata", "omaha.jpg")
 f_modified <- file.path ("inst", "extdata", "omaha_drawn.jpg")
-system.time (res <- ms_rectify_maps (f_original, f_modified))
+system.time (res <- ms_rectify_maps (f_original, f_modified, type = "polygons"))
 res
 ```
 The rectification can take quite some time, during which [`RNiftyReg`
@@ -65,7 +65,8 @@ package](https://github.com/jonclayden/RNiftyReg) is constructing the best
 transformation of the modified image back on to the original. The result of
 `ms_rectify_maps()` is a spatial object in
 [`sf`](https://cran.r-project.org/package=sf)-format representing the convex
-hull constructed around the red lines shown in the above map. Finally, we can
+hulls constructed around the red lines shown in the above map. Note that the
+function automatically distinguishes the two hulls. Finally, we can
 plot the result as an interactive map using packages like
 [`mapdeck`](https://github.com/symbolixAU/mapdeck), or
 [`mapview`](https://github.com/r-spatial/mapview):
@@ -79,7 +80,7 @@ leaflet (res) %>%
     addProviderTiles ("CartoDB.Positron") %>%
     setView (lng = mean (bbox [1, ]),
              lat = mean (bbox [2, ]),
-             zoom = 12)
+             zoom = 11)
 ```
 ![](./man/figures/leaflet-1.png)
 

@@ -4,7 +4,7 @@
 \alias{ms_rectify_maps}
 \title{ms_rectify_maps}
 \usage{
-ms_rectify_maps(map_original, map_modified)
+ms_rectify_maps(map_original, map_modified, type = "polygons")
 }
 \arguments{
 \item{map_original}{File name of the original map without anything drawn over
@@ -12,6 +12,11 @@ it (either a `.pdf` or `.jpg`; extension will be ignored).}
 
 \item{map_modified}{File name of the modified version with drawings (either a
 `.pdf` or `.jpg`; extension will be ignored).}
+
+\item{type}{Currently either "points", "polygon", or "polygons", where
+"points" simply returns the identified points that differ between the two
+maps, "polygon" drawns a single convex hull around all points, and "polygons"
+separates points into groups, returning polygons around each group.}
 }
 \value{
 An \pkg{sf} object representing the drawn additions to map_modified.
