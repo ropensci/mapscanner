@@ -8,6 +8,9 @@
 status](https://travis-ci.org/mpadge/mapscanner.svg?branch=master)](https://travis-ci.org/mpadge/mapscanner)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/mpadge/mapscanner?branch=master&svg=true)](https://ci.appveyor.com/project/mpadge/mapscanner)
+[![codecov](https://codecov.io/gh/mpadge/mapscanner/branch/master/graph/badge.svg)](https://codecov.io/gh/mpadge/mapscanner)
+[![Project Status:
+Concept](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
 <!-- badges: end -->
 
 Print maps, draw on them, scan them back in, and convert to spatial
@@ -49,7 +52,7 @@ f_original <- file.path ("inst", "extdata", "omaha.jpg")
 f_modified <- file.path ("inst", "extdata", "omaha_drawn.jpg")
 system.time (res <- ms_rectify_maps (f_original, f_modified))
 #>    user  system elapsed 
-#>  64.896   1.014  15.739
+#>  72.289   1.136  17.533
 res
 #> Simple feature collection with 1 feature and 0 fields
 #> geometry type:  POLYGON
