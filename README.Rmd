@@ -85,7 +85,7 @@ leaflet (res) %>%
 
 ![](./man/figures/leaflet-1.png)
 
-And our hand-drawn line shown above has been converted to a standard spatial
-object able to be analysed in any desired way.
+And our hand-drawn lines shown above has been converted to standard spatial
+objects able to be analysed in any desired way.
 
 

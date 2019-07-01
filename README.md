@@ -47,7 +47,7 @@ f_original <- file.path ("inst", "extdata", "omaha.jpg")
 f_modified <- file.path ("inst", "extdata", "omaha_drawn.jpg")
 system.time (res <- ms_rectify_maps (f_original, f_modified, type = "polygons"))
 #>    user  system elapsed 
-#>  43.821   0.886  12.926
+#>  43.713   0.750  12.455
 res
 #> Simple feature collection with 2 features and 0 fields
 #> geometry type:  POLYGON
@@ -73,5 +73,5 @@ like [`mapdeck`](https://github.com/symbolixAU/mapdeck), or
 
 ![](./man/figures/leaflet-1.png)
 
-And our hand-drawn line shown above has been converted to a standard
-spatial object able to be analysed in any desired way.
+And our hand-drawn lines shown above has been converted to standard
+spatial objects able to be analysed in any desired way.
