@@ -47,16 +47,17 @@ f_original <- file.path ("inst", "extdata", "omaha.jpg")
 f_modified <- file.path ("inst", "extdata", "omaha_drawn.jpg")
 system.time (res <- ms_rectify_maps (f_original, f_modified, type = "polygons"))
 #>    user  system elapsed 
-#>  46.823   0.824  13.001
+#>  43.821   0.886  12.926
 res
-#> Simple feature collection with 1 feature and 0 fields
+#> Simple feature collection with 2 features and 0 fields
 #> geometry type:  POLYGON
 #> dimension:      XY
-#> bbox:           xmin: -96.04199 ymin: 41.29294 xmax: -96.02757 ymax: 41.30084
+#> bbox:           xmin: -96.11759 ymin: 41.26661 xmax: -96.02757 ymax: 41.30084
 #> epsg (SRID):    4326
 #> proj4string:    +proj=longlat +datum=WGS84 +no_defs
 #>                         geometry
-#> 1 POLYGON ((-96.02782 41.2962...
+#> 1 POLYGON ((-96.10715 41.2685...
+#> 2 POLYGON ((-96.02782 41.2962...
 ```
 
 The rectification can take quite some time, during which [`RNiftyReg`
