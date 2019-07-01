@@ -21,11 +21,6 @@ That’s just a standard `jpeg` image with no notion of geographical
 coordinates. The original map was generated with
 
 ``` r
-devtools::load_all (".", export_all = FALSE)
-#> Loading mapscanner
-```
-
-``` r
 bbox <- osmdata:getbb ("omaha nebraska")
 ms_generate_map (bbox, max_tiles = 16L, mapname = "omaha")
 ```
@@ -50,9 +45,9 @@ drawing a red line around a particular region of Omaha.
 ``` r
 f_original <- file.path ("inst", "extdata", "omaha.jpg")
 f_modified <- file.path ("inst", "extdata", "omaha_drawn.jpg")
-system.time (res <- ms_rectify_maps (f_original, f_modified))
+system.time (res <- ms_rectify_maps (f_original, f_modified, type = "polygons"))
 #>    user  system elapsed 
-#>  72.289   1.136  17.533
+#>  46.823   0.824  13.001
 res
 #> Simple feature collection with 1 feature and 0 fields
 #> geometry type:  POLYGON
@@ -69,7 +64,8 @@ package](https://github.com/jonclayden/RNiftyReg) is constructing the
 best transformation of the modified image back on to the original. The
 result of `ms_rectify_maps()` is a spatial object in
 [`sf`](https://cran.r-project.org/package=sf)-format representing the
-convex hull constructed around the red lines shown in the above map.
+convex hulls constructed around the red lines shown in the above map.
+Note that the function automatically distinguishes the two hulls.
 Finally, we can plot the result as an interactive map using packages
 like [`mapdeck`](https://github.com/symbolixAU/mapdeck), or
 [`mapview`](https://github.com/r-spatial/mapview):
