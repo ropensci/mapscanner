@@ -9,6 +9,7 @@ Description: Print maps, draw on them, scan them back in, and convert to spatial
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+NeedsCompilation: yes
 Imports:
     curl,
     dbscan,
@@ -23,6 +24,7 @@ Imports:
     png,
     purrr,
     raster,
+    Rcpp,
     reproj,
     RNiftyReg,
     sf,
@@ -31,4 +33,5 @@ Imports:
 Suggests: 
     osmdata,
     testthat
+LinkingTo: Rcpp
 RoxygenNote: 6.1.1

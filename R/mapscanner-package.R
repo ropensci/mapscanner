@@ -1,3 +1,5 @@
+#' @importFrom Rcpp evalCpp
+#' @useDynLib mapscanner, .registration = TRUE
 #' @keywords internal
 "_PACKAGE"
 
