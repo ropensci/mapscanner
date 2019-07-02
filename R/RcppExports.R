@@ -4,6 +4,6 @@
 #' rcpp_edge_thin
 #' @noRd 
 rcpp_edge_thin <- function(image) {
-    invisible(.Call(`_mapscanner_rcpp_edge_thin`, image))
+    .Call(`_mapscanner_rcpp_edge_thin`, image)
 }
 

@@ -49,7 +49,7 @@ struct filters_thin {
     filter fb3 {{       true,
                  false, true, true,
                  false, false},
-           {0, -1, 0, 1, -1, 1},
+           {0, -1, 0, 1, -1, 0},
            {1, 0, 0, 0, -1, -1}};
 
     filter fb4 {{false, false,
@@ -59,6 +59,7 @@ struct filters_thin {
            {1, 1, 0, 0, 0, -1}};
 };
 
+// pruning filters are not used here
 struct filters_prune {
     filter fa1 {{false, false, false,
                  false, true, false,
@@ -111,4 +112,4 @@ struct filters_prune {
 
 bool applyOneFilter (Rcpp::LogicalMatrix &image, filter f);
 
-void rcpp_edge_thin (Rcpp::LogicalMatrix image);
+int rcpp_edge_thin (Rcpp::LogicalMatrix image);

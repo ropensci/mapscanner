@@ -4,11 +4,12 @@
 //' rcpp_edge_thin
 //' @noRd 
 // [[Rcpp::export]]
-void rcpp_edge_thin (Rcpp::LogicalMatrix image)
+int rcpp_edge_thin (Rcpp::LogicalMatrix image)
 {
     struct filters_thin fthin;
 
     bool changed = true;
+    int count = 0;
     while (changed)
     {
         changed = applyOneFilter (image, fthin.fa1);
@@ -19,16 +20,18 @@ void rcpp_edge_thin (Rcpp::LogicalMatrix image)
         changed = changed || applyOneFilter (image, fthin.fb3);
         changed = changed || applyOneFilter (image, fthin.fa4);
         changed = changed || applyOneFilter (image, fthin.fb4);
+        count++;
     }
+
+    return count;
 }
 
 bool applyOneFilter (Rcpp::LogicalMatrix &image, filter f)
 {
-    const int nx = image.ncol (), ny = image.nrow ();
     bool changed = false;
 
-    for (int i = 1; i < (nx - 1); i++)
-        for (int j = 1; j < (ny - 1); j++)
+    for (int i = 1; i < (image.nrow () - 1); i++)
+        for (int j = 1; j < (image.ncol () - 1); j++)
         {
             if (image (i, j)) // NOTE: Does not work with "[i, j]"!!
             {
