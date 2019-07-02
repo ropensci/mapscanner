@@ -6,13 +6,14 @@
 using namespace Rcpp;
 
 // rcpp_edge_thin
-void rcpp_edge_thin(Rcpp::LogicalMatrix image);
+int rcpp_edge_thin(Rcpp::LogicalMatrix image);
 RcppExport SEXP _mapscanner_rcpp_edge_thin(SEXP imageSEXP) {
 BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::LogicalMatrix >::type image(imageSEXP);
-    rcpp_edge_thin(image);
-    return R_NilValue;
+    rcpp_result_gen = Rcpp::wrap(rcpp_edge_thin(image));
+    return rcpp_result_gen;
 END_RCPP
 }
 
