@@ -5,6 +5,17 @@
 
 using namespace Rcpp;
 
+// rcpp_components
+Rcpp::IntegerMatrix rcpp_components(Rcpp::LogicalMatrix image);
+RcppExport SEXP _mapscanner_rcpp_components(SEXP imageSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::LogicalMatrix >::type image(imageSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_components(image));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_edge_thin
 int rcpp_edge_thin(Rcpp::LogicalMatrix image);
 RcppExport SEXP _mapscanner_rcpp_edge_thin(SEXP imageSEXP) {
@@ -18,6 +29,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_mapscanner_rcpp_components", (DL_FUNC) &_mapscanner_rcpp_components, 1},
     {"_mapscanner_rcpp_edge_thin", (DL_FUNC) &_mapscanner_rcpp_edge_thin, 1},
     {NULL, NULL, 0}
 };
