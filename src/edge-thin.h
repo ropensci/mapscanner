@@ -109,4 +109,6 @@ struct filters_prune {
            {1, 1, 1, 0, 0, -1, -1}};
 };
 
-Rcpp::NumericVector rcpp_edge_thin (Rcpp::IntegerMatrix image);
+bool applyOneFilter (Rcpp::LogicalMatrix &image, filter f);
+
+void rcpp_edge_thin (Rcpp::LogicalMatrix image);
