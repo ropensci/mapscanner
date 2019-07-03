@@ -3,6 +3,12 @@
 
 #' rcpp_components
 #' @noRd 
+rcpp_boundary <- function(image) {
+    .Call(`_mapscanner_rcpp_boundary`, image)
+}
+
+#' rcpp_components
+#' @noRd 
 rcpp_components <- function(image) {
     .Call(`_mapscanner_rcpp_components`, image)
 }
