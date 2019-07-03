@@ -42,6 +42,10 @@ Rcpp::DataFrame rcpp_boundary (Rcpp::LogicalMatrix image)
         }
     }
 
+    // close polygons:
+    bx.push_back (bx [0]);
+    by.push_back (by [0]);
+
     Rcpp::DataFrame res = Rcpp::DataFrame::create (
             Rcpp::Named ("x") = bx,
             Rcpp::Named ("y") = by);

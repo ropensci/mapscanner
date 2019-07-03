@@ -65,38 +65,40 @@ extract_channel_r <- function (nr)
 # origin is the raster image, channel is result of extract_channel
 rectify_channel <- function (channel, original, type)
 {
-    bbox <- bbox_from_jpg (original)
-    x <- seq (bbox [1], bbox [3], length.out = ncol (channel))
-    y <- rev (seq (bbox [2], bbox [4], length.out = nrow (channel)))
-    x <- t (array (x, dim = c (ncol (channel), nrow (channel))))
-    y <- array (y, dim = c (nrow (channel), ncol (channel)))
-
-    x <- x [which (channel == 1)]
-    y <- y [which (channel == 1)]
-
     crs_from <- "+proj=merc +a=6378137 +b=6378137"
     crs_to <- 4326
 
-    if (type == "polygon")
+    bbox <- bbox_from_jpg (original)
+
+    if (type == "polygons")
     {
-        index <- grDevices::chull (x, y)
-        xy <- cbind (x, y) [c (index, index [1]), ]
-        xy <- sf::st_polygon (list (xy))
-        geometry <- sf::st_sfc (xy, crs = crs_from)
-    } else if (type == "polygons")
-    {
-        xy <- cbind (x, y)
-        xy <- cbind (xy, dbscan::dbscan (xy, eps = 10)$cluster)
-        polys <- lapply (unique (xy [, 3]), function (i)
-                         {
-                             xyi <- xy [which (xy [, 3] == i), ]
-                             hull <- grDevices::chull (xyi [, 1], xyi [, 2])
-                             hull <- c (hull, hull [1])
-                             sf::st_polygon (list (xyi [hull, 1:2]))
-                         })
-        geometry <- sf::st_sfc (polys, crs = crs_from)
+        boundaries <- polygon_boundaries (channel)
+        # boundaries then need to be rotated, so
+        # x <- y
+        # y <- nrow (channel) - x
+        boundaries <- lapply (boundaries, function (i) {
+                                  temp <- i$x
+                                  i$x <- i$y
+                                  i$y <- nrow (channel) - temp
+                                  return (i)    })
+        boundaries <- lapply (boundaries, function (i) {
+                                  i$x <- ((i$x - 1) / (ncol (channel) - 1))
+                                  i$y <- ((i$y - 1) / (nrow (channel) - 1))
+                                  i$x <- bbox [1] + i$x * (bbox [3] - bbox [1])
+                                  i$y <- bbox [2] + i$y * (bbox [4] - bbox [2])
+                                  xy <- sf::st_polygon (list (as.matrix (i)))
+                    })
+        geometry <- sf::st_sfc (boundaries, crs = crs_from)
     } else if (type == "points")
     {
+        x <- seq (bbox [1], bbox [3], length.out = ncol (channel))
+        y <- rev (seq (bbox [2], bbox [4], length.out = nrow (channel)))
+        x <- t (array (x, dim = c (ncol (channel), nrow (channel))))
+        y <- array (y, dim = c (nrow (channel), ncol (channel)))
+
+        x <- x [which (channel == 1)]
+        y <- y [which (channel == 1)]
+
         xy <- cbind (x, y)
         geometry <- sf::st_sfc (sf::st_multipoint (xy), crs = crs_from)
     }
@@ -104,4 +106,43 @@ rectify_channel <- function (channel, original, type)
     # Then re-project:
     sf::st_sf (geometry = geometry) %>%
         sf::st_transform (crs = crs_to)
+}
+
+# img is a channel
+polygon_boundaries <- function (img)
+{
+    img <- matrix (as.logical (img), nrow = nrow (img))
+    cmat <- rcpp_components (img)
+    comps <- seq (1:max (cmat))
+
+    get_shape_index <- function (cmat, x = TRUE)
+    {
+        if (x)
+            index <- which (rowSums (cmat) > 0)
+        else
+            index <- which (colSums (cmat) > 0)
+        index <- seq (min (index) - 1, max (index) + 1)
+        if (x)
+            index <- index [index > 0 & index < nrow (cmat)]
+        else
+            index <- index [index > 0 & index < ncol (cmat)]
+        return (index)
+    }
+
+    boundaries <- list ()
+    for (ci in comps)
+    {
+        cmat_i <- cmat
+        cmat_i [cmat_i != ci] <- 0
+        i1 <- get_shape_index (cmat_i, x = TRUE)
+        i2 <- get_shape_index (cmat_i, x = FALSE)
+
+        cmat_i <- cmat_i [i1, i2]
+        xy <- rcpp_boundary (cmat_i)
+        xy$x <- xy$x + min (i1) # no - 1, because first row is blank
+        xy$y <- xy$y + min (i2)
+
+        boundaries [[length (boundaries) + 1]] <- xy
+    }
+    return (boundaries)
 }
