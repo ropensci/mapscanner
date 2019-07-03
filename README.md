@@ -21,7 +21,8 @@ That’s just a standard `jpeg` image with no notion of geographical
 coordinates. The original map was generated with
 
 ``` r
-bbox <- osmdata:getbb ("omaha nebraska")
+bbox <- rbind (c (-96.12923, -96.01011),
+               c (41.26145, 41.32220)) # portion of omaha
 ms_generate_map (bbox, max_tiles = 16L, mapname = "omaha")
 ```
 
@@ -47,28 +48,27 @@ f_original <- file.path ("inst", "extdata", "omaha.jpg")
 f_modified <- file.path ("inst", "extdata", "omaha_drawn.jpg")
 system.time (res <- ms_rectify_maps (f_original, f_modified, type = "polygons"))
 #>    user  system elapsed 
-#>  48.132   0.927  14.420
+#>  40.325   0.651  11.584
 res
 #> Simple feature collection with 2 features and 0 fields
 #> geometry type:  POLYGON
 #> dimension:      XY
-#> bbox:           xmin: -96.11759 ymin: 41.26661 xmax: -96.02757 ymax: 41.30084
+#> bbox:           xmin: -96.11759 ymin: 41.26657 xmax: -96.02757 ymax: 41.3008
 #> epsg (SRID):    4326
 #> proj4string:    +proj=longlat +datum=WGS84 +no_defs
 #>                         geometry
-#> 1 POLYGON ((-96.10715 41.2685...
-#> 2 POLYGON ((-96.02782 41.2962...
+#> 1 POLYGON ((-96.04199 41.2963...
+#> 2 POLYGON ((-96.11759 41.2697...
 ```
 
 The rectification can take quite some time, during which [`RNiftyReg`
 package](https://github.com/jonclayden/RNiftyReg) is constructing the
 best transformation of the modified image back on to the original. The
 result of `ms_rectify_maps()` is a spatial object in
-[`sf`](https://cran.r-project.org/package=sf)-format representing the
-convex hulls constructed around the red lines shown in the above map.
-Note that the function automatically distinguishes the two hulls.
-Finally, we can plot the result as an interactive map using packages
-like [`mapdeck`](https://github.com/symbolixAU/mapdeck), or
+[`sf`](https://cran.r-project.org/package=sf)-format in which each drawn
+component is represented as a separate polygon. Finally, we can plot the
+result as an interactive map using packages like
+[`mapdeck`](https://github.com/symbolixAU/mapdeck), or
 [`mapview`](https://github.com/r-spatial/mapview):
 
 ![](./man/figures/leaflet-1.png)
