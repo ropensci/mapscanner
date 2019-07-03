@@ -1,5 +1,6 @@
 #include "edge-thin.h"
 
+// https://homepages.inf.ed.ac.uk/rbf/HIPR2/thin.htm
 
 //' rcpp_edge_thin
 //' @noRd 
