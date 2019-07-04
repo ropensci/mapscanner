@@ -12,7 +12,8 @@ addons:
             - libpoppler-cpp-dev
 
 r_packages:
-      - covr
+    - covr
+    - lwgeom # pre-install needed for some reason?
 
 after_success: Rscript -e "covr::codecov()"
 
