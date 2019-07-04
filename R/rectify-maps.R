@@ -10,16 +10,13 @@
 #' @param type Currently either "points", "polygons", or "hulls", where
 #' "points" simply returns the identified points that differ between the two
 #' maps; "polygons" identifies individual groups and returns the polygon
-#' representing the outer boundary of each; and "hulls" constructs concave
-#' polygons around each group using the \pkg{alphahull} package, with concavity
-#' controlled by the parameter `alpha`.
+#' representing the outer boundary of each; and "hulls" constructs convex
+#' polygons around each group.
 #' @param downsample Factor by which to downsample polygons, noting that
 #' polygons initially include every outer pixel of image, so can generally be
 #' downsampled by at least an order or magnitude (`n = 10`). Higher values may
 #' be used for higher-resolution images; lower values will generally only be
 #' necessary for very low lower resolution images.
-#' @param alpha For `type == "hulls"`, the parameter determining the concavity
-#' of the \pkg{alphahull} shapes enclosing the points.
 #' @return An \pkg{sf} object representing the drawn additions to map_modified.
 #'
 #' @note Currently only return a single convex polygon surrounding all elements
@@ -27,13 +24,11 @@
 #'
 #' @export
 ms_rectify_maps <- function (map_original, map_modified, type = "polygons",
-                             downsample = 10, alpha = 1)
+                             downsample = 10)
 {
     type <- match.arg (type, c ("points", "polygons", "hulls"))
     if (type != "polygons" && downsample != 10)
         message ("downsample is only used for polygons")
-    if (type != "hulls" && alpha != 1)
-        message ("alpha is only used for hulls")
 
     map_original <- get_map_jpg (map_original)
     map_modified <- get_map_jpg (map_modified)
@@ -49,7 +44,7 @@ ms_rectify_maps <- function (map_original, map_modified, type = "polygons",
     res <- m_niftyreg (map_scanned, map)
 
     img_r <- extract_channel_r (res)
-    rectify_channel (img_r, f_orig, type = type, n = downsample, alpha = alpha)
+    rectify_channel (img_r, f_orig, type = type, n = downsample)
 }
 
 m_niftyreg <- memoise::memoise (function (map_scanned, map)
@@ -79,7 +74,7 @@ extract_channel_r <- function (nr)
 }
 
 # origin is the raster image, channel is result of extract_channel
-rectify_channel <- function (channel, original, type, n = 10, alpha = 1)
+rectify_channel <- function (channel, original, type, n = 10)
 {
     crs_from <- "+proj=merc +a=6378137 +b=6378137"
     crs_to <- 4326
