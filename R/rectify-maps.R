@@ -11,13 +11,19 @@
 #' "points" simply returns the identified points that differ between the two
 #' maps, "polygon" drawns a single convex hull around all points, and "polygons"
 #' separates points into groups, returning polygons around each group.
+#' @param downsample Factor by which to downsample polygons, noting that
+#' polygons initially include every outer pixel of image, so can generally be
+#' downsampled by at least an order or magnitude (`n = 10`). Higher values may
+#' be used for higher-resolution images; lower values will generally only be
+#' necessary for very low lower resolution images.
 #' @return An \pkg{sf} object representing the drawn additions to map_modified.
 #'
 #' @note Currently only return a single convex polygon surrounding all elements
 #' added to `map_modified`.
 #'
 #' @export
-ms_rectify_maps <- function (map_original, map_modified, type = "polygons")
+ms_rectify_maps <- function (map_original, map_modified, type = "polygons",
+                             downsample = 10)
 {
     map_original <- get_map_jpg (map_original)
     map_modified <- get_map_jpg (map_modified)
@@ -33,7 +39,7 @@ ms_rectify_maps <- function (map_original, map_modified, type = "polygons")
     res <- m_niftyreg (map_scanned, map)
 
     img_r <- extract_channel_r (res)
-    rectify_channel (img_r, f_orig, type = type)
+    rectify_channel (img_r, f_orig, type = type, n = downsample)
 }
 
 m_niftyreg <- memoise::memoise (function (map_scanned, map)
@@ -63,7 +69,7 @@ extract_channel_r <- function (nr)
 }
 
 # origin is the raster image, channel is result of extract_channel
-rectify_channel <- function (channel, original, type)
+rectify_channel <- function (channel, original, type, n = 10)
 {
     crs_from <- "+proj=merc +a=6378137 +b=6378137"
     crs_to <- 4326
@@ -73,17 +79,19 @@ rectify_channel <- function (channel, original, type)
     if (type == "polygons")
     {
         boundaries <- polygon_boundaries (channel)
-        # boundaries then need to be rotated, so
+        # boundaries then need to be rotated, so first lines impelement:
         # x <- y
         # y <- nrow (channel) - x
         boundaries <- lapply (boundaries, function (i) {
                                   temp <- i$x
                                   i$x <- i$y
                                   i$y <- nrow (channel) - temp
-                                  return (i)    })
-        boundaries <- lapply (boundaries, function (i) {
                                   i$x <- ((i$x - 1) / (ncol (channel) - 1))
                                   i$y <- ((i$y - 1) / (nrow (channel) - 1))
+                                  return (i)    })
+        # Then scale to bbox and convert to st_polygon
+        boundaries <- lapply (boundaries, function (i) {
+                                  i <- smooth_polygon (i, n = n)
                                   i$x <- bbox [1] + i$x * (bbox [3] - bbox [1])
                                   i$y <- bbox [2] + i$y * (bbox [4] - bbox [2])
                                   xy <- sf::st_polygon (list (as.matrix (i)))
@@ -145,4 +153,13 @@ polygon_boundaries <- function (img)
         boundaries [[length (boundaries) + 1]] <- xy
     }
     return (boundaries)
+}
+
+# fit spline at every n points:
+smooth_polygon <- function (xy, n = 10)
+{
+    n <- floor (nrow (xy) / n)
+    x <- stats::spline (seq (nrow (xy)), xy$x, n = n, method = "periodic")$y
+    y <- stats::spline (seq (nrow (xy)), xy$y, n = n, method = "periodic")$y
+    data.frame (x = x, y = y)
 }
