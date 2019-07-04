@@ -15,5 +15,6 @@ r_packages:
     - covr
     - lwgeom # pre-install needed for some reason?
 
-after_success: Rscript -e "covr::codecov()"
+after_success: Rscript -e "covr::codecov(line_exclusions = list(" \
+                "'R/generate-maps.R', 'src/edge_thin.h', 'src/edge_thin.cpp'))"
 

@@ -63,7 +63,7 @@ int findStartPixel (Rcpp::LogicalMatrix image, int startj)
         }
 
     if (starti < 0)
-        Rcpp::stop ("No start pixel found");
+        Rcpp::stop ("No start pixel found"); // # nocov
 
     return starti;
 }
@@ -85,7 +85,7 @@ XYPoint nextClockwise (XYPoint p_in, XYPoint p_mid)
             break;
         }
     if (p_i < 0)
-        Rcpp::stop ("Nope");
+        Rcpp::stop ("Nope"); // # nocov
 
     p_i++;
     if (p_i == x.size ())
