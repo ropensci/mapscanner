@@ -7,15 +7,19 @@
 #' it (either a `.pdf` or `.jpg`; extension will be ignored).
 #' @param map_modified File name of the modified version with drawings (either a
 #' `.pdf` or `.jpg`; extension will be ignored).
-#' @param type Currently either "points", "polygon", or "polygons", where
+#' @param type Currently either "points", "polygons", or "hulls", where
 #' "points" simply returns the identified points that differ between the two
-#' maps, "polygon" drawns a single convex hull around all points, and "polygons"
-#' separates points into groups, returning polygons around each group.
+#' maps; "polygons" identifies individual groups and returns the polygon
+#' representing the outer boundary of each; and "hulls" constructs concave
+#' polygons around each group using the \pkg{alphahull} package, with concavity
+#' controlled by the parameter `alpha`.
 #' @param downsample Factor by which to downsample polygons, noting that
 #' polygons initially include every outer pixel of image, so can generally be
 #' downsampled by at least an order or magnitude (`n = 10`). Higher values may
 #' be used for higher-resolution images; lower values will generally only be
 #' necessary for very low lower resolution images.
+#' @param alpha For `type == "hulls"`, the parameter determining the concavity
+#' of the \pkg{alphahull} shapes enclosing the points.
 #' @return An \pkg{sf} object representing the drawn additions to map_modified.
 #'
 #' @note Currently only return a single convex polygon surrounding all elements
@@ -23,8 +27,14 @@
 #'
 #' @export
 ms_rectify_maps <- function (map_original, map_modified, type = "polygons",
-                             downsample = 10)
+                             downsample = 10, alpha = 1)
 {
+    type <- match.arg (type, c ("points", "polygons", "hulls"))
+    if (type != "polygons" && downsample != 10)
+        message ("downsample is only used for polygons")
+    if (type != "hulls" && alpha != 1)
+        message ("alpha is only used for hulls")
+
     map_original <- get_map_jpg (map_original)
     map_modified <- get_map_jpg (map_modified)
 
@@ -39,7 +49,7 @@ ms_rectify_maps <- function (map_original, map_modified, type = "polygons",
     res <- m_niftyreg (map_scanned, map)
 
     img_r <- extract_channel_r (res)
-    rectify_channel (img_r, f_orig, type = type, n = downsample)
+    rectify_channel (img_r, f_orig, type = type, n = downsample, alpha = alpha)
 }
 
 m_niftyreg <- memoise::memoise (function (map_scanned, map)
@@ -69,7 +79,7 @@ extract_channel_r <- function (nr)
 }
 
 # origin is the raster image, channel is result of extract_channel
-rectify_channel <- function (channel, original, type, n = 10)
+rectify_channel <- function (channel, original, type, n = 10, alpha = 1)
 {
     crs_from <- "+proj=merc +a=6378137 +b=6378137"
     crs_to <- 4326
@@ -94,9 +104,26 @@ rectify_channel <- function (channel, original, type, n = 10)
                                   i <- smooth_polygon (i, n = n)
                                   i$x <- bbox [1] + i$x * (bbox [3] - bbox [1])
                                   i$y <- bbox [2] + i$y * (bbox [4] - bbox [2])
-                                  xy <- sf::st_polygon (list (as.matrix (i)))
+                                  sf::st_polygon (list (as.matrix (i)))
                     })
         geometry <- sf::st_sfc (boundaries, crs = crs_from)
+    } else if (type == "hulls")
+    {
+        hulls <- polygon_hulls (channel)
+        # Only need to flip the y-axis here:
+        hulls <- lapply (hulls, function (i) {
+                             i$y <- nrow (channel) - i$y
+                             i$x <- ((i$x - 1) / (ncol (channel) - 1))
+                             i$y <- ((i$y - 1) / (nrow (channel) - 1))
+                             return (i)    })
+
+        # Then scale to bbox and convert to st_polygon
+        hulls <- lapply (hulls, function (i) {
+                                  i$x <- bbox [1] + i$x * (bbox [3] - bbox [1])
+                                  i$y <- bbox [2] + i$y * (bbox [4] - bbox [2])
+                                  sf::st_polygon (list (as.matrix (i)))
+                    })
+        geometry <- sf::st_sfc (hulls, crs = crs_from)
     } else if (type == "points")
     {
         x <- seq (bbox [1], bbox [3], length.out = ncol (channel))
@@ -123,20 +150,6 @@ polygon_boundaries <- function (img)
     cmat <- rcpp_components (img)
     comps <- seq (1:max (cmat))
 
-    get_shape_index <- function (cmat, x = TRUE)
-    {
-        if (x)
-            index <- which (rowSums (cmat) > 0)
-        else
-            index <- which (colSums (cmat) > 0)
-        index <- seq (min (index) - 1, max (index) + 1)
-        if (x)
-            index <- index [index > 0 & index < nrow (cmat)]
-        else
-            index <- index [index > 0 & index < ncol (cmat)]
-        return (index)
-    }
-
     boundaries <- list ()
     for (ci in comps)
     {
@@ -155,6 +168,20 @@ polygon_boundaries <- function (img)
     return (boundaries)
 }
 
+get_shape_index <- function (cmat, x = TRUE)
+{
+    if (x)
+        index <- which (rowSums (cmat) > 0)
+    else
+        index <- which (colSums (cmat) > 0)
+    index <- seq (min (index) - 1, max (index) + 1)
+    if (x)
+        index <- index [index > 0 & index < nrow (cmat)]
+    else
+        index <- index [index > 0 & index < ncol (cmat)]
+    return (index)
+}
+
 # fit spline at every n points:
 smooth_polygon <- function (xy, n = 10)
 {
@@ -162,4 +189,27 @@ smooth_polygon <- function (xy, n = 10)
     x <- stats::spline (seq (nrow (xy)), xy$x, n = n, method = "periodic")$y
     y <- stats::spline (seq (nrow (xy)), xy$y, n = n, method = "periodic")$y
     data.frame (x = x, y = y)
+}
+
+polygon_hulls <- function (img)
+{
+    img <- matrix (as.logical (img), nrow = nrow (img))
+    cmat <- rcpp_components (img)
+    comps <- seq (1:max (cmat))
+
+    hulls <- list ()
+    for (ci in comps)
+    {
+        cmat_i <- cmat
+        cmat_i [cmat_i != ci] <- 0
+
+        x <- t (array (seq (ncol (img)), dim = c (ncol (img), nrow (img))))
+        y <- array (seq (nrow (img)), dim = c (nrow (img), ncol (img)))
+
+        index <- which (cmat == ci)
+        xy <- data.frame (x = x [index], y = y [index])
+        index <- grDevices::chull (xy)
+        hulls [[length (hulls) + 1]] <- xy [c (index, index [1]), ]
+    }
+    return (hulls)
 }

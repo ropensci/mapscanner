@@ -5,7 +5,7 @@
 \title{ms_rectify_maps}
 \usage{
 ms_rectify_maps(map_original, map_modified, type = "polygons",
-  downsample = 10)
+  downsample = 10, alpha = 1)
 }
 \arguments{
 \item{map_original}{File name of the original map without anything drawn over
@@ -14,16 +14,21 @@ it (either a `.pdf` or `.jpg`; extension will be ignored).}
 \item{map_modified}{File name of the modified version with drawings (either a
 `.pdf` or `.jpg`; extension will be ignored).}
 
-\item{type}{Currently either "points", "polygon", or "polygons", where
+\item{type}{Currently either "points", "polygons", or "hulls", where
 "points" simply returns the identified points that differ between the two
-maps, "polygon" drawns a single convex hull around all points, and "polygons"
-separates points into groups, returning polygons around each group.}
+maps; "polygons" identifies individual groups and returns the polygon
+representing the outer boundary of each; and "hulls" constructs concave
+polygons around each group using the \pkg{alphahull} package, with concavity
+controlled by the parameter `alpha`.}
 
 \item{downsample}{Factor by which to downsample polygons, noting that
 polygons initially include every outer pixel of image, so can generally be
 downsampled by at least an order or magnitude (`n = 10`). Higher values may
 be used for higher-resolution images; lower values will generally only be
 necessary for very low lower resolution images.}
+
+\item{alpha}{For `type == "hulls"`, the parameter determining the concavity
+of the \pkg{alphahull} shapes enclosing the points.}
 }
 \value{
 An \pkg{sf} object representing the drawn additions to map_modified.
