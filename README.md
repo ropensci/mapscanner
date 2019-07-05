@@ -20,6 +20,38 @@ one with some red lines drawn on it: ![](./inst/extdata/omaha_drawn.jpg)
 That’s just a standard `jpeg` image with no notion of geographical
 coordinates. The original map was generated with
 
+    #>   
+    ─  installing *source* package ‘mapscanner’ ...
+    #> 
+      
+       ** using staged installation
+    #> 
+      
+       ** libs
+    #> 
+      
+       make[1]: Entering directory '/data/mega/code/repos/mpadge/mapscanner/src'
+    #>    ccache clang++ -I"/usr/include/R/" -DNDEBUG  -I"/usr/lib/R/library/Rcpp/include" -D_FORTIFY_SOURCE=2  -fpic  -O -Wall -pedantic -c RcppExports.cpp -o RcppExports.o
+    #> 
+      
+       ccache clang++ -I"/usr/include/R/" -DNDEBUG  -I"/usr/lib/R/library/Rcpp/include" -D_FORTIFY_SOURCE=2  -fpic  -O -Wall -pedantic -c boundary-trace.cpp -o boundary-trace.o
+    #> 
+      
+       ccache clang++ -shared -L/usr/lib64/R/lib -Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now -o mapscanner.so RcppExports.o boundary-trace.o components.o edge-thin.o -L/usr/lib64/R/lib -lR
+    #> 
+      
+       make[1]: Leaving directory '/data/mega/code/repos/mpadge/mapscanner/src'
+    #> 
+      
+       installing to /tmp/RtmpHToaOK/devtools_install_211341d0323f/00LOCK-mapscanner/00new/mapscanner/libs
+    #> 
+      
+       ** checking absolute paths in shared objects and dynamic libraries
+    #> 
+      
+    ─  DONE (mapscanner)
+    #> 
+
 ``` r
 bbox <- rbind (c (-96.12923, -96.01011),
                c (41.26145, 41.32220)) # portion of omaha
@@ -30,7 +62,7 @@ ms_generate_map (bbox, max_tiles = 16L, mapname = "omaha")
 
 As indicated, the function generates a map in both `.pdf` and `.jpg`
 formats. These files must be retained as the “master” maps against which
-subsequently modified – draw-over and scanned-in – versions will be
+subsequently modified – drawn-over and scanned-in – versions will be
 rectified. The `.pdf` format is generated because it will generally be
 the most convenient for printing, while the rectification itself
 requires `.jpg`-format images. The magic happens via the [`RNiftyReg`
@@ -48,7 +80,7 @@ f_original <- file.path ("inst", "extdata", "omaha.jpg")
 f_modified <- file.path ("inst", "extdata", "omaha_drawn.jpg")
 system.time (res <- ms_rectify_maps (f_original, f_modified, type = "polygons"))
 #>    user  system elapsed 
-#>  40.325   0.651  11.584
+#> 187.501   0.768  35.684
 res
 #> Simple feature collection with 2 features and 0 fields
 #> geometry type:  POLYGON
