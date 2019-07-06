@@ -1,5 +1,12 @@
 context("basic functionality")
 
+test_that ("errors", {
+               expect_error (ms_rectify_maps (),
+                             'argument "map_original" is missing, with no default')
+               expect_error (ms_rectify_maps (map_original = "junk.pdf"),
+                             "Neither junk.pdf nor junk.jpg exist")
+})
+
 test_that("rectify", {
               f_orig <- system.file ("extdata", "omaha.jpg",
                                      package = "mapscanner")
