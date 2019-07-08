@@ -17,6 +17,7 @@
 #' downsampled by at least an order or magnitude (`n = 10`). Higher values may
 #' be used for higher-resolution images; lower values will generally only be
 #' necessary for very low lower resolution images.
+#' @param quiet If `FALSE`, display progress information on screen
 #' @return An \pkg{sf} object representing the drawn additions to map_modified.
 #'
 #' @note Currently only return a single convex polygon surrounding all elements
@@ -47,7 +48,7 @@
 #'
 #' @export
 ms_rectify_maps <- function (map_original, map_modified, type = "polygons",
-                             downsample = 10)
+                             downsample = 10, quiet = FALSE)
 {
     type <- match.arg (type, c ("points", "polygons", "hulls"))
     if (type != "polygons" && downsample != 10)
@@ -58,18 +59,34 @@ ms_rectify_maps <- function (map_original, map_modified, type = "polygons",
 
     f_orig <- trim_white (map_original)
     f_mod <- trim_white (map_modified)
-    #map <- jpeg::readJPEG (f_orig)
-    #map_scanned <- jpeg::readJPEG (f_mod)
     map <- png::readPNG (f_orig)
     map_scanned <- png::readPNG (f_mod)
 
     # niftyreg (source, target) transforms source into the space of target, and
     # returns $image as "the registered and resampled 'source' image in the
     # space of the 'target' image"
+    if (!quiet)
+    {
+        message (cli::rule (left = "mapscanner", line = 2, col = "green"))
+        message (cli::symbol$pointer, " rectifying the two maps ", appendLF = FALSE)
+    }
     res <- m_niftyreg (map_scanned, map)
+    if (!quiet)
+    {
+        message ("\r", cli::symbol$tick, " rectifying the two maps ")
 
+        message (cli::symbol$pointer, " extracting drawn objects ", appendLF = FALSE)
+    }
     img_r <- extract_channel_r (res)
-    rectify_channel (img_r, f_orig, type = type, n = downsample)
+    if (!quiet)
+    {
+        message ("\r", cli::symbol$tick, " extracting drawn objects ")
+        message (cli::symbol$pointer, " converting to spatial format ", appendLF = FALSE)
+    }
+    res <- rectify_channel (img_r, f_orig, type = type, n = downsample)
+    if (!quiet)
+        message ("\r", cli::symbol$tick, " converting to spatial format ")
+    return (res)
 }
 
 m_niftyreg <- memoise::memoise (function (map_scanned, map)

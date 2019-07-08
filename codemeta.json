@@ -120,6 +120,18 @@
   "softwareRequirements": [
     {
       "@type": "SoftwareApplication",
+      "identifier": "cli",
+      "name": "cli",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=cli"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "curl",
       "name": "curl",
       "provider": {
@@ -336,12 +348,17 @@
     }
   ],
   "readme": "https://github.com/mpadge/mapscanner/blob/master/README.md",
-  "fileSize": "4147.886KB",
+  "fileSize": "4908.434KB",
   "contIntegration": [
     "https://travis-ci.org/mpadge/mapscanner",
     "https://ci.appveyor.com/project/mpadge/mapscanner",
     "https://codecov.io/gh/mpadge/mapscanner"
   ],
   "developmentStatus": "https://www.repostatus.org/#concept",
-  "keywords": ["r-package", "maps", "scan", "spatial"]
+  "keywords": [
+    "r-package",
+    "maps",
+    "scan",
+    "spatial"
+  ]
 }
