@@ -6,6 +6,9 @@
 
 // https://homepages.inf.ed.ac.uk/rbf/HIPR2/thin.htm
 
+// # nocov start
+// -- this is not used at present
+
 struct filter {
     const std::vector <bool> f;
     const std::vector <int> x, y;
@@ -111,6 +114,8 @@ struct filters_prune {
            {-1, 0, 1, -1, 0, -1, 0},
            {1, 1, 1, 0, 0, -1, -1}};
 };
+
+// # nocov end
 
 bool applyOneFilter (Rcpp::LogicalMatrix &image, filter f);
 

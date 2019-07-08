@@ -14,7 +14,7 @@ addons:
 r_packages:
     - covr
 
-after_success: Rscript -e "covr::codecov(line_exclusions = list('R/generate-maps.R', 'src/edge_thin.h', 'src/edge_thin.cpp'))"
+after_success: Rscript -e "covr::codecov(line_exclusions = list('R/generate-maps.R'))"
 
 before_deploy: Rscript -e 'remotes::install_cran("pkgdown")'
 deploy:
