@@ -3,6 +3,8 @@
 export("%>%")
 export(ms_generate_map)
 export(ms_rectify_maps)
+importFrom(RNiftyReg,niftyreg)
 importFrom(Rcpp,evalCpp)
 importFrom(magrittr,"%>%")
+importFrom(memoise,memoise)
 useDynLib(mapscanner, .registration = TRUE)

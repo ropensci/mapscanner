@@ -12,7 +12,6 @@ LazyData: true
 NeedsCompilation: yes
 Imports:
     curl,
-    dbscan,
     dplyr,
     fs,
     glue,
