@@ -5,7 +5,7 @@
 \title{ms_rectify_maps}
 \usage{
 ms_rectify_maps(map_original, map_modified, type = "polygons",
-  downsample = 10)
+  downsample = 10, quiet = FALSE)
 }
 \arguments{
 \item{map_original}{File name of the original map without anything drawn over
@@ -25,6 +25,8 @@ polygons initially include every outer pixel of image, so can generally be
 downsampled by at least an order or magnitude (`n = 10`). Higher values may
 be used for higher-resolution images; lower values will generally only be
 necessary for very low lower resolution images.}
+
+\item{quiet}{If `FALSE`, display progress information on screen}
 }
 \value{
 An \pkg{sf} object representing the drawn additions to map_modified.
