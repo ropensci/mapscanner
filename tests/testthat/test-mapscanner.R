@@ -33,8 +33,10 @@ test_that("rectify", {
               expect_is (res_p, "sf")
               expect_is (res_p$geometry, "sfc_POLYGON")
 
-              expect_silent (res_h <- ms_rectify_maps (f_orig2, f_modified2,
-                                                       type = "hulls"))
+              expect_message (res_h <- ms_rectify_maps (f_orig2, f_modified2,
+                                                        downsample = 11,
+                                                        type = "hulls"),
+                              "downsample is only used for polygons")
               expect_is (res_h, "sf")
               expect_is (res_h$geometry, "sfc_POLYGON")
               expect_true (all (sf::st_area (res_h) > sf::st_area (res_p)))

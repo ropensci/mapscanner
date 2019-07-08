@@ -56,10 +56,13 @@ trim_white <- function (fname)
     # change "EX" at start of file comment to "TX" to flag trimmed:
     if (substring (bbox, 1, 1) != "T")
     {
+        # nocov start
+        # -- sample images have already been trimmed, so can't be tested
         img <- magick::image_read (fname) %>%
             magick::image_trim (fuzz = 1)
         bbox <- paste0 ("T", substring (bbox, 2, nchar (bbox)))
         magick::image_write (img, path = fname, comment = bbox)
+        # nocov end
     }
 
     return (fname)
