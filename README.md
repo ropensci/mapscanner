@@ -21,6 +21,7 @@ That’s just a standard `jpeg` image with no notion of geographical
 coordinates. The original map was generated with
 
 ``` r
+library (mapscanner)
 bbox <- rbind (c (-96.12923, -96.01011),
                c (41.26145, 41.32220)) # portion of omaha
 ms_generate_map (bbox, max_tiles = 16L, mapname = "omaha")
@@ -44,15 +45,18 @@ be used to demonstrate functionality. In the following code,
 drawing a red line around a particular region of Omaha.
 
 ``` r
-f_original <- file.path ("inst", "extdata", "omaha.png")
-f_modified <- file.path ("inst", "extdata", "omaha_drawn.png")
-system.time (res <- ms_rectify_maps (f_original, f_modified, type = "polygons"))
+f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
+f_mod <- system.file ("extdata", "omaha_drawn.png", package = "mapscanner")
+system.time (res <- ms_rectify_maps (f_orig, f_mod, type = "polygons"))
 #> ══ mapscanner ═════════════════════════════════════════════════════════════
+#> ❯ rectifying the two maps 
 ✔ rectifying the two maps 
+#> ❯ extracting drawn objects 
 ✔ extracting drawn objects 
+#> ❯ converting to spatial format 
 ✔ converting to spatial format
 #>    user  system elapsed 
-#>  42.085   0.637  11.853
+#>  43.170   0.660  12.258
 res
 #> Simple feature collection with 2 features and 0 fields
 #> geometry type:  POLYGON
