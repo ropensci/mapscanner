@@ -31,8 +31,12 @@ Imports:
     slippymath,
     tibble
 Suggests: 
+    knitr,
     lwgeom,
     osmdata,
     testthat
 LinkingTo: Rcpp
+VignetteBuilder: knitr
+URL: https://github.com/mpadge/mapscanner
+BugReports: https://github.com/mpadge/mapscanner/issues
 RoxygenNote: 6.1.1

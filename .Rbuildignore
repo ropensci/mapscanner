@@ -4,3 +4,4 @@
 ^makefile$
 ^appveyor\.yml$
 ^aaa.Rmd$
+^vignettes/makefile$
