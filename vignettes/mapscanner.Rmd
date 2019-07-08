@@ -78,13 +78,27 @@ Behind the scenes, the function downloads a series of vector map tiles from
 [mapbox](https://mapbox.com), and converts them to a `rasterBrick` object from
 the [`raster` package](https://cran.r-project.org/package=raster).
 This `rasterBrick` object is invisibly returned from the function:
-```{r chennaiBrick}
+```{r chennaiBrick-fakey, eval = FALSE}
 x <- ms_generate_map ("chennai india", mapname = "chennai")
 x
 ```
+```{r chennaiBrick, echo = FALSE}
+message ("Successfully generated 'chennai.pdf' and 'chennai.jpg'")
+x <- paste0 ("class      : RasterBrick\n",
+    "dimensions : 574, 282, 161868, 3  (nrow, ncol, ncell, nlayers)\n",
+    "resolution : 76.43703, 76.43703  (x, y)\n",
+    "extent     : 8921118, 8942674, 1442749, 1486624  (xmin, xmax, ymin, ymax)\n",
+    "crs        : +proj=merc +a=6378137 +b=6378137\n",
+    "source     : memory\n",
+    "names      : layer.1, layer.2, layer.3\n",
+    "min values :     101,     101,     101\n",
+    "max values :     255,     255,     255")
+message (x)
+```
+
 Standard uses of the package should not need to explicitly access or modify
 these data, but it is nevertheless possible to do so, and then use a custom-modified object to produce the external `.pdf` and `.jpg` files by submitting the `rasterBrick` object to `ms_generate_map()`:
-```{r chennaiBrick2}
+```{r chennaiBrick2, eval = FALSE}
 ms_generate_map (raster_brick = x, mapname = "chennai")
 ```
 
