@@ -4,23 +4,23 @@ test_that ("errors", {
                expect_error (ms_rectify_maps (),
                          'argument "map_original" is missing, with no default')
                expect_error (ms_rectify_maps (map_original = "junk.pdf"),
-                             "Neither junk.pdf nor junk.jpg exist")
+                             "Neither junk.pdf nor junk.png exist")
 })
 
 test_that("rectify", {
-              f_orig <- system.file ("extdata", "omaha.jpg",
+              f_orig <- system.file ("extdata", "omaha.png",
                                      package = "mapscanner")
               expect_true (file.exists (f_orig))
-              expect_true (is_jpeg (f_orig))
-              f_modified <- system.file ("extdata", "omaha_drawn.jpg",
+              expect_true (is_png (f_orig))
+              f_modified <- system.file ("extdata", "omaha_drawn.png",
                                          package = "mapscanner")
               expect_true (file.exists (f_modified))
-              expect_true (is_jpeg (f_modified))
+              expect_true (is_png (f_modified))
 
               # have to down-scale images for testing because RNiftyReg takes
               # way too long
-              f_orig2 <- file.path (tempdir (), "omaha.jpg")
-              f_modified2 <- file.path (tempdir (), "omaha_drawn.jpg")
+              f_orig2 <- file.path (tempdir (), "omaha.png")
+              f_modified2 <- file.path (tempdir (), "omaha_drawn.png")
               magick::image_read (f_orig) %>%
                   magick::image_resize ("25%") %>%
                   magick::image_write (f_orig2)

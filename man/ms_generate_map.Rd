@@ -19,7 +19,7 @@ Extension will be ignored.}
 
 \item{raster_brick}{Instead of automatically downloading tiles within a given
 `bbox`, a pre-downloaded `raster::rasterBrick` object may be submitted and
-used to generate the `.pdf` and `.jpg` equivalents.}
+used to generate the `.pdf` and `.png` equivalents.}
 }
 \value{
 Invisibly returns a `rasterBrick` object from the \pkg{raster}
@@ -27,7 +27,7 @@ package containing all data used to generate the map.
 }
 \description{
 Generate a map image for a specified area or bounding box. Map is
-automatically save in both `.pdf` and `.jpg` formats.
+automatically save in both `.pdf` and `.png` formats.
 }
 \examples{
 \dontrun{

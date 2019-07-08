@@ -1,16 +1,16 @@
-# get name of jpg file, converting pdf to jpg if neccesary
-get_map_jpg <- function (mapfile)
+# get name of png file, converting pdf to png if neccesary
+get_map_png <- function (mapfile)
 {
-    jpg_name <- paste0 (tools::file_path_sans_ext (mapfile), ".jpg")
-    if (!(file.exists (mapfile) | file.exists (jpg_name)))
-        stop ("Neither ", mapfile, " nor ", jpg_name, " exist")
+    png_name <- paste0 (tools::file_path_sans_ext (mapfile), ".png")
+    if (!(file.exists (mapfile) | file.exists (png_name)))
+        stop ("Neither ", mapfile, " nor ", png_name, " exist")
 
-    if (!file.exists (jpg_name))
-        pdf_to_jpg (mapfile)
-    return (jpg_name)
+    if (!file.exists (png_name))
+        pdf_to_png (mapfile)
+    return (png_name)
 }
 
-pdf_to_jpg <- function (file)
+pdf_to_png <- function (file)
 {
     file <- paste0 (tools::file_path_sans_ext (file), ".pdf")
     if (!file.exists (file))
@@ -18,8 +18,8 @@ pdf_to_jpg <- function (file)
 
     bb <- bbox_from_pdf (file, asString = TRUE)
 
-    fout <- paste0 (tools::file_path_sans_ext (file), ".jpg")
-    pdftools::pdf_convert (file, format = "jpg", filenames = fout)
+    fout <- paste0 (tools::file_path_sans_ext (file), ".png")
+    pdftools::pdf_convert (file, format = "png", filenames = fout)
     img <- magick::image_read (fout)
     magick::image_write (img, path = fout, comment = bb)
 }
@@ -39,7 +39,7 @@ bbox_from_pdf <- function (file, asString = FALSE)
     return (bbox)
 }
 
-bbox_from_jpg <- function (file)
+bbox_from_png <- function (file)
 {
     img <- magick::image_read (file)
     bbox <- magick::image_comment (img)
@@ -48,7 +48,7 @@ bbox_from_jpg <- function (file)
     as.numeric (bbox)
 }
 
-# trim white space from border of jpg images
+# trim white space from border of png images
 trim_white <- function (fname)
 {
     bbox <- magick::image_read (fname) %>%

@@ -30,13 +30,13 @@ scanned back in, and have the drawn components converted to spatial objects.
 Briefly, the package is designed to enable the following workflow:
 
 1. Generate a map with the `ms_generate_map()` function, which automatically
-   produces both `.pdf` and `.jpg` versions;
+   produces both `.pdf` and `.png` versions;
 2. Print the `.pdf` version to use as desired in any kind of survey environment
    where drawing on paper is more convenient -- or more importantly, where it
    may be judged to yield more accurate results;
 3. Draw on the map;
 4. Digitise the drawn-on (from here on, "modified") map, converting it to
-   either `.pdf` or `.jpg` format. (Common methods here are scanning, or even
+   either `.pdf` or `.png` format. (Common methods here are scanning, or even
    just photographing with a mobile device); and
 5. Rectify the modified version with the original via the `ms_rectify_maps()`
    function, which distinguishes the individual annotations, and converts each
@@ -56,7 +56,7 @@ remotes::install_github ("mpadge/mapscanner")
 ## Map generation
 
 The `ms_generate_map()` function generates printable maps for a specified
-bounding box in both `.pdf` and `.jpg` formats. Usage is a simple as,
+bounding box in both `.pdf` and `.png` formats. Usage is a simple as,
 ```{r generate-fakey, eval = FALSE}
 ms_generate_map ("chennai india", mapname = "chennai")
 ```
@@ -67,7 +67,7 @@ optionally specify paths,
 ms_generate_map ("chennai india", mapname = file.path ("my", "directory", "chennai"))
 ```
 The map is generated in two formats, because the `.pdf` version will generally
-be the most convenient for printing, while the `jpg` version should be retained
+be the most convenient for printing, while the `png` version should be retained
 as the "master" copy against which to rectify subsequently scanned-in version.
 
 Behind the scenes, the function downloads a series of vector map tiles from
@@ -79,7 +79,7 @@ x <- ms_generate_map ("chennai india", mapname = "chennai")
 x
 ```
 ```{r chennaiBrick, echo = FALSE}
-message ("Successfully generated 'chennai.pdf' and 'chennai.jpg'")
+message ("Successfully generated 'chennai.pdf' and 'chennai.png'")
 x <- paste0 ("class      : RasterBrick\n",
     "dimensions : 574, 282, 161868, 3  (nrow, ncol, ncell, nlayers)\n",
     "resolution : 76.43703, 76.43703  (x, y)\n",
@@ -93,7 +93,9 @@ message (x)
 ```
 
 Standard uses of the package should not need to explicitly access or modify
-these data, but it is nevertheless possible to do so, and then use a custom-modified object to produce the external `.pdf` and `.jpg` files by submitting the `rasterBrick` object to `ms_generate_map()`:
+these data, but it is nevertheless possible to do so, and then use a
+custom-modified object to produce the external `.pdf` and `.png` files by
+submitting the `rasterBrick` object to `ms_generate_map()`:
 ```{r chennaiBrick2, eval = FALSE}
 ms_generate_map (raster_brick = x, mapname = "chennai")
 ```
@@ -111,19 +113,19 @@ recognised.
 
 This function has only two primary arguments, specifying the names (and
 locations) of the original and modified map files. These files should ideally
-be in `.jpg` formats, but will be auto-converted from `.pdf` if needed. (The
-`.jpg` format is necessary for the actual rectification function, as described
-below.) The package comes with two sample maps, both in `.jpg` format. The
+be in `.png` formats, but will be auto-converted from `.pdf` if needed. (The
+`.png` format is necessary for the actual rectification function, as described
+below.) The package comes with two sample maps, both in `.png` format. The
 first is the reference version needed for rectification, while the second has
 two red lines drawn upon it:
 
-![](omaha_drawn.jpg)
+![](omaha_drawn.png)
 
 Converting the lines on this scanned image file is then as simple as:
 
 ```{r rectify}
-f_orig <- system.file ("extdata", "omaha.jpg", package = "mapscanner")
-f_mod <- system.file ("extdata", "omaha_drawn.jpg", package = "mapscanner")
+f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
+f_mod <- system.file ("extdata", "omaha_drawn.png", package = "mapscanner")
 xy <- ms_rectify_maps (f_orig, f_mod)
 xy
 ```
@@ -172,9 +174,9 @@ how the process actually works.) `mapscanner` primarily relies on the
 [`RNiftyReg` package](https://github.com/jonclayden/RNiftyReg) to rectify the
 images. This package is itself primarily aimed at rectifying medical scans, but
 also happens to be the perfect tool for the present purposes. Being an image
-recognition software, the library functions exclusively with `.jpg`-format
-images, which is why the `ms_generate_map()` function produces both kinds of
-image - the `.pdf` for printing and the `.jpg` for rectifying with the
+recognition software, the library requires image objects, and so not `pdf`
+files, which is why the `ms_generate_map()` function produces both kinds of
+image - the `.pdf` for printing and the `.png` for rectifying with the
 `RNiftyReg` package.
 
 Rectification re-projects a scanned image back on to the coordinate system of
@@ -196,7 +198,7 @@ x
 ```
 
 or in a terminal via `pdfinfo` (or non-linux equivalent). The equivalent meta
-information is embedded in the `.jpg` file as comment, accessible
+information is embedded in the `.png` file as comment, accessible
 like this:
 
 ```{r img-comment-fakey, eval = FALSE}
