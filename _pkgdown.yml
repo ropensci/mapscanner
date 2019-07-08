@@ -5,6 +5,9 @@ templates:
     bootswatch: cerulean
 
 reference:
+  - title: Package doc
+    contents:
+    - mapscanner-package
   - title: The Main Functions
     contents:
     - ms_generate_map
