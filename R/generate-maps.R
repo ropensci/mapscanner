@@ -17,6 +17,17 @@
 #' used to generate the `.pdf` and `.jpg` equivalents.
 #' @return Invisibly returns a `rasterBrick` object from the \pkg{raster}
 #' package containing all data used to generate the map.
+#'
+#' @examples
+#' \dontrun{
+#' # code used to generate internal files for a portion of Omaha:
+#' bb <- osmdata::getbb ("omaha nebraska")
+#' shrink <- 0.3 # shrink that bb to 30% size
+#' bb <- t (apply (bb, 1, function (i)
+#'                 mean (i) + c (-shrink, shrink) * diff (i) / 2))
+#' ms_generate_map (bb, max_tiles = 16L, mapname = "omaha")
+#' }
+#'
 #' @export
 ms_generate_map <- function (bbox, max_tiles = 16L, mapname = NULL,
                              raster_brick = NULL)
