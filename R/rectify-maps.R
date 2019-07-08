@@ -22,6 +22,29 @@
 #' @note Currently only return a single convex polygon surrounding all elements
 #' added to `map_modified`.
 #'
+#' @examples
+#' f_orig <- system.file ("extdata", "omaha.jpg", package = "mapscanner")
+#' f_mod <- system.file ("extdata", "omaha_drawn.jpg", package = "mapscanner")
+#' \dontrun{
+#' xy_hull <- ms_rectify_maps (f_orig, f_mod, type = "hull")
+#' xy_poly <- ms_rectify_maps (f_orig, f_mod, type = "polygons")
+#' xy_pts <- ms_rectify_maps (f_orig, f_mod, type = "points")
+#' }
+#' # reduce file sizes to 1/4 to speed up these examples:
+#' f_orig2 <- file.path (tempdir (), "omaha.jpg")
+#' f_modified2 <- file.path (tempdir (), "omaha_drawn.jpg")
+#' magick::image_read (f_orig) %>%
+#'     magick::image_resize ("25%") %>%
+#'     magick::image_write (f_orig2)
+#' magick::image_read (f_mod) %>%
+#'     magick::image_resize ("25%") %>%
+#'     magick::image_write (f_modified2)
+#'
+#' # then rectify those files:
+#' xy_hull <- ms_rectify_maps (f_orig2, f_modified2, type = "hull")
+#' xy_poly <- ms_rectify_maps (f_orig2, f_modified2, type = "polygons")
+#' xy_pts <- ms_rectify_maps (f_orig2, f_modified2, type = "points")
+#'
 #' @export
 ms_rectify_maps <- function (map_original, map_modified, type = "polygons",
                              downsample = 10)

@@ -29,3 +29,14 @@ package containing all data used to generate the map.
 Generate a map image for a specified area or bounding box. Map is
 automatically save in both `.pdf` and `.jpg` formats.
 }
+\examples{
+\dontrun{
+# code used to generate internal files for a portion of Omaha:
+bb <- osmdata::getbb ("omaha nebraska")
+shrink <- 0.3 # shrink that bb to 30\% size
+bb <- t (apply (bb, 1, function (i)
+                mean (i) + c (-shrink, shrink) * diff (i) / 2))
+ms_generate_map (bb, max_tiles = 16L, mapname = "omaha")
+}
+
+}
