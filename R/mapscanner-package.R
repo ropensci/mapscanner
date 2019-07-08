@@ -1,4 +1,6 @@
 #' @importFrom Rcpp evalCpp
+#' @importFrom memoise memoise
+#' @importFrom RNiftyReg niftyreg
 #' @useDynLib mapscanner, .registration = TRUE
 #' @keywords internal
 "_PACKAGE"
