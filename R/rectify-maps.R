@@ -8,10 +8,10 @@
 #' @param map_modified File name of the modified version with drawings (either a
 #' `.pdf` or `.jpg`; extension will be ignored).
 #' @param type Currently either "points", "polygons", or "hulls", where
-#' "points" simply returns the identified points that differ between the two
-#' maps; "polygons" identifies individual groups and returns the polygon
-#' representing the outer boundary of each; and "hulls" constructs convex
-#' polygons around each group.
+#' "points" simply reduces each distinct object to a single, central point;
+#' "polygons" identifies individual groups and returns the polygon representing
+#' the outer boundary of each; and "hulls" constructs convex polygons around
+#' each group.
 #' @param downsample Factor by which to downsample polygons, noting that
 #' polygons initially include every outer pixel of image, so can generally be
 #' downsampled by at least an order or magnitude (`n = 10`). Higher values may
@@ -81,7 +81,24 @@ rectify_channel <- function (channel, original, type, n = 10)
 
     bbox <- bbox_from_jpg (original)
 
-    if (type == "polygons")
+    if (type == "hulls")
+    {
+        hulls <- polygon_hulls (channel)
+        # Only need to flip the y-axis here:
+        hulls <- lapply (hulls, function (i) {
+                             i$y <- nrow (channel) - i$y
+                             i$x <- ((i$x - 1) / (ncol (channel) - 1))
+                             i$y <- ((i$y - 1) / (nrow (channel) - 1))
+                             return (i)    })
+
+        # Then scale to bbox and convert to st_polygon
+        hulls <- lapply (hulls, function (i) {
+                                  i$x <- bbox [1] + i$x * (bbox [3] - bbox [1])
+                                  i$y <- bbox [2] + i$y * (bbox [4] - bbox [2])
+                                  sf::st_polygon (list (as.matrix (i)))
+                    })
+        geometry <- sf::st_sfc (hulls, crs = crs_from)
+    } else # make polygons
     {
         boundaries <- polygon_boundaries (channel)
         # boundaries then need to be rotated, so first lines impelement:
@@ -102,35 +119,10 @@ rectify_channel <- function (channel, original, type, n = 10)
                                   sf::st_polygon (list (as.matrix (i)))
                     })
         geometry <- sf::st_sfc (boundaries, crs = crs_from)
-    } else if (type == "hulls")
-    {
-        hulls <- polygon_hulls (channel)
-        # Only need to flip the y-axis here:
-        hulls <- lapply (hulls, function (i) {
-                             i$y <- nrow (channel) - i$y
-                             i$x <- ((i$x - 1) / (ncol (channel) - 1))
-                             i$y <- ((i$y - 1) / (nrow (channel) - 1))
-                             return (i)    })
-
-        # Then scale to bbox and convert to st_polygon
-        hulls <- lapply (hulls, function (i) {
-                                  i$x <- bbox [1] + i$x * (bbox [3] - bbox [1])
-                                  i$y <- bbox [2] + i$y * (bbox [4] - bbox [2])
-                                  sf::st_polygon (list (as.matrix (i)))
-                    })
-        geometry <- sf::st_sfc (hulls, crs = crs_from)
-    } else if (type == "points")
-    {
-        x <- seq (bbox [1], bbox [3], length.out = ncol (channel))
-        y <- rev (seq (bbox [2], bbox [4], length.out = nrow (channel)))
-        x <- t (array (x, dim = c (ncol (channel), nrow (channel))))
-        y <- array (y, dim = c (nrow (channel), ncol (channel)))
-
-        x <- x [which (channel == 1)]
-        y <- y [which (channel == 1)]
-
-        xy <- cbind (x, y)
-        geometry <- sf::st_sfc (sf::st_multipoint (xy), crs = crs_from)
+        if (type == "points")
+        {
+            geometry <- sf::st_centroid (geometry)
+        }
     }
 
     # Then re-project:

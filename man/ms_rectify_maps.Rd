@@ -15,10 +15,10 @@ it (either a `.pdf` or `.jpg`; extension will be ignored).}
 `.pdf` or `.jpg`; extension will be ignored).}
 
 \item{type}{Currently either "points", "polygons", or "hulls", where
-"points" simply returns the identified points that differ between the two
-maps; "polygons" identifies individual groups and returns the polygon
-representing the outer boundary of each; and "hulls" constructs convex
-polygons around each group.}
+"points" simply reduces each distinct object to a single, central point;
+"polygons" identifies individual groups and returns the polygon representing
+the outer boundary of each; and "hulls" constructs convex polygons around
+each group.}
 
 \item{downsample}{Factor by which to downsample polygons, noting that
 polygons initially include every outer pixel of image, so can generally be
