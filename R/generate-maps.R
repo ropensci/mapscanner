@@ -227,7 +227,8 @@ get_tiles <- function (bbox_pair, max_tiles = 16L)
     #query_string <- mapbox_string(type = type, format = format)
     baseurl <- "https://api.mapbox.com/v4"
     mapbox_token <- Sys.getenv ("MAPBOX_TOKEN")
-    query_string <- paste0(sprintf("%s/%s/{zoom}/{x}/{y}.%s", baseurl, type, format),
+    query_string <- paste0 (sprintf ("%s/%s/{zoom}/{x}/{y}.%s",
+                                     baseurl, type, format),
                            "?access_token=", mapbox_token)
 
     files <- unlist (down_loader (tile_grid, query_string))
@@ -249,7 +250,8 @@ is_jpeg <- function (x)
   if (file.info (x [1])$size <= 11L)
       return (FALSE)
   rawb <- readBin (x[1], "raw", n = 11L)
-  all (rawb[1:2] == as.raw (c (0xff, 0xd8))) && rawToChar (rawb [7:11]) == "JFIF"
+  all (rawb[1:2] == as.raw (c (0xff, 0xd8))) &&
+      rawToChar (rawb [7:11]) == "JFIF"
 }
 
 is_png <- function (x)
@@ -307,7 +309,7 @@ spherical_mercator <- function (provider = "mapbox")
 mercator_tile_extent <- function (tile_x, tile_y, zoom, tile_size = 256)
 {
   params <- spherical_mercator (provider = "mapbox")
-  params <- params [1, ]  ## FIXME: param query should provide a unique set, this is WIP
+  params <- params [1, ]  ## FIXME: param query should provide a unique set
   MAXEXTENT <- params$MAXEXTENT
   A <- params$A
   z0_size <- (MAXEXTENT * 2)
