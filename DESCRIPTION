@@ -34,6 +34,7 @@ Suggests:
     lwgeom,
     mapview,
     osmdata,
+    rmarkdown,
     testthat
 LinkingTo: Rcpp
 VignetteBuilder: knitr
