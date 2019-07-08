@@ -1,5 +1,7 @@
 #include "edge-thin.h"
 
+// # nocov start
+
 // https://homepages.inf.ed.ac.uk/rbf/HIPR2/thin.htm
 
 //' rcpp_edge_thin
@@ -52,3 +54,5 @@ bool applyOneFilter (Rcpp::LogicalMatrix &image, filter f)
 
     return changed;
 }
+
+// # nocov end
