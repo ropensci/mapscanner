@@ -9,10 +9,10 @@ ms_rectify_maps(map_original, map_modified, type = "polygons",
 }
 \arguments{
 \item{map_original}{File name of the original map without anything drawn over
-it (either a `.pdf` or `.jpg`; extension will be ignored).}
+it (either a `.pdf` or `.png`; extension will be ignored).}
 
 \item{map_modified}{File name of the modified version with drawings (either a
-`.pdf` or `.jpg`; extension will be ignored).}
+`.pdf` or `.png`; extension will be ignored).}
 
 \item{type}{Currently either "points", "polygons", or "hulls", where
 "points" simply reduces each distinct object to a single, central point;
@@ -30,7 +30,7 @@ necessary for very low lower resolution images.}
 An \pkg{sf} object representing the drawn additions to map_modified.
 }
 \description{
-Scan in two pdf or jpg maps, rectify them with `RNiftyReg`, and return the
+Scan in two pdf or png maps, rectify them with `RNiftyReg`, and return the
 modifications in `map_modified` as spatial objects in \pkg{sf} format.
 }
 \note{
@@ -38,16 +38,16 @@ Currently only return a single convex polygon surrounding all elements
 added to `map_modified`.
 }
 \examples{
-f_orig <- system.file ("extdata", "omaha.jpg", package = "mapscanner")
-f_mod <- system.file ("extdata", "omaha_drawn.jpg", package = "mapscanner")
+f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
+f_mod <- system.file ("extdata", "omaha_drawn.png", package = "mapscanner")
 \dontrun{
 xy_hull <- ms_rectify_maps (f_orig, f_mod, type = "hull")
 xy_poly <- ms_rectify_maps (f_orig, f_mod, type = "polygons")
 xy_pts <- ms_rectify_maps (f_orig, f_mod, type = "points")
 }
 # reduce file sizes to 1/4 to speed up these examples:
-f_orig2 <- file.path (tempdir (), "omaha.jpg")
-f_modified2 <- file.path (tempdir (), "omaha_drawn.jpg")
+f_orig2 <- file.path (tempdir (), "omaha.png")
+f_modified2 <- file.path (tempdir (), "omaha_drawn.png")
 magick::image_read (f_orig) \%>\%
     magick::image_resize ("25\%") \%>\%
     magick::image_write (f_orig2)

@@ -4,7 +4,7 @@
 #' ms_generate_map
 #'
 #' Generate a map image for a specified area or bounding box. Map is
-#' automatically save in both `.pdf` and `.jpg` formats.
+#' automatically save in both `.pdf` and `.png` formats.
 #'
 #' @param bbox Either a string specifying the location, or a numeric bounding
 #' box as a single vector of (xmin, ymin, xmax, ymax), or a 2-by-2 matrix with
@@ -14,7 +14,7 @@
 #' Extension will be ignored.
 #' @param raster_brick Instead of automatically downloading tiles within a given
 #' `bbox`, a pre-downloaded `raster::rasterBrick` object may be submitted and
-#' used to generate the `.pdf` and `.jpg` equivalents.
+#' used to generate the `.pdf` and `.png` equivalents.
 #' @return Invisibly returns a `rasterBrick` object from the \pkg{raster}
 #' package containing all data used to generate the map.
 #'
@@ -39,7 +39,7 @@ ms_generate_map <- function (bbox, max_tiles = 16L, mapname = NULL,
         raster_brick <- get_raster_brick (bbox = bbox, max_tiles = max_tiles)
 
     fname_p <- map_to_pdf (raster_brick, mapname)
-    fname_j <- map_to_jpg (raster_brick, mapname)
+    fname_j <- map_to_png (raster_brick, mapname)
 
     message ("Successfully generated '", fname_p, "' and '", fname_j, "'")
 
@@ -97,9 +97,9 @@ map_to_pdf <- function (my_map, file)
     invisible (file)
 }
 
-map_to_jpg <- function (my_map, file)
+map_to_png <- function (my_map, file)
 {
-    file <- paste0 (tools::file_path_sans_ext (file), ".jpg")
+    file <- paste0 (tools::file_path_sans_ext (file), ".png")
 
     ex <- attributes (raster::extent (my_map))
     bb_comment <- paste0 ("EX", ex$xmin, "+", ex$ymin, "+",
@@ -113,11 +113,11 @@ map_to_jpg <- function (my_map, file)
         w <- 480 * 4 / aspect
     }
 
-    grDevices::jpeg (file = file, width = w, height = h, units = "px")
+    grDevices::png (file = file, width = w, height = h, units = "px")
     raster::plotRGB (my_map)
     grDevices::graphics.off ()
 
-    # Then read in jpg, attach comment containing bbox, and re-save
+    # Then read in png, attach comment containing bbox, and re-save
     img <- magick::image_read (file)
     magick::image_write (img, path = file, comment = bb_comment)
 

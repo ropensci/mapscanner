@@ -1,12 +1,12 @@
 #' ms_rectify_maps
 #'
-#' Scan in two pdf or jpg maps, rectify them with `RNiftyReg`, and return the
+#' Scan in two pdf or png maps, rectify them with `RNiftyReg`, and return the
 #' modifications in `map_modified` as spatial objects in \pkg{sf} format.
 #'
 #' @param map_original File name of the original map without anything drawn over
-#' it (either a `.pdf` or `.jpg`; extension will be ignored).
+#' it (either a `.pdf` or `.png`; extension will be ignored).
 #' @param map_modified File name of the modified version with drawings (either a
-#' `.pdf` or `.jpg`; extension will be ignored).
+#' `.pdf` or `.png`; extension will be ignored).
 #' @param type Currently either "points", "polygons", or "hulls", where
 #' "points" simply reduces each distinct object to a single, central point;
 #' "polygons" identifies individual groups and returns the polygon representing
@@ -23,16 +23,16 @@
 #' added to `map_modified`.
 #'
 #' @examples
-#' f_orig <- system.file ("extdata", "omaha.jpg", package = "mapscanner")
-#' f_mod <- system.file ("extdata", "omaha_drawn.jpg", package = "mapscanner")
+#' f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
+#' f_mod <- system.file ("extdata", "omaha_drawn.png", package = "mapscanner")
 #' \dontrun{
 #' xy_hull <- ms_rectify_maps (f_orig, f_mod, type = "hull")
 #' xy_poly <- ms_rectify_maps (f_orig, f_mod, type = "polygons")
 #' xy_pts <- ms_rectify_maps (f_orig, f_mod, type = "points")
 #' }
 #' # reduce file sizes to 1/4 to speed up these examples:
-#' f_orig2 <- file.path (tempdir (), "omaha.jpg")
-#' f_modified2 <- file.path (tempdir (), "omaha_drawn.jpg")
+#' f_orig2 <- file.path (tempdir (), "omaha.png")
+#' f_modified2 <- file.path (tempdir (), "omaha_drawn.png")
 #' magick::image_read (f_orig) %>%
 #'     magick::image_resize ("25%") %>%
 #'     magick::image_write (f_orig2)
@@ -53,13 +53,15 @@ ms_rectify_maps <- function (map_original, map_modified, type = "polygons",
     if (type != "polygons" && downsample != 10)
         message ("downsample is only used for polygons")
 
-    map_original <- get_map_jpg (map_original)
-    map_modified <- get_map_jpg (map_modified)
+    map_original <- get_map_png (map_original)
+    map_modified <- get_map_png (map_modified)
 
     f_orig <- trim_white (map_original)
     f_mod <- trim_white (map_modified)
-    map <- jpeg::readJPEG (f_orig)
-    map_scanned <- jpeg::readJPEG (f_mod)
+    #map <- jpeg::readJPEG (f_orig)
+    #map_scanned <- jpeg::readJPEG (f_mod)
+    map <- png::readPNG (f_orig)
+    map_scanned <- png::readPNG (f_mod)
 
     # niftyreg (source, target) transforms source into the space of target, and
     # returns $image as "the registered and resampled 'source' image in the
@@ -102,7 +104,7 @@ rectify_channel <- function (channel, original, type, n = 10)
     crs_from <- "+proj=merc +a=6378137 +b=6378137"
     crs_to <- 4326
 
-    bbox <- bbox_from_jpg (original)
+    bbox <- bbox_from_png (original)
 
     if (type == "hulls")
     {
