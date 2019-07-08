@@ -28,15 +28,14 @@ lines drawn on it:
 That's just a standard `jpeg` image with no notion of geographical coordinates.
 The original map was generated with
 
-```{r load, echo = FALSE, message = FALSE}
-devtools::load_all (".", export_all = FALSE)
-```
 ```{r omaha-fakey, eval = FALSE}
+library (mapscanner)
 bbox <- rbind (c (-96.12923, -96.01011),
                c (41.26145, 41.32220)) # portion of omaha
 ms_generate_map (bbox, max_tiles = 16L, mapname = "omaha")
 ```
 ```{r omaha, echo = FALSE}
+library (mapscanner)
 bbox <- rbind (c (-96.12923, -96.01011),
                c (41.26145, 41.32220))
 message ("Successfully generated 'omaha.pdf' and 'omaha.png'")
@@ -56,9 +55,9 @@ to demonstrate functionality. In the following code, `f_modified` is the image
 shown above, modified from the original by drawing a red line around a
 particular region of Omaha.
 ```{r scan_maps}
-f_original <- file.path ("inst", "extdata", "omaha.png")
-f_modified <- file.path ("inst", "extdata", "omaha_drawn.png")
-system.time (res <- ms_rectify_maps (f_original, f_modified, type = "polygons"))
+f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
+f_mod <- system.file ("extdata", "omaha_drawn.png", package = "mapscanner")
+system.time (res <- ms_rectify_maps (f_orig, f_mod, type = "polygons"))
 res
 ```
 The rectification can take quite some time, during which [`RNiftyReg`
