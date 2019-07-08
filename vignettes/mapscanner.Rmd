@@ -57,12 +57,8 @@ remotes::install_github ("mpadge/mapscanner")
 
 The `ms_generate_map()` function generates printable maps for a specified
 bounding box in both `.pdf` and `.jpg` formats. Usage is a simple as,
-```{r generate-fakey, eval = FALSE}
+```{r generate-fakey, eval = TRUE}
 ms_generate_map ("chennai india", mapname = "chennai")
-```
-```{r generate, echo = FALSE}
-message (paste0 ("Loading required namespace: osmdata\n",
-                 "Successfully generated 'chennai.pdf' and 'chennai.jpg'"))
 ```
 The two generated maps are saved in the current working directory (`getwd()`).
 To save in alternative locations, the `mapname` parameter can The `mapname` can
