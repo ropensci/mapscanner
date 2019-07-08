@@ -9,6 +9,14 @@
 Print maps, draw on them, scan them back in, and convert to spatial
     objects.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/mpadge/mapscanner}
+  \item Report bugs at \url{https://github.com/mpadge/mapscanner/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Mark Padgham \email{mark.padgham@email.com}
 

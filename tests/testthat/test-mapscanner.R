@@ -42,5 +42,5 @@ test_that("rectify", {
               expect_silent (res_1 <- ms_rectify_maps (f_orig2, f_modified2,
                                                        type = "points"))
               expect_is (res_1, "sf")
-              expect_is (res_1$geometry, "sfc_MULTIPOINT")
+              expect_is (res_1$geometry, "sfc_POINT")
 })
