@@ -15,7 +15,7 @@ Concept](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repo
 
 Print maps, draw on them, scan them back in, and convert to spatial
 objects. Package comes with a sample map of Omaha, Nebraska, USA, and
-one with some red lines drawn on it: ![](./inst/extdata/omaha_drawn.jpg)
+one with some red lines drawn on it: ![](./inst/extdata/omaha_drawn.png)
 
 That’s just a standard `jpeg` image with no notion of geographical
 coordinates. The original map was generated with
@@ -26,39 +26,43 @@ bbox <- rbind (c (-96.12923, -96.01011),
 ms_generate_map (bbox, max_tiles = 16L, mapname = "omaha")
 ```
 
-    #> Successfully generated 'omaha.pdf' and 'omaha.jpg'
+    #> Successfully generated 'omaha.pdf' and 'omaha.png'
 
-As indicated, the function generates a map in both `.pdf` and `.jpg`
+As indicated, the function generates a map in both `.pdf` and `.png`
 formats. These files must be retained as the “master” maps against which
 subsequently modified – drawn-over and scanned-in – versions will be
 rectified. The `.pdf` format is generated because it will generally be
 the most convenient for printing, while the rectification itself
-requires `.jpg`-format images. The magic happens via the [`RNiftyReg`
+requires `.png`-format images. The magic happens via the [`RNiftyReg`
 package](https://github.com/jonclayden/RNiftyReg), itself primarily
 intended to align brain scans and other medical images, but which is
 precisely the tool needed here.
 
-The `mapscanner` package comes with two sample `.jpg` images which can
+The `mapscanner` package comes with two sample `.png` images which can
 be used to demonstrate functionality. In the following code,
 `f_modified` is the image shown above, modified from the original by
 drawing a red line around a particular region of Omaha.
 
 ``` r
-f_original <- file.path ("inst", "extdata", "omaha.jpg")
-f_modified <- file.path ("inst", "extdata", "omaha_drawn.jpg")
+f_original <- file.path ("inst", "extdata", "omaha.png")
+f_modified <- file.path ("inst", "extdata", "omaha_drawn.png")
 system.time (res <- ms_rectify_maps (f_original, f_modified, type = "polygons"))
+#> ══ mapscanner ═════════════════════════════════════════════════════════════
+✔ rectifying the two maps 
+✔ extracting drawn objects 
+✔ converting to spatial format
 #>    user  system elapsed 
-#>  40.630   0.606  11.738
+#>  42.085   0.637  11.853
 res
 #> Simple feature collection with 2 features and 0 fields
 #> geometry type:  POLYGON
 #> dimension:      XY
-#> bbox:           xmin: -96.11759 ymin: 41.26657 xmax: -96.02757 ymax: 41.3008
+#> bbox:           xmin: -96.11764 ymin: 41.26657 xmax: -96.02752 ymax: 41.3008
 #> epsg (SRID):    4326
 #> proj4string:    +proj=longlat +datum=WGS84 +no_defs
 #>                         geometry
-#> 1 POLYGON ((-96.04199 41.2963...
-#> 2 POLYGON ((-96.11759 41.2697...
+#> 1 POLYGON ((-96.04196 41.2963...
+#> 2 POLYGON ((-96.11764 41.2697...
 ```
 
 The rectification can take quite some time, during which [`RNiftyReg`
