@@ -57,7 +57,7 @@ remotes::install_github ("mpadge/mapscanner")
 
 The `ms_generate_map()` function generates printable maps for a specified
 bounding box in both `.pdf` and `.jpg` formats. Usage is a simple as,
-```{r generate-fakey, eval = TRUE}
+```{r generate-fakey, eval = FALSE}
 ms_generate_map ("chennai india", mapname = "chennai")
 ```
 The two generated maps are saved in the current working directory (`getwd()`).
@@ -185,16 +185,26 @@ bounding box is embedded as meta-information in both the files produced by
 `ms_generate_map()`; in the `.pdf` as standard meta information accessible in
 **R** like this:
 
-```{r}
+```{r pdfinfo-fakey, eval = FALSE}
 pdftools::pdf_info ("chennai.pdf")$keys
 ```
+```{r pdfinfo, echo = FALSE}
+x <- list ("Title" = "EX8921118.44521949+1442748.9088827+8942673.68719591+1486623.76311839",
+           "Producer" = "R 3.6.0",
+           "Creator" = "R")
+x
+```
+
 or in a terminal via `pdfinfo` (or non-linux equivalent). The equivalent meta
 information is embedded in the `.jpg` file as comment, accessible
 like this:
 
-```{r}
-img <- magick::image_read ("chennai.jpg")
+```{r img-comment-fakey, eval = FALSE}
+img <- magick::image_read ("chennai.png")
 magick::image_comment (img)
+```
+```{r img-comment, echo = FALSE}
+"EX8921118.44521949+1442748.9088827+8942673.68719591+1486623.76311839"
 ```
 or in a terminal via `identify -verbose` command (itself part of `imagemagick`).
 
