@@ -1,0 +1,30 @@
+title: mapscanner
+
+templates:
+  params:
+    bootswatch: cerulean
+
+reference:
+  - title: The Main Functions
+    contents:
+    - ms_generate_map
+    - ms_rectify_maps
+
+articles:
+  - title: The mapscanner package
+    contents:
+    - mapscanner
+
+navbar:
+  title: mapscanner
+  type: default
+  left:
+  - text: Home
+    href: index.html
+  - text: Vignettes
+    href: articles/index.html
+  - text: Functions
+    href: reference/index.html
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/mpadge/mapscanner
