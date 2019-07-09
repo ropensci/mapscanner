@@ -12,7 +12,7 @@ test_that("rectify", {
                                      package = "mapscanner")
               expect_true (file.exists (f_orig))
               expect_true (is_png (f_orig))
-              f_modified <- system.file ("extdata", "omaha_drawn.png",
+              f_modified <- system.file ("extdata", "omaha-polygons.png",
                                          package = "mapscanner")
               expect_true (file.exists (f_modified))
               expect_true (is_png (f_modified))
@@ -20,7 +20,7 @@ test_that("rectify", {
               # have to down-scale images for testing because RNiftyReg takes
               # way too long
               f_orig2 <- file.path (tempdir (), "omaha.png")
-              f_modified2 <- file.path (tempdir (), "omaha_drawn.png")
+              f_modified2 <- file.path (tempdir (), "omaha-polygons.png")
               magick::image_read (f_orig) %>%
                   magick::image_resize ("25%") %>%
                   magick::image_write (f_orig2)

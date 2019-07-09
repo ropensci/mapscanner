@@ -119,13 +119,13 @@ below.) The package comes with two sample maps, both in `.png` format. The
 first is the reference version needed for rectification, while the second has
 two red lines drawn upon it:
 
-![](omaha_drawn.png)
+![](omaha-polygons.png)
 
 Converting the lines on this scanned image file is then as simple as:
 
 ```{r rectify}
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
-f_mod <- system.file ("extdata", "omaha_drawn.png", package = "mapscanner")
+f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
 xy <- ms_rectify_maps (f_orig, f_mod)
 xy
 ```
