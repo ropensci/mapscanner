@@ -77,13 +77,13 @@ ms_rectify_maps <- function (map_original, map_modified, type = "polygons",
 
         message (cli::symbol$pointer, " extracting drawn objects ", appendLF = FALSE)
     }
-    img_r <- extract_channel_r (res)
+    img <- extract_channel (res)
     if (!quiet)
     {
         message ("\r", cli::symbol$tick, " extracting drawn objects ")
         message (cli::symbol$pointer, " converting to spatial format ", appendLF = FALSE)
     }
-    res <- rectify_channel (img_r, f_orig, type = type, n = downsample)
+    res <- rectify_channel (img, f_orig, type = type, n = downsample)
     if (!quiet)
         message ("\r", cli::symbol$tick, " converting to spatial format ")
     return (res)
@@ -93,9 +93,9 @@ m_niftyreg <- memoise::memoise (function (map_scanned, map)
     RNiftyReg::niftyreg (map_scanned, map))
 
 
-# extract unique bits of red channel from RNiftyReg output
+# extract any non-greyscale components from RNiftyReg output
 # nr is result of scanmaps, output from RNiftyReg
-extract_channel_r <- function (nr)
+extract_channel <- function (nr)
 {
     img <- nr$image # house and img have 3 layers [r, g, b]
     img <- round (img * 100) / 100
@@ -107,12 +107,15 @@ extract_channel_r <- function (nr)
     img_b <- get1layer (img, 2)
     img_g <- get1layer (img, 3)
 
-    index_r <- which (!(img_r == img_g | img_r == img_b))
+    delta <- abs (img_r - img_b) +
+        abs (img_r - img_b) +
+        abs (img_b - img_g)
 
-    img_r [index_r] <- 1
-    img_r [!(seq (img_r) %in% index_r)] <- 0
+    index <- which (delta > 0)
+    res <- array (0, dim = dim (img_r))
+    res [index] <- 1
 
-    return (img_r)
+    return (res)
 }
 
 # origin is the raster image, channel is result of extract_channel
