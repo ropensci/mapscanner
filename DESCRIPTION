@@ -38,6 +38,8 @@ Suggests:
     rmarkdown,
     testthat
 LinkingTo: Rcpp
+SystemRequirements:
+    C++11
 VignetteBuilder: knitr
 URL: https://github.com/mpadge/mapscanner
 BugReports: https://github.com/mpadge/mapscanner/issues

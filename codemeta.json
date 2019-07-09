@@ -345,10 +345,14 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=tibble"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "https://sysreqs.r-hub.io/get/cxx11"
     }
   ],
   "readme": "https://github.com/mpadge/mapscanner/blob/master/README.md",
-  "fileSize": "4908.434KB",
+  "fileSize": "53374.477KB",
   "contIntegration": [
     "https://travis-ci.org/mpadge/mapscanner",
     "https://ci.appveyor.com/project/mpadge/mapscanner",
