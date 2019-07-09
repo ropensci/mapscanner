@@ -41,7 +41,7 @@ added to `map_modified`.
 }
 \examples{
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
-f_mod <- system.file ("extdata", "omaha_drawn.png", package = "mapscanner")
+f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
 \dontrun{
 xy_hull <- ms_rectify_maps (f_orig, f_mod, type = "hull")
 xy_poly <- ms_rectify_maps (f_orig, f_mod, type = "polygons")
@@ -49,7 +49,7 @@ xy_pts <- ms_rectify_maps (f_orig, f_mod, type = "points")
 }
 # reduce file sizes to 1/4 to speed up these examples:
 f_orig2 <- file.path (tempdir (), "omaha.png")
-f_modified2 <- file.path (tempdir (), "omaha_drawn.png")
+f_modified2 <- file.path (tempdir (), "omaha-polygons.png")
 magick::image_read (f_orig) \%>\%
     magick::image_resize ("25\%") \%>\%
     magick::image_write (f_orig2)
