@@ -15,7 +15,7 @@ Concept](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repo
 
 Print maps, draw on them, scan them back in, and convert to spatial
 objects. Package comes with a sample map of Omaha, Nebraska, USA, and
-one with some red lines drawn on it: ![](./inst/extdata/omaha_drawn.png)
+one with some red lines drawn on it: ![](./inst/extdata/omaha-polygons.png)
 
 That’s just a standard `jpeg` image with no notion of geographical
 coordinates. The original map was generated with
@@ -46,14 +46,11 @@ drawing a red line around a particular region of Omaha.
 
 ``` r
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
-f_mod <- system.file ("extdata", "omaha_drawn.png", package = "mapscanner")
+f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
 system.time (res <- ms_rectify_maps (f_orig, f_mod, type = "polygons"))
 #> ══ mapscanner ═════════════════════════════════════════════════════════════
-#> ❯ rectifying the two maps 
 ✔ rectifying the two maps 
-#> ❯ extracting drawn objects 
 ✔ extracting drawn objects 
-#> ❯ converting to spatial format 
 ✔ converting to spatial format
 #>    user  system elapsed 
 #>  43.170   0.660  12.258

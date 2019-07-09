@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 Print maps, draw on them, scan them back in, and convert to spatial objects.
 Package comes with a sample map of Omaha, Nebraska, USA, and one with some red
 lines drawn on it:
-![](./inst/extdata/omaha_drawn.png)
+![](./inst/extdata/omaha-polygons.png)
 
 That's just a standard `jpeg` image with no notion of geographical coordinates.
 The original map was generated with
@@ -56,7 +56,7 @@ shown above, modified from the original by drawing a red line around a
 particular region of Omaha.
 ```{r scan_maps}
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
-f_mod <- system.file ("extdata", "omaha_drawn.png", package = "mapscanner")
+f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
 system.time (res <- ms_rectify_maps (f_orig, f_mod, type = "polygons"))
 res
 ```
