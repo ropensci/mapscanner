@@ -33,7 +33,13 @@
     }
   ],
   "contributor": {},
-  "copyrightHolder": {},
+  "copyrightHolder": [
+    {
+      "@type": "Person",
+      "givenName": "Stanislaw",
+      "familyName": "Adaszewski"
+    }
+  ],
   "funder": {},
   "maintainer": [
     {
@@ -352,7 +358,7 @@
     }
   ],
   "readme": "https://github.com/mpadge/mapscanner/blob/master/README.md",
-  "fileSize": "53374.477KB",
+  "fileSize": "53375.34KB",
   "contIntegration": [
     "https://travis-ci.org/mpadge/mapscanner",
     "https://ci.appveyor.com/project/mpadge/mapscanner",
