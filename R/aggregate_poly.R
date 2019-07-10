@@ -51,9 +51,13 @@ ms_aggregate_poly <- function (px, ...)
     ## unnest
     triangle <- rep (feat_index$triangle, unlist (lapply (feat_index$feature, nrow)))
     feat_index <- tibble::tibble (triangle = triangle,
-                                  feature = do.call (rbind, feat_index$feature)$feature)
-    counts <- feat_index %>% dplyr::group_by (triangle, feature) %>% dplyr::mutate (n = dplyr::n ()) %>%
-        dplyr::ungroup () %>% dplyr::group_by (.data$n)
+                                  feature = do.call (rbind,
+                                                     feat_index$feature)$feature)
+    counts <- feat_index %>%
+        dplyr::group_by (triangle, feature) %>%
+        dplyr::mutate (n = dplyr::n ()) %>%
+        dplyr::ungroup () %>%
+        dplyr::group_by (.data$n)
 
     ## now collate and build output
     levcounts <- unique (counts$n)
@@ -61,9 +65,8 @@ ms_aggregate_poly <- function (px, ...)
     for (i in seq_along (levcounts)) {
         i_feature <- counts %>% dplyr::filter (n >= levcounts [i])
 
-        outlist [[i]] <- sf::st_sf (geometry = sf::st_union (mesh [i_feature$triangle]),
-                                    n = levcounts [i])
-
+        outlist [[i]] <- sf::st_union (mesh [i_feature$triangle]) %>%
+            sf::st_sf (geometry = ., n = levcounts [i])
     }
     do.call (rbind, outlist) #%>% dplyr::arrange(dplyr::desc(.data$n))
 }
