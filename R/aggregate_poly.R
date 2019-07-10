@@ -21,7 +21,7 @@
 ms_aggregate_poly <- function (px, ...)
 {
     # no visible binding notes:
-    .data <- feature <- n <- NULL
+    .data <- feature <- n <- . <- NULL
 
     ## convert to unioned lines, so all edges in one geometry
     mesh <- sf::st_cast (px, "MULTILINESTRING") %>%
