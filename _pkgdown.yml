@@ -12,6 +12,9 @@ reference:
     contents:
     - ms_generate_map
     - ms_rectify_maps
+  - title: Extra Functions
+    contents:
+    - ms_aggregate_poly
 
 articles:
   - title: The mapscanner package
