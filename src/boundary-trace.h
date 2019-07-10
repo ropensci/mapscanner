@@ -2,6 +2,8 @@
 
 #include <Rcpp.h>
 
+const size_t INFINITE_SIZET =  std::numeric_limits <size_t>::max ();
+
 typedef std::pair <int, int> XYPoint;
 
 int findStartPixel (Rcpp::LogicalMatrix image, int startj);

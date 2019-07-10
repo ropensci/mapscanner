@@ -28,7 +28,8 @@ Rcpp::DataFrame rcpp_boundary (Rcpp::LogicalMatrix image)
     // nextClockwise
     while (c != s)
     {
-        if (image (c.first, c.second))
+        if (image (static_cast <size_t> (c.first),
+                    static_cast <size_t> (c.second)))
         {
             bx.push_back (c.first);
             by.push_back (c.second);
@@ -55,8 +56,8 @@ Rcpp::DataFrame rcpp_boundary (Rcpp::LogicalMatrix image)
 int findStartPixel (Rcpp::LogicalMatrix image, int startj)
 {
     int starti = -1;
-    for (int i = 0; i < image.nrow (); i++)
-        if (image (i, startj))
+    for (int i = 0; i < image.nrow (); i++) // nrow is <int>
+        if (image (static_cast <size_t> (i), static_cast <size_t> (startj)))
         {
             starti = i;
             break;
@@ -77,14 +78,14 @@ XYPoint nextClockwise (XYPoint p_in, XYPoint p_mid)
     XYPoint p_diff = std::make_pair (p_in.first - p_mid.first,
             p_in.second - p_mid.second);
 
-    size_t p_i = -1;
+    size_t p_i = INFINITE_SIZET;
     for (size_t i = 0; i < x.size (); i++)
         if (x [i] == p_diff.first && y [i] == p_diff.second)
         {
             p_i = i;
             break;
         }
-    if (p_i < 0)
+    if (p_i == INFINITE_SIZET)
         Rcpp::stop ("Nope"); // # nocov
 
     p_i++;
