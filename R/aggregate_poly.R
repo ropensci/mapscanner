@@ -82,5 +82,5 @@ ms_aggregate_poly <- function (px, ...)
         outlist [[i]] <- sf::st_union (mesh [i_feature$triangle]) %>%
             sf::st_sf (geometry = ., n = levcounts [i])
     }
-    do.call (rbind, outlist) #%>% dplyr::arrange(dplyr::desc(.data$n))
+    do.call (rbind, outlist) %>% dplyr::arrange (.data$n)
 }
