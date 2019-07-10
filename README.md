@@ -1,6 +1,6 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# mapscanner
+# mapscanner ![](http://www.textfiles.com/underconstruction/CoColosseumHoop5020underconstruction_blk.gif)
 
 <!-- badges: start -->
 
@@ -15,7 +15,8 @@ Concept](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repo
 
 Print maps, draw on them, scan them back in, and convert to spatial
 objects. Package comes with a sample map of Omaha, Nebraska, USA, and
-one with some red lines drawn on it: ![](./inst/extdata/omaha-polygons.png)
+one with some red lines drawn on it:
+![](./inst/extdata/omaha-polygons.png)
 
 That’s just a standard `jpeg` image with no notion of geographical
 coordinates. The original map was generated with
@@ -53,7 +54,7 @@ system.time (res <- ms_rectify_maps (f_orig, f_mod, type = "polygons"))
 ✔ extracting drawn objects 
 ✔ converting to spatial format
 #>    user  system elapsed 
-#>  43.170   0.660  12.258
+#>  39.281   0.524  11.154
 res
 #> Simple feature collection with 2 features and 0 fields
 #> geometry type:  POLYGON

@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 ```
-# mapscanner
+# mapscanner ![](http://www.textfiles.com/underconstruction/CoColosseumHoop5020underconstruction_blk.gif)
 
 <!-- badges: start -->
 [![Travis build status](https://travis-ci.org/mpadge/mapscanner.svg?branch=master)](https://travis-ci.org/mpadge/mapscanner)
