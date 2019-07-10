@@ -39,7 +39,8 @@ Suggests:
     mapview,
     osmdata,
     rmarkdown,
-    testthat
+    testthat,
+    spelling
 LinkingTo: Rcpp
 SystemRequirements:
     C++11
@@ -47,3 +48,4 @@ VignetteBuilder: knitr
 URL: https://github.com/mpadge/mapscanner
 BugReports: https://github.com/mpadge/mapscanner/issues
 RoxygenNote: 6.1.1
+Language: en-US
