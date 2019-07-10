@@ -77,8 +77,8 @@ XYPoint nextClockwise (XYPoint p_in, XYPoint p_mid)
     XYPoint p_diff = std::make_pair (p_in.first - p_mid.first,
             p_in.second - p_mid.second);
 
-    int p_i = -1;
-    for (int i = 0; i < x.size (); i++)
+    size_t p_i = -1;
+    for (size_t i = 0; i < x.size (); i++)
         if (x [i] == p_diff.first && y [i] == p_diff.second)
         {
             p_i = i;

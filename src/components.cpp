@@ -68,7 +68,7 @@ void getNeighbours (
     std::vector <int> dx {-1, 0, 1, -1, 1, -1, 0, 1},
         dy {1, 1, 1, 0, 0, -1, -1, -1};
 
-    for (int k = 0; k < dx.size (); k++)
+    for (size_t k = 0; k < dx.size (); k++)
     {
         if (image (i + dx [k], j + dy [k]) &&
                 comp_mat (i + dx [k], j + dy [k]) == 0)

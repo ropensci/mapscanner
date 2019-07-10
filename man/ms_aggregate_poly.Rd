@@ -41,5 +41,6 @@ overlapping_polys <- sf::st_buffer (pts, 0.75)
 x <- ms_aggregate_poly (overlapping_polys)
 plot (x)
 #library (ggplot2)
+#ggplot (x, aes (fill = n)) + geom_sf ()
 #ggplot (x) + geom_sf () + facet_wrap (~n)
 }
