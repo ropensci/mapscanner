@@ -39,7 +39,7 @@ bool applyOneFilter (Rcpp::LogicalMatrix &image, filter f)
             if (image (i, j)) // NOTE: Does not work with "[i, j]"!!
             {
                 bool match = true;
-                for (int k = 0; k < f.f.size (); k++)
+                for (size_t k = 0; k < f.f.size (); k++)
                 {
                     if (image (i + f.x [k], j + f.y [k]) != f.f [k])
                         match = false;
