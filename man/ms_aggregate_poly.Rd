@@ -2,21 +2,33 @@
 % Please edit documentation in R/aggregate_poly.R
 \name{ms_aggregate_poly}
 \alias{ms_aggregate_poly}
-\title{Aggregate disparate polygons}
+\title{Aggregate overlapping polygons}
 \usage{
 ms_aggregate_poly(px, ...)
 }
 \arguments{
-\item{px}{input polygons (assumed overlapping poly/mpolys in sf_df)}
+\item{px}{An \pkg{sf} `data.frame` of input (multi)polygons, assuming to be
+overlapping.}
 
 \item{...}{unused}
 }
-\description{
-Planar partition from disparate polygon inputs. Overlaps aggregate to `n`.
+\value{
+An equivalent \pkg{sf} `data.frame` of polygons in which the column
+`n` represents the aggregate number covering the specified polygonal area.
 }
-\details{
-Input is a single simple features polygon data frame. No attribute data is
-considered.
+\description{
+Aggregate a 'Simple Features' (\pkg{sf}) `data.frame` of `n` polygons to a series
+of aggregate polygons representing up to `n` distinct levels. No attributes
+data of input data is considered.
+}
+\note{
+This function is intended for cases in which `mapscanner` is used in
+social surveys aimed at defining specific areas. The aggregate results from
+`n` polygon definitions can then be (row-)joined together into a single
+\pkg{sf} `data.frame` and submitted to this function to obtain a vector form
+of a 'heat map' identifying the area of greatest overlap. Particular contours
+of this heatmap can be extracted by sub-setting or filtering the resultant
+`data.frame` by desired values of `n`.
 }
 \examples{
 pts <- sf::st_sf (a = 1:3,
@@ -26,7 +38,8 @@ pts <- sf::st_sf (a = 1:3,
 overlapping_polys <- sf::st_buffer (pts, 0.75)
 
 ## decompose and count space-filling from overlapping polygons
-x <- ms_aggregate_poly (overlapping_polys); plot (x)
+x <- ms_aggregate_poly (overlapping_polys)
+plot (x)
 #library (ggplot2)
 #ggplot (x) + geom_sf () + facet_wrap (~n)
 }
