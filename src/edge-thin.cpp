@@ -34,23 +34,29 @@ bool applyOneFilter (Rcpp::LogicalMatrix &image, filter f)
     bool changed = false;
 
     for (int i = 1; i < (image.nrow () - 1); i++)
+    {
+        size_t i_t = static_cast <size_t> (i);
         for (int j = 1; j < (image.ncol () - 1); j++)
         {
-            if (image (i, j)) // NOTE: Does not work with "[i, j]"!!
+            size_t j_t = static_cast <size_t> (j);
+            // NOTE: Does not work with "image [i, j]"!!
+            if (image (i_t, j_t))
             {
                 bool match = true;
                 for (size_t k = 0; k < f.f.size (); k++)
                 {
-                    if (image (i + f.x [k], j + f.y [k]) != f.f [k])
+                    if (image (static_cast <size_t> (i + f.x [k]),
+                                static_cast <size_t> (j + f.y [k])) != f.f [k])
                         match = false;
                 }
                 if (match)
                 {
-                    image (i, j) = false;
+                    image (i_t, j_t) = false;
                     changed = true;
                 }
             }
         }
+    }
 
     return changed;
 }

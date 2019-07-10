@@ -6,10 +6,11 @@
 
 struct pair_hash {
     inline std::size_t operator () (const std::pair <int, int> & v) const {
-        return v.first * 31 + v.second;
+        return static_cast <size_t> (v.first * 31 + v.second);
     }
 };
 
+// These are all <int>s to allow for relative offsets (-1, 0, 1):
 typedef std::unordered_set <std::pair <int, int>, pair_hash > NbSet;
 
 void traceComponent (Rcpp::LogicalMatrix &image, int i, int j,
