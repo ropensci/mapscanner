@@ -30,6 +30,7 @@ Imports:
     reproj,
     RNiftyReg,
     sf,
+    sfdct,
     slippymath,
     tibble
 Suggests: 
