@@ -72,7 +72,7 @@ triangulate_map_sf <- function (x, ...)
     object <- tibble::tibble(object_ = seq_len(nrow(x)))
     if (length(unique(instances$path)) == nrow(instances)) {
 
-        print("tell Mike")
+        print("tell Mike") # nocov
         # instances[".vx0"] <- instances["vertex_"]
         # object$topology_ <- split(instances[c(".vx0")], instances$object)
     }else {

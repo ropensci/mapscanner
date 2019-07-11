@@ -1,10 +1,20 @@
-context("basic functionality")
+context("rectify")
 
 test_that ("errors", {
                expect_error (ms_rectify_maps (),
                          'argument "map_original" is missing, with no default')
                expect_error (ms_rectify_maps (map_original = "junk.pdf"),
                              "Neither junk.pdf nor junk.png exist")
+              f_orig <- system.file ("extdata", "omaha.png",
+                                     package = "mapscanner")
+              f_modified <- system.file ("extdata", "omaha-polygons.png",
+                                         package = "mapscanner")
+              expect_error (ms_rectify_maps (f_orig, f_modified,
+                                             non_linear = FALSE),
+                            "non_linear must be a single integer value")
+              expect_error (ms_rectify_maps (f_orig, f_modified,
+                                             non_linear = 4),
+                            "non_linear must be a value of 0, 1, or 2")
 })
 
 test_that("rectify", {

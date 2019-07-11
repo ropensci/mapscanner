@@ -6,10 +6,12 @@ get_map_png <- function (mapfile)
         stop ("Neither ", mapfile, " nor ", png_name, " exist")
 
     if (!file.exists (png_name))
-        pdf_to_png (mapfile)
+        pdf_to_png (mapfile) # nocov
     return (png_name)
 }
 
+# nocov start
+# the following 2 functions are not currently tested
 pdf_to_png <- function (file)
 {
     file <- paste0 (tools::file_path_sans_ext (file), ".pdf")
@@ -38,6 +40,7 @@ bbox_from_pdf <- function (file, asString = FALSE)
     }
     return (bbox)
 }
+# nocov end
 
 bbox_from_png <- function (file)
 {
