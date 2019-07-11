@@ -9,7 +9,7 @@ test_that ("aggregate", {
 
                expect_silent (x <- ms_aggregate_polys (overlapping_polys))
                expect_is (x, "sf")
-               expect_is (x$geometry, "sfc_POLYGON")
+               expect_is (x$geometry, "sfc_MULTIPOLYGON")
                expect_equal (nrow (x), 3)
-               expect_identical (1:3, x$n)
+               expect_equivalent(1:3, x$n)
 })

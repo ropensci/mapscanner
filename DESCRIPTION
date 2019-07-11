@@ -35,7 +35,8 @@ Imports:
     gibble,
     polyclip,
     tidyr,
-    unjoin
+    unjoin,
+    rlang
 Suggests: 
     ggplot2,
     knitr,
