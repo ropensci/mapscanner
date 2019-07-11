@@ -4,3 +4,5 @@
 ^makefile$
 ^appveyor\.yml$
 ^aaa.Rmd$
+^.*\.Rproj$
+^\.Rproj\.user$
