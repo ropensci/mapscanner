@@ -2,45 +2,36 @@
 % Please edit documentation in R/aggregate_polys.R
 \name{ms_aggregate_polys}
 \alias{ms_aggregate_polys}
-\title{Aggregate overlapping polygons}
+\title{Aggregate disparate polygons}
 \usage{
 ms_aggregate_polys(px, ...)
 }
 \arguments{
-\item{px}{An \pkg{sf} `data.frame` of input (multi)polygons, assuming to be
-overlapping.}
+\item{px}{input polygons (assumed overlapping poly/mpolys in sf_df)}
 
 \item{...}{unused}
 }
-\value{
-An equivalent \pkg{sf} `data.frame` of polygons in which the column
-`n` represents the aggregate number covering the specified polygonal area.
-}
 \description{
-Aggregate a 'Simple Features' (\pkg{sf}) `data.frame` of `n` polygons to a series
-of aggregate polygons representing up to `n` distinct levels. No attributes
-data of input data is considered.
+Planar partition from disparate polygon inputs. Overlaps aggregate to `n`.
 }
-\note{
-This function is intended for cases in which `mapscanner` is used in
-social surveys aimed at defining specific areas. The aggregate results from
-`n` polygon definitions can then be (row-)joined together into a single
-\pkg{sf} `data.frame` and submitted to this function to obtain a vector form
-of a 'heat map' identifying the area of greatest overlap. Particular contours
-of this heatmap can be extracted by sub-setting or filtering the resultant
-`data.frame` by desired values of `n`.
+\details{
+Input is a single simple features polygon data frame. No attribute data is considered.
 }
 \examples{
-pts <- sf::st_sf (a = 1:3,
-                  geometry = sf::st_sfc (list (sf::st_point (cbind (0, 0)),
-                                               sf::st_point (cbind (0, 1)),
-                                               sf::st_point (cbind (1, 0)))))
-overlapping_polys <- sf::st_buffer (pts, 0.75)
+g <- sf::st_sfc(list(sf::st_point(cbind(0, 0)),
+                                sf::st_point(cbind(0, 1)),
+                                sf::st_point(cbind(1, 0))))
+pts <- sf::st_sf(a = 1:3,  geometry = g)
+overlapping_polys <- sf::st_buffer(pts, 0.75)
 
 ## decompose and count space-filling from overlapping polygons
-x <- ms_aggregate_polys (overlapping_polys)
-plot (x)
-#library (ggplot2)
-#ggplot (x, aes (fill = n)) + geom_sf ()
-#ggplot (x) + geom_sf () + facet_wrap (~n)
+x <- ms_aggregate_polys(overlapping_polys); plot(x)
+#library(ggplot2)
+#ggplot(x) + geom_sf() + facet_wrap(~n)
+
+library(sf)
+set.seed(6)
+pts <- expand.grid(x = 1:18, y = 1:20) \%>\% st_as_sf(coords = c("x", "y"))
+xsf <- sf::st_buffer (pts, runif(nrow(pts), 0.2, 1.5))
+#system.time(out <- ms_aggregate_polys(xsf))
 }
