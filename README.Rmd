@@ -25,7 +25,7 @@ Package comes with a sample map of Omaha, Nebraska, USA, and one with some red
 lines drawn on it:
 ![](./inst/extdata/omaha-polygons.png)
 
-That's just a standard `jpeg` image with no notion of geographical coordinates.
+That's just a standard `png` image with no notion of geographical coordinates.
 The original map was generated with
 
 ```{r omaha-fakey, eval = FALSE}
@@ -85,6 +85,8 @@ leaflet (res) %>%
 ![](./man/figures/leaflet-1.png)
 
 And our hand-drawn lines shown above have been converted to standard spatial
-objects able to be analysed in any desired way.
+objects able to be analysed in any desired way. See the [package
+vignette](https://mpadge.github.io/mapscanner/articles/mapscanner.html) for
+more detail of what the `mapscanner` package can do.
 
 
