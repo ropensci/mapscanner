@@ -7,6 +7,8 @@
 #' it (either a `.pdf` or `.png`; extension will be ignored).
 #' @param map_modified File name of the modified version with drawings (either a
 #' `.pdf` or `.png`; extension will be ignored).
+#' @param non_linear Integer value of 0, 1, or 2 representing degree of
+#' non-linearity in modified image - see Note.
 #' @param type Currently either "points", "polygons", or "hulls", where
 #' "points" simply reduces each distinct object to a single, central point;
 #' "polygons" identifies individual groups and returns the polygon representing
@@ -20,8 +22,16 @@
 #' @param quiet If `FALSE`, display progress information on screen
 #' @return An \pkg{sf} object representing the drawn additions to map_modified.
 #'
-#' @note Currently only return a single convex polygon surrounding all elements
-#' added to `map_modified`.
+#' The `non-linear` parameter should generally set according to how the modified
+#' maps were digitised. A value of 0 will give fastest results, and should be
+#' used for directly scanned or photocopied images. A value of 1 (the default)
+#' still presumes modified images have been linearly translated, and will apply
+#' affine transformations (rotations, contractions, dilations). This value
+#' should be used when modified images have been photographed (potentially from
+#' an oblique angle). A value of 2 should only be used when modified maps have
+#' somehow been non-linearly distorted, for example through having been crumpled
+#' or screwed up. Rectification with `non-linear = 2` will likely take
+#' considerably longer than with lower values.
 #'
 #' @examples
 #' f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
@@ -47,9 +57,11 @@
 #' xy_pts <- ms_rectify_maps (f_orig2, f_modified2, type = "points")
 #'
 #' @export
-ms_rectify_maps <- function (map_original, map_modified, type = "polygons",
-                             downsample = 10, quiet = FALSE)
+ms_rectify_maps <- function (map_original, map_modified, non_linear = 1,
+                             type = "polygons", downsample = 10, quiet = FALSE)
 {
+    non_linear <- non_lin_to_scope (non_linear)
+
     type <- match.arg (type, c ("points", "polygons", "hulls"))
     if (type != "polygons" && downsample != 10)
         message ("downsample is only used for polygons")
@@ -70,7 +82,7 @@ ms_rectify_maps <- function (map_original, map_modified, type = "polygons",
         message (cli::rule (left = "mapscanner", line = 2, col = "green"))
         message (cli::symbol$pointer, " rectifying the two maps ", appendLF = FALSE)
     }
-    res <- m_niftyreg (map_scanned, map)
+    res <- m_niftyreg (map_scanned, map, non_linear = non_linear)
     if (!quiet)
     {
         message ("\r", cli::symbol$tick, " rectifying the two maps ")
@@ -89,8 +101,19 @@ ms_rectify_maps <- function (map_original, map_modified, type = "polygons",
     return (res)
 }
 
-m_niftyreg <- memoise::memoise (function (map_scanned, map)
-    RNiftyReg::niftyreg (map_scanned, map))
+# Convert [1,2,3] non_linear param to niftyreg scope values
+non_lin_to_scope <- function (non_linear)
+{
+    if (!(is.numeric (non_linear) & length (non_linear) == 1))
+        stop ("non_linear must be a single integer value")
+    if (!non_linear %in% 0:2)
+        stop ("non_linear must be a value of 0, 1, or 2")
+
+    c ("rigid", "affine", "nonlinear") [non_linear + 1]
+}
+
+m_niftyreg <- memoise::memoise (function (map_scanned, map, non_linear)
+    RNiftyReg::niftyreg (map_scanned, map, scope = non_linear))
 
 
 # extract any non-greyscale components from RNiftyReg output
