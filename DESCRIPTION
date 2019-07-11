@@ -29,7 +29,12 @@ Imports:
     RNiftyReg,
     sf,
     slippymath,
-    tibble
+    tibble,
+    RTriangle,
+    gibble,
+    polyclip,
+    tidyr,
+    unjoin
 Suggests: 
     lwgeom,
     osmdata,
