@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 Print maps, draw on them, scan them back in, and convert to spatial objects.
 Package comes with a sample map of Omaha, Nebraska, USA, and one with some red
 lines drawn on it:
-![](./inst/extdata/omaha-polygons.png)
+![](./man/figures/omaha-polygons.png)
 
 That's just a standard `png` image with no notion of geographical coordinates.
 The original map was generated with
