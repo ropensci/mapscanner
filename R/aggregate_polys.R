@@ -27,12 +27,12 @@
 #' overlapping_polys <- sf::st_buffer (pts, 0.75)
 #'
 #' ## decompose and count space-filling from overlapping polygons
-#' x <- ms_aggregate_poly (overlapping_polys)
+#' x <- ms_aggregate_polys (overlapping_polys)
 #' plot (x)
 #' #library (ggplot2)
 #' #ggplot (x, aes (fill = n)) + geom_sf ()
 #' #ggplot (x) + geom_sf () + facet_wrap (~n)
-ms_aggregate_poly <- function (px, ...)
+ms_aggregate_polys <- function (px, ...)
 {
     # no visible binding notes:
     .data <- feature <- n <- . <- NULL
