@@ -14,7 +14,7 @@ reference:
     - ms_rectify_maps
   - title: Bonus Features
     contents:
-    - ms_aggregate_poly
+        - ms_aggregate_polys
 
 articles:
   - title: The mapscanner package
