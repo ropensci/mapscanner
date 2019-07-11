@@ -26,4 +26,9 @@ overlapping_polys <- sf::st_buffer(pts, 0.75)
 x <- ms_aggregate_poly(overlapping_polys); plot(x)
 #library(ggplot2)
 #ggplot(x) + geom_sf() + facet_wrap(~n)
+
+library(sf)
+set.seed(6)
+pts <- expand.grid(x = 1:8, y = 1:10) \%>\% st_as_sf(coords = c("x", "y"))
+x <- sf::st_buffer (pts, runif(nrow(pts), 0.2, 1.5))
 }
