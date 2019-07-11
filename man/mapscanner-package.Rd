@@ -25,10 +25,5 @@ Authors:
   \item Michael D. Sumner \email{mdsumner@gmail.com}
 }
 
-Other contributors:
-\itemize{
-  \item Stanislaw Adaszewski (author of include concaveman-cpp code) [copyright holder]
-}
-
 }
 \keyword{internal}
