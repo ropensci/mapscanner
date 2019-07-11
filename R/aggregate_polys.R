@@ -149,11 +149,10 @@ n_intersections <-
             dplyr::select(.data$object_, .data$layer, .data$path)
         ## every unique triangle keeps a record of which path, object, layer
         ## (a bit of redundancy until we get a single path/object index or ...)
-        idx <- purrr::map_df(split(triangles, triangles$triangle_idx),
-                             function(piece) {
-                                 ## path joins us to layer + object
-                                 piece %>% dplyr::inner_join(gmap, "path")
-                             })
+            ## path joins us to layer + object
+        idx <- triangles%>% dplyr::inner_join(gmap, "path")
+
+
         ## now build each triangle
         P <- x$primitives$P
         TR <- x$primitives$T
