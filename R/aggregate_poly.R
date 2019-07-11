@@ -21,19 +21,20 @@
 #'
 #' library(sf)
 #' set.seed(6)
-#' pts <- expand.grid(x = 1:8, y = 1:10) %>% st_as_sf(coords = c("x", "y"))
+#' pts <- expand.grid(x = 1:18, y = 1:20) %>% st_as_sf(coords = c("x", "y"))
 #' xsf <- sf::st_buffer (pts, runif(nrow(pts), 0.2, 1.5))
 #' #system.time(out <- ms_aggregate_poly(xsf))
 ms_aggregate_poly <- function(px, ...) {
  tri_map <- triangulate_map_sf(px)
 
- n_types <- max_overlaps(tri_map)
-
+ n_types <- max(lengths(split(tri_map$index$path_, tri_map$index$triangle_idx)))
  ## note that these are now overlapping polygons, with a record of n-pieces,
  ## so we order in increasing n for the plot, and we don't need to build n == 1 from fragments because that's
  ## the union of of the input
- rbind(sf::st_sf(n = 1, geometry = sf::st_union(x)),
-       do.call(rbind, purrr::map(seq_len(n_types)[-1], ~{tri_map %>% n_intersections(.x) %>% sf_df(n = .x)})))
+ rbind(sf::st_sf(n = 1, geometry = sf::st_union(px)),
+       do.call(rbind, lapply(seq_len(n_types)[-1], function(ni) {
+           sf_df( n_intersections(tri_map, ni) , n = ni)
+        })))
 
 }
 
@@ -45,25 +46,22 @@ p_paste <- function (x, paster = function(...) paste(..., sep = "-"))
                                             "path"))])
 }
 
-max_overlaps <- function(x) {
-    x$index %>%
-        dplyr::group_by(.data$triangle_idx) %>%
-        dplyr::mutate(nn = dplyr::n()) %>% dplyr::pull(nn) %>% max()
+
+sf_df <- function(x, n) {
+    sf::st_sf(n = n, geometry = sf::st_union(x)) %>% sf::st_cast("MULTIPOLYGON")
 }
-
-sf_df <- function(x, n) sf::st_sf(n = n, geometry = sf::st_union(x)) %>% sf::st_cast("MULTIPOLYGON")
-
 
 
 # combination of path <- silicate::PATH(sfall); RTri <- pfft::edge_RTriangle(path)
 triangulate_map_sf <- function (x, ...)
 {
-    coord0 <- sf::st_coordinates(x)[,1:2] %>% tibble::as_tibble() %>% dplyr::rename(x_ = .data$X, y_ = .data$Y)
+    coord0 <- stats::setNames(tibble::as_tibble(sf::st_coordinates(x)[,1:2]), c("x_", "y_"))
     udata <- unjoin::unjoin(coord0, .data$x_, .data$y_, key_col = "vertex_")
     udata[["vertex_"]]$row <- seq_len(nrow(udata[["vertex_"]]))
-    gmap <- gibble::gibble(x) %>% dplyr::mutate(path = dplyr::row_number())
-    instances <- udata$data %>%
-        dplyr::mutate(path = as.integer(factor(rep(p_paste(gmap), gmap$nrow))),
+    gmap <- gibble::gibble(x)
+    gmap[["path"]] <- seq_len(nrow(gmap))
+    instances <-
+        dplyr::mutate(udata$data, path = as.integer(factor(rep(p_paste(gmap), gmap$nrow))),
                       object = rep(gmap$object, gmap$nrow), coord = dplyr::row_number())
     object <- tibble::tibble(object_ = seq_len(nrow(x)))
     if (length(unique(instances$path)) == nrow(instances)) {
@@ -72,9 +70,9 @@ triangulate_map_sf <- function (x, ...)
         # instances[".vx0"] <- instances["vertex_"]
         # object$topology_ <- split(instances[c(".vx0")], instances$object)
     }else {
-        segs <- instances %>% dplyr::select(.data$path, .data$coord,
-                                            .data$object) %>% dplyr::mutate(.cx0 = .data$coord,
-                                                                            .cx1 = .data$coord + 1L) %>% dplyr::group_by(.data$path) %>%
+        segs0 <-   dplyr::mutate(instances[c("path", "coord", "object")],
+                                .cx0 = .data$coord, .cx1 = .data$coord + 1L)
+        segs <- dplyr::group_by(segs0, .data$path) %>%
             dplyr::slice(-dplyr::n()) %>% dplyr::ungroup() %>%
             dplyr::transmute(.data$.cx0, .data$.cx1, .data$path,
                              .data$object)
@@ -85,8 +83,8 @@ triangulate_map_sf <- function (x, ...)
 
     }
 
-    ps <- RTriangle::pslg(P = as.matrix(udata[["vertex_"]] %>% dplyr::arrange(vertex_) %>% dplyr::select(.data$x_, .data$y_)),
-                          S = segs %>% dplyr::select(.data$.vx0, .data$.vx1) %>% as.matrix())
+    ps <- RTriangle::pslg(P = as.matrix(dplyr::arrange(udata[["vertex_"]], .data$vertex_)[c("x_", "y_")]),
+                          S = as.matrix(segs[c(".vx0", ".vx1")]))
     RTri <- RTriangle::triangulate(ps)
     ## RTri is output of triangulate_sf
     ## now need map <- pfft::path_triangle_map(path, RTri)
