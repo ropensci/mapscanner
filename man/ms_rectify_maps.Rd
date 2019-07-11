@@ -4,8 +4,8 @@
 \alias{ms_rectify_maps}
 \title{ms_rectify_maps}
 \usage{
-ms_rectify_maps(map_original, map_modified, type = "polygons",
-  downsample = 10, quiet = FALSE)
+ms_rectify_maps(map_original, map_modified, non_linear = 1,
+  type = "polygons", downsample = 10, quiet = FALSE)
 }
 \arguments{
 \item{map_original}{File name of the original map without anything drawn over
@@ -13,6 +13,9 @@ it (either a `.pdf` or `.png`; extension will be ignored).}
 
 \item{map_modified}{File name of the modified version with drawings (either a
 `.pdf` or `.png`; extension will be ignored).}
+
+\item{non_linear}{Integer value of 0, 1, or 2 representing degree of
+non-linearity in modified image - see Note.}
 
 \item{type}{Currently either "points", "polygons", or "hulls", where
 "points" simply reduces each distinct object to a single, central point;
@@ -30,14 +33,21 @@ necessary for very low lower resolution images.}
 }
 \value{
 An \pkg{sf} object representing the drawn additions to map_modified.
+
+The `non-linear` parameter should generally set according to how the modified
+maps were digitised. A value of 0 will give fastest results, and should be
+used for directly scanned or photocopied images. A value of 1 (the default)
+still presumes modified images have been linearly translated, and will apply
+affine transformations (rotations, contractions, dilations). This value
+should be used when modified images have been photographed (potentially from
+an oblique angle). A value of 2 should only be used when modified maps have
+somehow been non-linearly distorted, for example through having been crumpled
+or screwed up. Rectification with `non-linear = 2` will likely take
+considerably longer than with lower values.
 }
 \description{
 Scan in two pdf or png maps, rectify them with `RNiftyReg`, and return the
 modifications in `map_modified` as spatial objects in \pkg{sf} format.
-}
-\note{
-Currently only return a single convex polygon surrounding all elements
-added to `map_modified`.
 }
 \examples{
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")

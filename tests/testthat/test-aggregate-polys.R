@@ -1,4 +1,4 @@
-context("ms_aggregate_poly")
+context("ms_aggregate_polys")
 
 test_that ("aggregate", {
                geometry <- list (sf::st_point (cbind (0, 0)),
@@ -7,7 +7,7 @@ test_that ("aggregate", {
                pts <- sf::st_sf (a = 1:3, geometry = geometry)
                overlapping_polys <- sf::st_buffer (pts, 0.75)
 
-               expect_silent (x <- ms_aggregate_poly (overlapping_polys))
+               expect_silent (x <- ms_aggregate_polys (overlapping_polys))
                expect_is (x, "sf")
                expect_is (x$geometry, "sfc_POLYGON")
                expect_equal (nrow (x), 3)
