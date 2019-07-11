@@ -15,7 +15,7 @@
 #' overlapping_polys <- sf::st_buffer(pts, 0.75)
 #'
 #' ## decompose and count space-filling from overlapping polygons
-#' x <- ms_aggregate_poly(overlapping_polys); plot(x)
+#' x <- ms_aggregate_polys(overlapping_polys); plot(x)
 #' #library(ggplot2)
 #' #ggplot(x) + geom_sf() + facet_wrap(~n)
 #'
@@ -23,18 +23,18 @@
 #' set.seed(6)
 #' pts <- expand.grid(x = 1:18, y = 1:20) %>% st_as_sf(coords = c("x", "y"))
 #' xsf <- sf::st_buffer (pts, runif(nrow(pts), 0.2, 1.5))
-#' #system.time(out <- ms_aggregate_poly(xsf))
-ms_aggregate_poly <- function(px, ...) {
+#' #system.time(out <- ms_aggregate_polys(xsf))
+ms_aggregate_polys <- function(px, ...) {
     tri_map <- triangulate_map_sf(px)
 
     n_types <- max(lengths(split(tri_map$index$path_, tri_map$index$triangle_idx)))
     ## note that these are now overlapping polygons, with a record of n-pieces,
     ## so we order in increasing n for the plot, and we don't need to build n == 1 from fragments because that's
     ## the union of of the input
-    rbind(sf::st_sf(n = 1, geometry = sf::st_union(px)),
+    sf::st_cast(rbind(sf::st_sf(n = 1, geometry = sf::st_union(px)),
           do.call(rbind, lapply(seq_len(n_types)[-1], function(ni) {
               sf_df( n_intersections(tri_map, ni) , n = ni)
-          })))
+          }))), "MULTIPOLYGON")
 
 }
 
@@ -133,7 +133,7 @@ triangulate_map_sf <- function (x, ...)
     gm$path_ <- ex$path_
     list(input = list(x),
          primitives = RTri,
-         geometry_map = gm %>% dplyr::transmute(subobject, object_ = object, ncoords_ = nrow, path = path_, layer = 1),
+         geometry_map = gm %>% dplyr::transmute(.data$subobject, object_ = .data$object, ncoords_ = .data$nrow, path = .data$path_, layer = 1),
          index = tibble::tibble(path_ = as.integer(rep(names(ix), lengths(ix))), triangle_idx = unlist(ix)))
 }
 
