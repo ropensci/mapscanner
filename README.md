@@ -18,7 +18,7 @@ objects. Package comes with a sample map of Omaha, Nebraska, USA, and
 one with some red lines drawn on it:
 ![](./inst/extdata/omaha-polygons.png)
 
-That’s just a standard `jpeg` image with no notion of geographical
+That’s just a standard `png` image with no notion of geographical
 coordinates. The original map was generated with
 
 ``` r
@@ -50,11 +50,14 @@ f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
 system.time (res <- ms_rectify_maps (f_orig, f_mod, type = "polygons"))
 #> ══ mapscanner ═════════════════════════════════════════════════════════════
+#> ❯ rectifying the two maps 
 ✔ rectifying the two maps 
+#> ❯ extracting drawn objects 
 ✔ extracting drawn objects 
+#> ❯ converting to spatial format 
 ✔ converting to spatial format
 #>    user  system elapsed 
-#>  39.281   0.524  11.154
+#>  39.694   0.733  11.764
 res
 #> Simple feature collection with 2 features and 0 fields
 #> geometry type:  POLYGON
@@ -80,4 +83,6 @@ result as an interactive map using packages like
 ![](./man/figures/leaflet-1.png)
 
 And our hand-drawn lines shown above have been converted to standard
-spatial objects able to be analysed in any desired way.
+spatial objects able to be analysed in any desired way. See the [package
+vignette](https://mpadge.github.io/mapscanner/articles/mapscanner.html)
+for more detail of what the `mapscanner` package can do.
