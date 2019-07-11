@@ -18,8 +18,10 @@ Planar partition from disparate polygon inputs. Overlaps aggregate to `n`.
 Input is a single simple features polygon data frame. No attribute data is considered.
 }
 \examples{
-pts <- sf::st_sf(a = 1:3,
-    geometry = sf::st_sfc(list(sf::st_point(cbind(0, 0)), sf::st_point(cbind(0, 1)), sf::st_point(cbind(1, 0)))))
+g <- sf::st_sfc(list(sf::st_point(cbind(0, 0)),
+                                sf::st_point(cbind(0, 1)),
+                                sf::st_point(cbind(1, 0))))
+pts <- sf::st_sf(a = 1:3,  geometry = g)
 overlapping_polys <- sf::st_buffer(pts, 0.75)
 
 ## decompose and count space-filling from overlapping polygons
@@ -30,5 +32,6 @@ x <- ms_aggregate_poly(overlapping_polys); plot(x)
 library(sf)
 set.seed(6)
 pts <- expand.grid(x = 1:8, y = 1:10) \%>\% st_as_sf(coords = c("x", "y"))
-x <- sf::st_buffer (pts, runif(nrow(pts), 0.2, 1.5))
+xsf <- sf::st_buffer (pts, runif(nrow(pts), 0.2, 1.5))
+#system.time(out <- ms_aggregate_poly(xsf))
 }

@@ -6,9 +6,12 @@
 #' @param px input polygons (assumed overlapping poly/mpolys in sf_df)
 #' @param ... unused
 #' @export
+#' @importFrom rlang .data
 #' @examples
-#' pts <- sf::st_sf(a = 1:3,
-#'     geometry = sf::st_sfc(list(sf::st_point(cbind(0, 0)), sf::st_point(cbind(0, 1)), sf::st_point(cbind(1, 0)))))
+#' g <- sf::st_sfc(list(sf::st_point(cbind(0, 0)),
+#'                                 sf::st_point(cbind(0, 1)),
+#'                                 sf::st_point(cbind(1, 0))))
+#' pts <- sf::st_sf(a = 1:3,  geometry = g)
 #' overlapping_polys <- sf::st_buffer(pts, 0.75)
 #'
 #' ## decompose and count space-filling from overlapping polygons
@@ -95,7 +98,7 @@ triangulate_map_sf <- function (x, ...)
     pipmap <- purrr::transpose(ex) %>% purrr::map(~(centroids[,1] >= .x[["xmn"]] & centroids[, 1] <= .x[["xmx"]] &
                                                         centroids[, 2] >= .x[["ymn"]] & centroids[, 2] <= .x[["ymx"]]))
     pipmap <- pipmap[ex$path_]
-    pipmap <- setNames(pipmap, as.character(seq_along(pipmap)))
+    pipmap <- stats::setNames(pipmap, as.character(seq_along(pipmap)))
     len <- purrr::map_int(pipmap, sum)
     lc <- split(coord0, rep(seq_len(nrow(gm)),
                             gm$nrow))
