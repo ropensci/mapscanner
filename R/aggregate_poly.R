@@ -55,11 +55,17 @@ sf_df <- function(x, n) {
 # combination of path <- silicate::PATH(sfall); RTri <- pfft::edge_RTriangle(path)
 triangulate_map_sf <- function (x, ...)
 {
+
+    ## we need all coordinates in order, and their normalized form (unique in x, y)
     coord0 <- stats::setNames(tibble::as_tibble(sf::st_coordinates(x)[,1:2]), c("x_", "y_"))
     udata <- unjoin::unjoin(coord0, .data$x_, .data$y_, key_col = "vertex_")
     udata[["vertex_"]]$row <- seq_len(nrow(udata[["vertex_"]]))
+
+    ## the number of coordinates in paths, in order
     gmap <- gibble::gibble(x)
     gmap[["path"]] <- seq_len(nrow(gmap))
+
+    ## map between coordinates as instances vertices, and object (feature), path
     instances <-
         dplyr::mutate(udata$data, path = as.integer(factor(rep(p_paste(gmap), gmap$nrow))),
                       object = rep(gmap$object, gmap$nrow), coord = dplyr::row_number())
@@ -70,6 +76,7 @@ triangulate_map_sf <- function (x, ...)
         # instances[".vx0"] <- instances["vertex_"]
         # object$topology_ <- split(instances[c(".vx0")], instances$object)
     }else {
+        ## convert to edge-based rather than path-based
         segs0 <-   dplyr::mutate(instances[c("path", "coord", "object")],
                                 .cx0 = .data$coord, .cx1 = .data$coord + 1L)
         segs <- dplyr::group_by(segs0, .data$path) %>%
@@ -83,11 +90,15 @@ triangulate_map_sf <- function (x, ...)
 
     }
 
+    ## build graph and triangulate with edge constraints
     ps <- RTriangle::pslg(P = as.matrix(dplyr::arrange(udata[["vertex_"]], .data$vertex_)[c("x_", "y_")]),
                           S = as.matrix(segs[c(".vx0", ".vx1")]))
     RTri <- RTriangle::triangulate(ps)
-    ## RTri is output of triangulate_sf
+
+
+        ## RTri is output of triangulate_sf
     ## now need map <- pfft::path_triangle_map(path, RTri)
+    ## find mapping between triangle and feature by centroid lookup (we only look in relevant bbox for each feature)
     centroids <- matrix(unlist(lapply(split(RTri[["P"]][t(RTri[["T"]]), ], rep(seq(nrow(RTri$T)), each = 3)), .colMeans, 3, 2)), ncol = 2, byrow = TRUE)
     ex <- purrr::map_dfr(split(instances["coord"], instances$path)[unique(instances$path)],
                          ~coord0[.x$coord, ] %>% dplyr::summarize(xmn = min(x_), xmx = max(x_), ymn = min(y_), ymx = max(y_)))
@@ -97,16 +108,18 @@ triangulate_map_sf <- function (x, ...)
                                                         centroids[, 2] >= .x[["ymn"]] & centroids[, 2] <= .x[["ymx"]]))
     pipmap <- pipmap[ex$path_]
     pipmap <- stats::setNames(pipmap, as.character(seq_along(pipmap)))
+
+    ## n points in each path
     len <- purrr::map_int(pipmap, sum)
+
+    ## coordinates of each path (for coming lookup)
     lc <- split(coord0, rep(seq_len(nrow(gm)),
                             gm$nrow))
     pip <- pipmap
+
+    ## loop over path and only to pip lookup for triangle centroid inside this features's bbox
     for (i in seq_along(pipmap)) {
         if (len[i] > 0) {
-            #print(i)
-            #browser()
-            # pip[[i]] <- abs(polyclip::pointinpolygon(list(x = centroids[, 1], y = centroids[, 2]),
-            #                                                       list(x = lc[[i]][["x_"]], y = lc[[i]][["y_"]]))) > 0L
             pip[[i]][pipmap[[i]]] <- abs(polyclip::pointinpolygon(list(x = centroids[pipmap[[i]], 1], y = centroids[pipmap[[i]], 2]),
                                                                   list(x = lc[[i]][["x_"]], y = lc[[i]][["y_"]]))) > 0L
 
@@ -114,6 +127,8 @@ triangulate_map_sf <- function (x, ...)
         #  pip[[i]][] <- FALSE
         #}
     }
+
+    ## collate indexes and return a) input layers, b) triangles, c) mapping between feature and path and input layer d) triangle index to path
     ix <- lapply(pip, which)
     gm$path_ <- ex$path_
     list(input = list(x),
