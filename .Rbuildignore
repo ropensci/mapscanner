@@ -5,8 +5,13 @@
 ^makefile$
 ^appveyor\.yml$
 ^aaa.Rmd$
+<<<<<<< HEAD
 ^vignettes/makefile$
 ^codemeta\.json$
 ^CODE_OF_CONDUCT\.md$
 ^CONTRIBUTING\.md$
 inst/WORDLIST$
+=======
+^.*\.Rproj$
+^\.Rproj\.user$
+>>>>>>> aggregate-poly-faster

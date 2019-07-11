@@ -30,7 +30,12 @@ Imports:
     sf,
     sfdct,
     slippymath,
-    tibble
+    tibble,
+    RTriangle,
+    gibble,
+    polyclip,
+    tidyr,
+    unjoin
 Suggests: 
     ggplot2,
     knitr,
