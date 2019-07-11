@@ -21,7 +21,7 @@
 #'
 #' library(sf)
 #' set.seed(6)
-#' pts <- expand.grid(x = 1:18, y = 1:20) %>% st_as_sf(coords = c("x", "y"))
+#' pts <- expand.grid(x = 1:8, y = 1:10) %>% st_as_sf(coords = c("x", "y"))
 #' xsf <- sf::st_buffer (pts, runif(nrow(pts), 0.2, 1.5))
 #' #system.time(out <- ms_aggregate_polys(xsf))
 ms_aggregate_polys <- function(px, ...) {
@@ -48,7 +48,7 @@ p_paste <- function (x, paster = function(...) paste(..., sep = "-"))
 
 
 sf_df <- function(x, n) {
-    sf::st_sf(n = n, geometry = sf::st_union(x)) %>% sf::st_cast("MULTIPOLYGON")
+    sf::st_cast(sf::st_sf(n = n, geometry = sf::st_union(x)), "MULTIPOLYGON")
 }
 
 
@@ -153,10 +153,9 @@ n_intersections <-
                              function(piece) {
                                  ## path joins us to layer + object
                                  piece %>% dplyr::inner_join(gmap, "path")
-                             }) %>% dplyr::group_by(.data$triangle_idx) %>% tidyr::nest()
-
+                             })
         ## now build each triangle
         P <- x$primitives$P
         TR <- x$primitives$T
-        sf::st_sf(idx = idx, geometry = sf::st_sfc(purrr::map(idx$triangle_idx, ~sf::st_polygon(list(P[TR[.x, ][c(1, 2, 3, 1)], ])))))
+        sf::st_sf(idx = idx$triangle_idx, geometry = sf::st_sfc(purrr::map(idx$triangle_idx, ~sf::st_polygon(list(P[TR[.x, ][c(1, 2, 3, 1)], ])))))
     }

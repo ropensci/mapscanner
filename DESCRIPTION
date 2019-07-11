@@ -34,7 +34,6 @@ Imports:
     RTriangle,
     gibble,
     polyclip,
-    tidyr,
     unjoin,
     rlang
 Suggests: 
