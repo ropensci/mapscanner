@@ -388,7 +388,7 @@
     }
   ],
   "readme": "https://github.com/mpadge/mapscanner/blob/master/README.md",
-  "fileSize": "8990.279KB",
+  "fileSize": "7187.547KB",
   "contIntegration": [
     "https://travis-ci.org/mpadge/mapscanner",
     "https://ci.appveyor.com/project/mpadge/mapscanner",
