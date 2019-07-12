@@ -235,9 +235,9 @@ function has an additional argument, `type`, which takes the following values:
    objects that are both overly large as well as visually pixillated. The
    function includes an additional `downsample` parameter which down-samples as
    smooths the resultant polygons by the specified multiple.
-2. `type = "hulls"`, which returns convex hulls around distinct sets of
-   contiguously marked lines, regardless of whether those lines form closed
-   polygons or not.
+2. `type = "hulls"`, which returns convex or concave hulls around distinct sets
+   of contiguously marked lines, regardless of whether those lines form closed
+   polygons or not (see function help for details).
 3. `type = "points"`, which returns single points (as geometric centroids) for
    each object. This is useful for identification of individual point locations
    regardless of the kinds of marks actually drawn on a map (dots, circles,
