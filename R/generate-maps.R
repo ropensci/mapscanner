@@ -36,7 +36,7 @@ ms_generate_map <- function (bbox, max_tiles = 16L, mapname = NULL,
         stop ("Please provide a 'mapname' (with optional path) ",
               "for the maps to be generated")
     if (is.null (raster_brick))
-        raster_brick <- get_raster_brick (bbox = bbox, max_tiles = max_tiles)
+        raster_brick <- get_raster_brick (bbox = bbox, max_tiles = max_tiles) # nocov
 
     fname_p <- map_to_pdf (raster_brick, mapname)
     fname_j <- map_to_png (raster_brick, mapname)
@@ -88,9 +88,9 @@ map_to_pdf <- function (my_map, file)
                                    colormodel = "gray",
                                    title = fname, file = file)
         } else {
-            grDevices::pdf (my_map, height = A4L, paper = "a4",
-                                   colormodel = "gray",
-                                   title = fname, file = file)
+            grDevices::pdf (my_map, height = A4L, paper = "a4",     # nocov
+                                   colormodel = "gray",             # nocov
+                                   title = fname, file = file)      # nocov
         }
     })
     raster::plotRGB (my_map)
@@ -112,7 +112,7 @@ map_to_png <- function (my_map, file)
     if (aspect < 1) {
         h <- 480 * 4 * aspect
     } else {
-        w <- 480 * 4 / aspect
+        w <- 480 * 4 / aspect       # nocov
     }
 
     grDevices::png (file = file, width = w, height = h, units = "px")
@@ -130,15 +130,15 @@ convert_bbox <- function (bbox)
 {
     if (is.character (bbox))
     {
-        requireNamespace ("osmdata")
-        bbox <- osmdata::getbb (bbox)
+        requireNamespace ("osmdata")        # nocov
+        bbox <- osmdata::getbb (bbox)       # nocov
     }
 
     if (!is.matrix (bbox))
     {
-        bbox <- matrix (bbox, nrow = 2)
-        if (ncol (bbox) != 2)
+        if (length (bbox) != 4)
             stop ("bbox must have four elements")
+        bbox <- matrix (bbox, nrow = 2)
     }
     return (bbox)
 }
@@ -250,9 +250,9 @@ get_tiles <- function (bbox_pair, max_tiles = 16L)
 is_jpeg <- function (x)
 {
   if (!file.exists (x [1]))
-      return (FALSE)
+      return (FALSE)                                # nocov
   if (file.info (x [1])$size <= 11L)
-      return (FALSE)
+      return (FALSE)                                # nocov
   rawb <- readBin (x[1], "raw", n = 11L)
   all (rawb[1:2] == as.raw (c (0xff, 0xd8))) &&
       rawToChar (rawb [7:11]) == "JFIF"
@@ -262,13 +262,14 @@ is_png <- function (x)
 {
   #"89 50 4e 47 0d 0a 1a 0a"
   if (!file.exists (x[1]))
-      return (FALSE)
+      return (FALSE)                                # nocov
   if (file.info (x [1])$size <= 8L)
-      return (FALSE)
+      return (FALSE)                                # nocov
   rawb <- readBin (x[1], "raw", n = 8L)
   all (rawb == as.raw (c (0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a)))
 }
 
+# nocov start
 is_pdf <- function (x)
 {
   #"25 50 44 46 2d
@@ -279,6 +280,7 @@ is_pdf <- function (x)
   rawb <- readBin (x[1], "raw", n = 5L)
   all (rawb == as.raw (c (0x25, 0x50, 0x44, 0x46, 0x2d)))
 }
+# nocov end
 
 raster_brick <- function (x) {
   out <- NULL

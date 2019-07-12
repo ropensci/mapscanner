@@ -27,8 +27,9 @@ test_that("generate", {
 # remainder are tested here via calls to internal functions
 
 test_that("convert bbox", {
-              bb <- 1:4
-              expect_silent (bbc <- convert_bbox (bb))
+              expect_error (bbc <- convert_bbox (1:5),
+                            "bbox must have four elements")
+              expect_silent (bbc <- convert_bbox (1:4))
               expect_is (bbc, "matrix")
               expect_equal (nrow (bbc), 2)
               expect_equal (ncol (bbc), 2)
