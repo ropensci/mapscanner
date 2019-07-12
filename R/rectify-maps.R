@@ -1,3 +1,4 @@
+
 #' ms_rectify_maps
 #'
 #' Scan in two pdf or png maps, rectify them with `RNiftyReg`, and return the
@@ -91,20 +92,23 @@ ms_rectify_maps <- function (map_original, map_modified, non_linear = 1,
     if (!quiet)
     {
         message (cli::rule (left = "mapscanner", line = 2, col = "green"))
-        message (cli::symbol$pointer, " rectifying the two maps ", appendLF = FALSE)
+        message (cli::symbol$pointer, " rectifying the two maps ",
+                 appendLF = FALSE)
     }
     res <- m_niftyreg (map_scanned, map, non_linear = non_linear)
     if (!quiet)
     {
         message ("\r", cli::symbol$tick, " rectifying the two maps ")
 
-        message (cli::symbol$pointer, " extracting drawn objects ", appendLF = FALSE)
+        message (cli::symbol$pointer, " extracting drawn objects ",
+                 appendLF = FALSE)
     }
     img <- extract_channel (res)
     if (!quiet)
     {
         message ("\r", cli::symbol$tick, " extracting drawn objects ")
-        message (cli::symbol$pointer, " converting to spatial format ", appendLF = FALSE)
+        message (cli::symbol$pointer, " converting to spatial format ",
+                 appendLF = FALSE)
     }
     res <- rectify_channel (img, f_orig, type = type, n = downsample,
                             concavity = concavity,
@@ -113,20 +117,6 @@ ms_rectify_maps <- function (map_original, map_modified, non_linear = 1,
         message ("\r", cli::symbol$tick, " converting to spatial format ")
     return (res)
 }
-
-# Convert [1,2,3] non_linear param to niftyreg scope values
-non_lin_to_scope <- function (non_linear)
-{
-    if (!(is.numeric (non_linear) & length (non_linear) == 1))
-        stop ("non_linear must be a single integer value")
-    if (!non_linear %in% 0:2)
-        stop ("non_linear must be a value of 0, 1, or 2")
-
-    c ("rigid", "affine", "nonlinear") [non_linear + 1]
-}
-
-m_niftyreg <- memoise::memoise (function (map_scanned, map, non_linear)
-    RNiftyReg::niftyreg (map_scanned, map, scope = non_linear))
 
 check_concavity <- function (concavity)
 {
@@ -152,6 +142,19 @@ check_threshold <- function (length_threshold)
     return (length_threshold)
 }
 
+# Convert [1,2,3] non_linear param to niftyreg scope values
+non_lin_to_scope <- function (non_linear)
+{
+    if (!(is.numeric (non_linear) & length (non_linear) == 1))
+        stop ("non_linear must be a single integer value")
+    if (!non_linear %in% 0:2)
+        stop ("non_linear must be a value of 0, 1, or 2")
+
+    c ("rigid", "affine", "nonlinear") [non_linear + 1]
+}
+
+m_niftyreg <- memoise::memoise (function (map_scanned, map, non_linear)
+    RNiftyReg::niftyreg (map_scanned, map, scope = non_linear))
 
 
 # extract any non-greyscale components from RNiftyReg output
@@ -162,8 +165,9 @@ extract_channel <- function (nr)
     img <- round (img * 100) / 100
 
     get1layer <- function (img, i) {
-        res <- img [, , i]
-        ifelse (res < 0.5, 0, 1)    }
+        res <- img [, , i]      # nolint
+        ifelse (res < 0.5, 0, 1)
+    }
     img_r <- get1layer (img, 1)
     img_b <- get1layer (img, 2)
     img_g <- get1layer (img, 3)
@@ -190,8 +194,7 @@ rectify_channel <- function (channel, original, type, n = 10,
 
     if (type == "hulls")
     {
-        if (concavity == 0)
-        {
+        if (concavity == 0) {
             hulls <- polygon_hulls (channel, as_index = FALSE)
         } else # concaveman
         {

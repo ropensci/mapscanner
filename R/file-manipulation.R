@@ -18,7 +18,7 @@ pdf_to_png <- function (file)
     if (!file.exists (file))
         stop ("file ", file, " does not exist")
 
-    bb <- bbox_from_pdf (file, asString = TRUE)
+    bb <- bbox_from_pdf (file, as_string = TRUE)
 
     fout <- paste0 (tools::file_path_sans_ext (file), ".png")
     pdftools::pdf_convert (file, format = "png", filenames = fout)
@@ -26,13 +26,13 @@ pdf_to_png <- function (file)
     magick::image_write (img, path = fout, comment = bb)
 }
 
-bbox_from_pdf <- function (file, asString = FALSE)
+bbox_from_pdf <- function (file, as_string = FALSE)
 {
     file <- paste0 (tools::file_path_sans_ext (file), ".pdf")
     if (!file.exists (file))
         stop ("file ", file, " does not exist")
-    bbox <- pdftools::pdf_info (file)$keys$Title
-    if (!asString)
+    bbox <- pdftools::pdf_info (file)$keys$Title    # nolint
+    if (!as_string)
     {
         bbox <- strsplit (bbox, "\\+") [[1]]
         bbox [1] <- substring (bbox [1], 3, nchar (bbox [1])) # rm "EX"

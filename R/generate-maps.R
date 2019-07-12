@@ -36,7 +36,8 @@ ms_generate_map <- function (bbox, max_tiles = 16L, mapname = NULL,
         stop ("Please provide a 'mapname' (with optional path) ",
               "for the maps to be generated")
     if (is.null (raster_brick))
-        raster_brick <- get_raster_brick (bbox = bbox, max_tiles = max_tiles) # nocov
+        raster_brick <- get_raster_brick (bbox = bbox,
+                                          max_tiles = max_tiles) # nocov
 
     fname_p <- map_to_pdf (raster_brick, mapname)
     fname_j <- map_to_png (raster_brick, mapname)
@@ -64,7 +65,7 @@ get_raster_brick <- function (bbox, max_tiles = 16L)
 
     out <- fast_merge (br)
     raster::projection (out) <- "+proj=merc +a=6378137 +b=6378137"
-    raster::crop (out, tiles$extent , snap = "out")
+    raster::crop (out, tiles$extent, snap = "out")
 }
 # nocov end
 
@@ -75,7 +76,7 @@ map_to_pdf <- function (my_map, file)
     ex <- attributes (raster::extent (my_map))
     aspect <- (ex$ymax - ex$ymin) / (ex$xmax - ex$xmin)
     A4L <- 11.7 # A4 paper is 8.3-by-11.7
-    A4H <- 8.3
+    #A4H <- 8.3
 
     # embed extent as file name
     fname <- paste0 ("EX", ex$xmin, "+", ex$ymin, "+",
@@ -209,7 +210,8 @@ down_loader <- function (x, query_string)
                         if (!fs::dir_exists (cachedir))
                             dir.create (cachedir, recursive = TRUE)
 
-                        zup <- curl::curl_download (url = api_query, outfile)
+                        zup <- curl::curl_download (url = api_query,
+                                                    outfile) # nolint
                     }
                     outfile
                 },
@@ -222,10 +224,7 @@ get_tiles <- function (bbox_pair, max_tiles = 16L)
 
     tile_grid <- slippymath::bbox_to_tile_grid (bbox_pair$tile_bbox,
                                                 max_tiles = max_tiles)
-    zoom <- tile_grid$zoom
-
     type <- "mapbox.light"
-    provider <- "mapbox"
     format <- "jpg"
     #query_string <- mapbox_string(type = type, format = format)
     baseurl <- "https://api.mapbox.com/v4"
@@ -240,8 +239,7 @@ get_tiles <- function (bbox_pair, max_tiles = 16L)
         mess <- paste(files, collapse = "\n")
         stop(sprintf("no sensible tiles found, check cache?\n%s", mess))
     }
-    user_x <- NULL
-    user_ex <- raster::extent(as.vector(bb_points))
+    user_ex <- raster::extent (as.vector (bb_points))
     list (files = files[!bad], tiles = tile_grid, extent = user_ex)
 }
 # nocov end
@@ -318,7 +316,6 @@ mercator_tile_extent <- function (tile_x, tile_y, zoom, tile_size = 256)
   params <- spherical_mercator (provider = "mapbox")
   params <- params [1, ]  ## FIXME: param query should provide a unique set
   MAXEXTENT <- params$MAXEXTENT
-  A <- params$A
   z0_size <- (MAXEXTENT * 2)
   xlim <- -MAXEXTENT + (tile_x + c(0, 1)) * (z0_size / (2 ^ zoom))
   ylim <- range (MAXEXTENT - (tile_y + c (0, 1) - 0) * (z0_size / (2 ^ zoom)))
