@@ -46,6 +46,7 @@ ms_generate_map <- function (bbox, max_tiles = 16L, mapname = NULL,
     invisible (raster_brick)
 }
 
+# nocov start
 get_raster_brick <- function (bbox, max_tiles = 16L)
 {
     bbox <- convert_bbox (bbox)
@@ -65,6 +66,7 @@ get_raster_brick <- function (bbox, max_tiles = 16L)
     raster::projection (out) <- "+proj=merc +a=6378137 +b=6378137"
     raster::crop (out, tiles$extent , snap = "out")
 }
+# nocov end
 
 map_to_pdf <- function (my_map, file)
 {
@@ -189,6 +191,7 @@ url_to_cache <- function (x)
     unlist (lapply (strsplit (base_filepath, "\\?"), "[", 1L))
 }
 
+# nocov start
 down_loader <- function (x, query_string)
 {
     purrr::pmap (x$tiles,
@@ -241,6 +244,7 @@ get_tiles <- function (bbox_pair, max_tiles = 16L)
     user_ex <- raster::extent(as.vector(bb_points))
     list (files = files[!bad], tiles = tile_grid, extent = user_ex)
 }
+# nocov end
 
 
 is_jpeg <- function (x)
@@ -279,14 +283,14 @@ is_pdf <- function (x)
 raster_brick <- function (x) {
   out <- NULL
   if (is_jpeg (x))
-    out <- jpeg::readJPEG (x)
+    out <- jpeg::readJPEG (x) # nocov
   else if (is_png(x))
     out <- png::readPNG (x)
   else
-    stop ("Unrecognised format; must be jpg or png")
+    stop ("Unrecognised format; must be jpg or png") # nocov
 
   if (is.null (out))
-      stop (sprintf ("cannot read %s", x))
+      stop (sprintf ("cannot read %s", x)) # nocov
   out <- out * 255
   mode (out) <- "integer"
   ## in case it's greyscale ...
@@ -306,6 +310,7 @@ spherical_mercator <- function (provider = "mapbox")
         dplyr::filter (provider == provider)
 }
 
+# nocov start
 mercator_tile_extent <- function (tile_x, tile_y, zoom, tile_size = 256)
 {
   params <- spherical_mercator (provider = "mapbox")
@@ -336,3 +341,4 @@ fast_merge <- function (x)
   vals <- do.call (rbind, purrr::map (x, ~raster::values (raster_readAll (.x))))
   raster::setValues (raster::brick (out, out, out), vals [order (cells), ])
 }
+# nocov end
