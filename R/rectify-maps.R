@@ -12,13 +12,19 @@
 #' @param type Currently either "points", "polygons", or "hulls", where
 #' "points" simply reduces each distinct object to a single, central point;
 #' "polygons" identifies individual groups and returns the polygon representing
-#' the outer boundary of each; and "hulls" constructs convex polygons around
-#' each group.
-#' @param downsample Factor by which to downsample polygons, noting that
-#' polygons initially include every outer pixel of image, so can generally be
-#' downsampled by at least an order or magnitude (`n = 10`). Higher values may
-#' be used for higher-resolution images; lower values will generally only be
+#' the outer boundary of each; and "hulls" constructs convex or concave polygons
+#' around each group.
+#' @param downsample Factor by which to downsample `type = "polygons"`, noting
+#' that polygons initially include every outer pixel of image, so can generally
+#' be downsampled by at least an order or magnitude (`n = 10`). Higher values
+#' may be used for higher-resolution images; lower values will generally only be
 #' necessary for very low lower resolution images.
+#' @param concavity For `type = "hulls"`, a value between 0 and 1, with 0 giving
+#' convex hulls and 1 giving highly concave hulls.
+#' @param length_threshold For `type = "hulls"`, the minimal length of a segment
+#' to be made more convex. Low values will produce highly detailed hulls which
+#' may cause problems; if in doubt, or if odd results appear, increase this
+#' value.
 #' @param quiet If `FALSE`, display progress information on screen
 #' @return An \pkg{sf} object representing the drawn additions to map_modified.
 #'
@@ -58,13 +64,18 @@
 #'
 #' @export
 ms_rectify_maps <- function (map_original, map_modified, non_linear = 1,
-                             type = "polygons", downsample = 10, quiet = FALSE)
+                             type = "polygons", downsample = 10,
+                             concavity = 0, length_threshold = 10,
+                             quiet = FALSE)
 {
     non_linear <- non_lin_to_scope (non_linear)
 
     type <- match.arg (type, c ("points", "polygons", "hulls"))
     if (type != "polygons" && downsample != 10)
         message ("downsample is only used for polygons")
+
+    concavity <- check_concavity (concavity)
+    length_threshold <- check_threshold (length_threshold)
 
     map_original <- get_map_png (map_original)
     map_modified <- get_map_png (map_modified)
@@ -95,7 +106,9 @@ ms_rectify_maps <- function (map_original, map_modified, non_linear = 1,
         message ("\r", cli::symbol$tick, " extracting drawn objects ")
         message (cli::symbol$pointer, " converting to spatial format ", appendLF = FALSE)
     }
-    res <- rectify_channel (img, f_orig, type = type, n = downsample)
+    res <- rectify_channel (img, f_orig, type = type, n = downsample,
+                            concavity = concavity,
+                            length_threshold = length_threshold)
     if (!quiet)
         message ("\r", cli::symbol$tick, " converting to spatial format ")
     return (res)
@@ -114,6 +127,31 @@ non_lin_to_scope <- function (non_linear)
 
 m_niftyreg <- memoise::memoise (function (map_scanned, map, non_linear)
     RNiftyReg::niftyreg (map_scanned, map, scope = non_linear))
+
+check_concavity <- function (concavity)
+{
+    if (!(is.numeric (concavity) | length (concavity) > 1))
+        stop ("concavity must be numeric")
+    if (concavity < 0 | concavity > 1)
+    {
+        message ("concavity must be between 0 and 1; setting to default of 0")
+        concavity <- 0
+    }
+    return (concavity)
+}
+
+check_threshold <- function (length_threshold)
+{
+    if (!(is.numeric (length_threshold) | length (length_threshold) > 1))
+        stop ("concavity must be numeric")
+    if (length_threshold < 1)
+    {
+        message ("length_threshold must be >= 1")
+        length_threshold <- 10
+    }
+    return (length_threshold)
+}
+
 
 
 # extract any non-greyscale components from RNiftyReg output
@@ -142,7 +180,8 @@ extract_channel <- function (nr)
 }
 
 # origin is the raster image, channel is result of extract_channel
-rectify_channel <- function (channel, original, type, n = 10)
+rectify_channel <- function (channel, original, type, n = 10,
+                             concavity, length_threshold)
 {
     crs_from <- "+proj=merc +a=6378137 +b=6378137"
     crs_to <- 4326
@@ -151,7 +190,23 @@ rectify_channel <- function (channel, original, type, n = 10)
 
     if (type == "hulls")
     {
-        hulls <- polygon_hulls (channel)
+        if (concavity == 0)
+        {
+            hulls <- polygon_hulls (channel, as_index = FALSE)
+        } else # concaveman
+        {
+            hulls <- polygon_hulls (channel, as_index = TRUE)
+            # values -> 0 translate to large concaveman values;
+            # values -> 1 translate to concaveman values of 1
+            concavity <- max (concavity, 1e-6)
+            concavity <- 1 / concavity
+            hulls <- lapply (hulls, function (i) {
+                                 res <- rcpp_concaveman (i$xy, i$index - 1,
+                                                         concavity,
+                                                         length_threshold)
+                                 rbind (res, res [1, ])
+                    })
+        }
         # Only need to flip the y-axis here:
         hulls <- lapply (hulls, function (i) {
                              i$y <- nrow (channel) - i$y
@@ -246,7 +301,7 @@ smooth_polygon <- function (xy, n = 10)
     data.frame (x = x, y = y)
 }
 
-polygon_hulls <- function (img)
+polygon_hulls <- function (img, as_index = FALSE)
 {
     img <- matrix (as.logical (img), nrow = nrow (img))
     cmat <- rcpp_components (img)
@@ -264,7 +319,10 @@ polygon_hulls <- function (img)
         index <- which (cmat == ci)
         xy <- data.frame (x = x [index], y = y [index])
         index <- grDevices::chull (xy)
-        hulls [[length (hulls) + 1]] <- xy [c (index, index [1]), ]
+        if (as_index)
+            hulls [[length (hulls) + 1]] <- list (xy = xy, index = index)
+        else
+            hulls [[length (hulls) + 1]] <- xy [c (index, index [1]), ]
     }
     return (hulls)
 }

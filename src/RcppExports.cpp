@@ -27,6 +27,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_concaveman
+Rcpp::DataFrame rcpp_concaveman(Rcpp::DataFrame xy, Rcpp::IntegerVector hull_in, const double concavity, const double lengthThreshold);
+RcppExport SEXP _mapscanner_rcpp_concaveman(SEXP xySEXP, SEXP hull_inSEXP, SEXP concavitySEXP, SEXP lengthThresholdSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type xy(xySEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type hull_in(hull_inSEXP);
+    Rcpp::traits::input_parameter< const double >::type concavity(concavitySEXP);
+    Rcpp::traits::input_parameter< const double >::type lengthThreshold(lengthThresholdSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_concaveman(xy, hull_in, concavity, lengthThreshold));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_edge_thin
 int rcpp_edge_thin(Rcpp::LogicalMatrix image);
 RcppExport SEXP _mapscanner_rcpp_edge_thin(SEXP imageSEXP) {
@@ -42,6 +56,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_mapscanner_rcpp_boundary", (DL_FUNC) &_mapscanner_rcpp_boundary, 1},
     {"_mapscanner_rcpp_components", (DL_FUNC) &_mapscanner_rcpp_components, 1},
+    {"_mapscanner_rcpp_concaveman", (DL_FUNC) &_mapscanner_rcpp_concaveman, 4},
     {"_mapscanner_rcpp_edge_thin", (DL_FUNC) &_mapscanner_rcpp_edge_thin, 1},
     {NULL, NULL, 0}
 };

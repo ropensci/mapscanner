@@ -5,7 +5,8 @@
 \title{ms_rectify_maps}
 \usage{
 ms_rectify_maps(map_original, map_modified, non_linear = 1,
-  type = "polygons", downsample = 10, quiet = FALSE)
+  type = "polygons", downsample = 10, concavity = 0,
+  length_threshold = 10, quiet = FALSE)
 }
 \arguments{
 \item{map_original}{File name of the original map without anything drawn over
@@ -20,14 +21,22 @@ non-linearity in modified image - see Note.}
 \item{type}{Currently either "points", "polygons", or "hulls", where
 "points" simply reduces each distinct object to a single, central point;
 "polygons" identifies individual groups and returns the polygon representing
-the outer boundary of each; and "hulls" constructs convex polygons around
-each group.}
+the outer boundary of each; and "hulls" constructs convex or concave polygons
+around each group.}
 
-\item{downsample}{Factor by which to downsample polygons, noting that
-polygons initially include every outer pixel of image, so can generally be
-downsampled by at least an order or magnitude (`n = 10`). Higher values may
-be used for higher-resolution images; lower values will generally only be
+\item{downsample}{Factor by which to downsample `type = "polygons"`, noting
+that polygons initially include every outer pixel of image, so can generally
+be downsampled by at least an order or magnitude (`n = 10`). Higher values
+may be used for higher-resolution images; lower values will generally only be
 necessary for very low lower resolution images.}
+
+\item{concavity}{For `type = "hulls"`, a value between 0 and 1, with 0 giving
+convex hulls and 1 giving highly concave hulls.}
+
+\item{length_threshold}{For `type = "hulls"`, the minimal length of a segment
+to be made more convex. Low values will produce highly detailed hulls which
+may cause problems; if in doubt, or if odd results appear, increase this
+value.}
 
 \item{quiet}{If `FALSE`, display progress information on screen}
 }

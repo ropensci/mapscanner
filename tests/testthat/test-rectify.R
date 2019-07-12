@@ -15,6 +15,7 @@ test_that ("errors", {
               expect_error (ms_rectify_maps (f_orig, f_modified,
                                              non_linear = 4),
                             "non_linear must be a value of 0, 1, or 2")
+
 })
 
 test_that("rectify", {
@@ -38,6 +39,7 @@ test_that("rectify", {
                   magick::image_resize ("25%") %>%
                   magick::image_write (f_modified2)
 
+              # ------- polygons
               expect_silent (res_p <- ms_rectify_maps (f_orig2, f_modified2,
                                                        type = "polygons",
                                                        quiet = TRUE))
@@ -47,6 +49,14 @@ test_that("rectify", {
                                                        type = "polygons"))
               expect_identical (res_p, res_p2)
 
+              # ------- points
+              expect_silent (res_1 <- ms_rectify_maps (f_orig2, f_modified2,
+                                                       type = "points",
+                                                       quiet = TRUE))
+              expect_is (res_1, "sf")
+              expect_is (res_1$geometry, "sfc_POINT")
+
+              # ------- hulls
               expect_message (res_h <- ms_rectify_maps (f_orig2, f_modified2,
                                                         downsample = 11,
                                                         type = "hulls",
@@ -56,9 +66,18 @@ test_that("rectify", {
               expect_is (res_h$geometry, "sfc_POLYGON")
               expect_true (all (sf::st_area (res_h) > sf::st_area (res_p)))
 
-              expect_silent (res_1 <- ms_rectify_maps (f_orig2, f_modified2,
-                                                       type = "points",
-                                                       quiet = TRUE))
-              expect_is (res_1, "sf")
-              expect_is (res_1$geometry, "sfc_POINT")
+              expect_message (res_h2 <- ms_rectify_maps (f_orig2, f_modified2,
+                                                         concavity = 2,
+                                                         type = "hulls",
+                                                         quiet = TRUE),
+                              paste0 ("concavity must be between 0 and 1; ",
+                                      "setting to default of 0"))
+              expect_identical (res_h, res_h2)
+              expect_silent (res_h2 <- ms_rectify_maps (f_orig2, f_modified2,
+                                                        concavity = 1,
+                                                        type = "hulls",
+                                                        quiet = TRUE))
+              a1 <- sf::st_area (res_h)
+              a2 <- sf::st_area (res_h2)
+              expect_true (all (a2 < a1))
 })
