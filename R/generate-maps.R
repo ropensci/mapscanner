@@ -36,8 +36,8 @@ ms_generate_map <- function (bbox, max_tiles = 16L, mapname = NULL,
         stop ("Please provide a 'mapname' (with optional path) ",
               "for the maps to be generated")
     if (is.null (raster_brick))
-        raster_brick <- get_raster_brick (bbox = bbox,
-                                          max_tiles = max_tiles) # nocov
+        raster_brick <- get_raster_brick (bbox = bbox,              # nocov
+                                          max_tiles = max_tiles)    # nocov
 
     fname_p <- map_to_pdf (raster_brick, mapname)
     fname_j <- map_to_png (raster_brick, mapname)

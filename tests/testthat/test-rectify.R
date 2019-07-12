@@ -66,12 +66,23 @@ test_that("rectify", {
               expect_is (res_h$geometry, "sfc_POLYGON")
               expect_true (all (sf::st_area (res_h) > sf::st_area (res_p)))
 
+              expect_error (ms_rectify_maps (f_orig2, f_modified2,
+                                             concavity = "a",
+                                             type = "hulls",
+                                             quiet = TRUE),
+                              "concavity must be numeric")
               expect_message (res_h2 <- ms_rectify_maps (f_orig2, f_modified2,
                                                          concavity = 2,
                                                          type = "hulls",
                                                          quiet = TRUE),
                               paste0 ("concavity must be between 0 and 1; ",
                                       "setting to default of 0"))
+              expect_identical (res_h, res_h2)
+              expect_message (res_h2 <- ms_rectify_maps (f_orig2, f_modified2,
+                                                         length_threshold = 0,
+                                                         type = "hulls",
+                                                         quiet = TRUE),
+                              "length_threshold must be >= 1")
               expect_identical (res_h, res_h2)
               expect_silent (res_h2 <- ms_rectify_maps (f_orig2, f_modified2,
                                                         concavity = 1,

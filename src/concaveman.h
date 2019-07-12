@@ -191,12 +191,12 @@ public:
     m_is_leaf(true), m_data(data), m_bounds(bounds) {
         for (auto i = 0; i < DIM; i++)
             if (bounds[i] > bounds[i + DIM])
-                throw std::runtime_error("Bounds minima have to be less than maxima");
+                Rcpp::stop("Bounds minima have to be less than maxima"); // # nocov
     }
 
     void insert(data_type data, const bounds_type &bounds) {
         if (m_is_leaf)
-          throw std::runtime_error("Cannot insert into leaves");
+            Rcpp::stop("Cannot insert into leaves"); // # nocov
 
         m_bounds = updated_bounds(bounds);
         if (m_children.size() < MAX_CHILDREN) {
@@ -257,7 +257,7 @@ public:
 
     void erase(data_type data, const bounds_type &bounds) {
         if (m_is_leaf)
-            throw std::runtime_error("Cannot erase from leaves");
+            Rcpp::stop ("Cannot erase from leaves"); // # nocov
 
         if (!intersects(bounds))
             return;
@@ -442,7 +442,7 @@ public:
         auto elem = new CircularElement<T>(std::forward<Args>(args)...);
 
         if (prev == nullptr && m_last != nullptr)
-            throw std::runtime_error("Once the list is non-empty you must specify where to insert");
+            Rcpp::stop ("Once the list is non-empty you must specify where to insert"); // # nocov
 
         if (prev == nullptr) {
             elem->m_prev = elem->m_next = elem;
@@ -488,9 +488,9 @@ template<class T, int MAX_CHILDREN> std::vector<std::array<T, 2>> concaveman(
 
 
     if (hull.size() == points.size()) {
-        std::vector<point_type> res;
-        for (auto &i : hull) res.push_back(points[i]);
-        return res;
+        std::vector<point_type> res;                        // # nocov
+        for (auto &i : hull) res.push_back(points[i]);      // # nocov
+        return res;                                         // # nocov
     }
 
     rtree<T, 2, MAX_CHILDREN, point_type> tree;
@@ -628,13 +628,13 @@ template<class T, int MAX_CHILDREN> std::array<T, 2> findCandidate(
         }
 
         if (queue.empty())
-            break;
+            break;                  // # nocov
 
         node = std::get<1>(queue.top());
         queue.pop();
     }
 
-    return point_type();
+    return point_type();            // # nocov
 }
 
 
@@ -703,7 +703,7 @@ template<class T, int MAX_CHILDREN> bool noIntersections(
         auto elem = ch.data();
 
         if (intersects(elem->data().p, elem->next()->data().p, a, b))
-            return false;
+            return false;               // # nocov
     }
 
     return true;
