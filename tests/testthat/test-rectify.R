@@ -15,6 +15,9 @@ test_that ("errors", {
               expect_error (ms_rectify_maps (f_orig, f_modified,
                                              non_linear = 4),
                             "non_linear must be a value of 0, 1, or 2")
+              expect_error (ms_rectify_maps (f_orig, f_modified,
+                                             length_threshold = "a"),
+                            "length_threshold must be numeric")
 
 })
 

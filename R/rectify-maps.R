@@ -133,7 +133,7 @@ check_concavity <- function (concavity)
 check_threshold <- function (length_threshold)
 {
     if (!(is.numeric (length_threshold) | length (length_threshold) > 1))
-        stop ("concavity must be numeric")
+        stop ("length_threshold must be numeric")
     if (length_threshold < 1)
     {
         message ("length_threshold must be >= 1")
