@@ -21,7 +21,7 @@
 #'
 #' library(sf)
 #' set.seed(6)
-#' pts <- expand.grid(x = 1:18, y = 1:20) %>% st_as_sf(coords = c("x", "y"))
+#' pts <- expand.grid(x = 1:8, y = 1:10) %>% st_as_sf(coords = c("x", "y"))
 #' xsf <- sf::st_buffer (pts, runif(nrow(pts), 0.2, 1.5))
 #' #system.time(out <- ms_aggregate_polys(xsf))
 ms_aggregate_polys <- function (px, ...) {
@@ -181,19 +181,12 @@ n_intersections <-
             dplyr::select (.data$object_, .data$layer, .data$path)
         ## every unique triangle keeps a record of which path, object, layer
         ## (a bit of redundancy until we get a single path/object index or ...)
-        idx <- purrr::map_df (split (triangles, triangles$triangle_idx),
-                             function (piece) {
-                                 ## path joins us to layer + object
-                                 piece %>% dplyr::inner_join (gmap, "path")
-                             }
-                             ) %>%
-            dplyr::group_by (.data$triangle_idx) %>%
-            tidyr::nest ()
+            ## path joins us to layer + object
+        idx <- triangles%>% dplyr::inner_join(gmap, "path")
+
 
         ## now build each triangle
-        P <- x$primitives$P     # nolint
-        TR <- x$primitives$T    # nolint
-        sf::st_sf (idx = idx,
-                   geometry = sf::st_sfc (purrr::map (idx$triangle_idx,
-                  ~sf::st_polygon (list (P [TR [.x, ] [c (1, 2, 3, 1)], ])))))
+        P <- x$primitives$P
+        TR <- x$primitives$T
+        sf::st_sf(idx = idx$triangle_idx, geometry = sf::st_sfc(purrr::map(idx$triangle_idx, ~sf::st_polygon(list(P[TR[.x, ][c(1, 2, 3, 1)], ])))))
     }

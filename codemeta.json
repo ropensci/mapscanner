@@ -420,18 +420,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "tidyr",
-      "name": "tidyr",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=tidyr"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "unjoin",
       "name": "unjoin",
       "provider": {
@@ -460,7 +448,7 @@
     }
   ],
   "readme": "https://github.com/mpadge/mapscanner/blob/master/README.md",
-  "fileSize": "3617.27KB",
+  "fileSize": "2936.361KB",
   "contIntegration": [
     "https://travis-ci.org/mpadge/mapscanner",
     "https://ci.appveyor.com/project/mpadge/mapscanner",
