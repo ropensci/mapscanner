@@ -179,9 +179,9 @@ rectify the hand-drawn markings against the original map with the
 function, which returns the drawn-on objects as spatial objects in [Simple
 Features (`sf`)](https://cran.r-project.org/package=sf) format. The only
 requirement is that the drawn-on objects are coloured; black or grey objects
-will not be recognised. As described above, this has the advantage that maps
-may be annotated in ways not intended to be converted to spatial objects (such
-as adding unique identification or participant codes), through simply providing
+will be ignored. As described above, this has the advantage that maps may be
+annotated in ways not intended to be converted to spatial objects (such as
+adding unique identification or participant codes), through simply providing
 such annotations in grey or black.
 
 The
@@ -231,10 +231,10 @@ function has an additional argument, `type`, which takes the following values:
 
 1. `type = "polygons"` (the default), which returns the outlines traced around
    each individual drawn object. This tracing is pixel-based, resulting in
-   polygons with one point for each scanned pixel which may generate spatial
-   objects that are both overly large as well as visually pixillated. The
-   function includes an additional `downsample` parameter which down-samples as
-   smooths the resultant polygons by the specified multiple.
+   polygons with one spatial point for each scanned pixel. This may generate
+   spatial objects that are both overly large as well as visually pixillated.
+   The function includes an additional `downsample` parameter which
+   down-samples as smooths the resultant polygons by the specified multiple.
 2. `type = "hulls"`, which returns convex or concave hulls around distinct sets
    of contiguously marked lines, regardless of whether those lines form closed
    polygons or not (see function help for details).
@@ -246,9 +246,14 @@ function has an additional argument, `type`, which takes the following values:
 The default type of `polygons` assumes -- and indeed requires -- that the drawn
 objects are *closed* polygons (as illustrated in the first of the above
 figures), so care must be taken to ensure this is in fact the case. Any lines
-that do not form closed circles will not be appropriately translated.
+that do not form closed circles will not be appropriately translated. The `type
+= "hulls"` parameter should be used in all other cases where areal rather than
+point-based results are desired, and in which lines may or do not necessarily
+form single closed polygons. Examples include participants being asked to
+colour particular areas using any desired kind of marks, enabling areal-filling
+scribbles can be converted to polygons representing the outer boundaries.
 
-The other `type` values are illustrated in the following maps:
+The `"polygon"` and `"point"` types are illustrated in the following maps:
 ```{r type-hulls}
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
@@ -303,9 +308,9 @@ a single "heat map" containing vector outlines of aggregated polygons. Each
 component of these aggregated polygons defines the region within which `n`
 polygons overlap.
 
-The following is a slightly more complicated version of the example provided
-for `ms_aggregate_polys()`, starting by generating a series of polygons as
-convex hulls surrounding random points.
+The function is now illustrated with a slightly more complicated version of the
+example provided for `ms_aggregate_polys()`, starting by generating a series of
+polygons as convex hulls surrounding random points.
 ```{r random-polys-fakey, eval = FALSE}
 n <- 5 # number of polygons
 polys <- lapply (seq (n), function (i) {
@@ -315,6 +320,13 @@ polys <- lapply (seq (n), function (i) {
                      sf::st_polygon (list (xy [c (h, h [1]), ]))
             })
 polys <- sf::st_sf (n = seq (n), geometry = polys)
+```
+The `polys` object is then a Simple Features
+([`sf`](https://cran.r-project.org/package=sf))
+`data.frame` with `n` overlapping polygons, and an additional row, `n`, to
+identify each polygon. The following lines then convert these to aggregated,
+overlapping polygons, and plot the result:
+```{r random-polys-fakey2, eval = FALSE}
 aggr <- ms_aggregate_polys (polys)
 polys$type <- "raw polygons"
 aggr$type <- "aggregated polygons"
@@ -376,17 +388,17 @@ for those interested in how the process actually works.) `mapscanner` primarily
 relies on the [`RNiftyReg` package](https://github.com/jonclayden/RNiftyReg) to
 rectify the images. This package is itself primarily aimed at rectifying
 medical scans, but also happens to be the perfect tool for the present
-purposes. Being an image recognition software, the library requires image
-objects, and so not `pdf` files, which is why the
+purposes. Being an image analysis software, the library requires image
+objects, and not `pdf` files, which is why the
 [`ms_generate_map()`](https://mpadge.github.io/mapscanner/reference/ms_generate_map.html)
 function produces both kinds of files - the `.pdf` for printing and the `.png`
 for rectifying with the `RNiftyReg` package.
 
 Rectification re-projects a scanned image back on to the coordinate system of
 an original image. This coordinate system translates here in to a defined
-bounding box (which will generally differ slightly from the values input into
-the function, due to the cutting and stitching of the vector tiles). This
-bounding box is embedded as meta-information in both the files produced by
+bounding box (which may differ slightly from the values input into the
+function, due to the cutting and stitching of the vector tiles). This bounding
+box is embedded as meta-information in both the files produced by
 [`ms_generate_map()`](https://mpadge.github.io/mapscanner/reference/ms_generate_map.html);
 in the `.pdf` as standard meta information accessible in **R** like this:
 
