@@ -14,15 +14,32 @@ Concept](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repo
 <!-- badges: end -->
 
 Print maps, draw on them, scan them back in, and convert to spatial
-objects. Package comes with a sample map of Omaha, Nebraska, USA, and
-one with some red lines drawn on it:
-![](./man/figures/omaha-polygons.png)
+objects.
+
+## installation
+
+`mapscanner` is not (yet) on CRAN. The development version can be
+installed with
+
+``` r
+remote::install_github("mpadge/mapscanner")
+```
+
+The package can then be loaded for usage in a R session with
+
+``` r
+library (mapscanner)
+```
+
+## usage
+
+Package comes with a sample map of Omaha, Nebraska, USA, and one with
+some red lines drawn on it: ![](./man/figures/omaha-polygons.png)
 
 That’s just a standard `png` image with no notion of geographical
 coordinates. The original map was generated with
 
 ``` r
-library (mapscanner)
 bbox <- rbind (c (-96.12923, -96.01011),
                c (41.26145, 41.32220)) # portion of omaha
 ms_generate_map (bbox, max_tiles = 16L, mapname = "omaha")
@@ -54,7 +71,7 @@ system.time (res <- ms_rectify_maps (f_orig, f_mod, type = "polygons"))
 ✔ extracting drawn objects 
 ✔ converting to spatial format
 #>    user  system elapsed 
-#>  37.986   0.652  11.223
+#>  38.749   0.669  13.147
 res
 #> Simple feature collection with 2 features and 0 fields
 #> geometry type:  POLYGON
