@@ -188,5 +188,7 @@ n_intersections <-
         ## now build each triangle
         P <- x$primitives$P
         TR <- x$primitives$T
-        sf::st_sf(idx = idx$triangle_idx, geometry = sf::st_sfc(purrr::map(idx$triangle_idx, ~sf::st_polygon(list(P[TR[.x, ][c(1, 2, 3, 1)], ])))))
+        sf::st_sf(idx = idx$triangle_idx,
+                  geometry = sf::st_sfc(purrr::map(idx$triangle_idx,
+                    ~sf::st_polygon(list(P[TR[.x, ][c(1, 2, 3, 1)], ])))))
     }

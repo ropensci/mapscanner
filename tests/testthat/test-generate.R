@@ -13,7 +13,8 @@ test_that("generate", {
               #saveRDS (x, "tests/x.Rds")
               expect_silent (x <- readRDS ("../x.Rds"))
               expect_error (x <- ms_generate_map (raster_brick = x),
-                            "Please provide a 'mapname' \\(with optional path\\)")
+                            paste0 ("Please provide a 'mapname' ",
+                                    "\\(with optional path\\)"))
               mapname <- file.path (tempdir (), "map")
               expect_message (x2 <- ms_generate_map (mapname = mapname,
                                                      raster_brick = x),
@@ -23,7 +24,7 @@ test_that("generate", {
 
 # ------ internal functions -----
 
-# non-idea, but the actual tile extraction can't be efficiently tested, so the
+# non-ideal, but the actual tile extraction can't be efficiently tested, so the
 # remainder are tested here via calls to internal functions
 
 test_that("convert bbox", {
