@@ -5,7 +5,7 @@
 \title{ms_generate_map}
 \usage{
 ms_generate_map(bbox, max_tiles = 16L, mapname = NULL,
-  raster_brick = NULL)
+  style = "streets", raster_brick = NULL)
 }
 \arguments{
 \item{bbox}{Either a string specifying the location, or a numeric bounding
@@ -16,6 +16,10 @@ columns of (min, max) and rows of (x, y), respectively.}
 
 \item{mapname}{Name of map to be produced, optionally including full path.
 Extension will be ignored.}
+
+\item{style}{The style of the map to be generated; one of 'light', 'streets',
+or 'outdoors', rendered in black and white. See
+\url{https://docs.mapbox.com/api/maps/#styles} for examples.}
 
 \item{raster_brick}{Instead of automatically downloading tiles within a given
 `bbox`, a pre-downloaded `raster::rasterBrick` object may be submitted and

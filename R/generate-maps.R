@@ -12,6 +12,9 @@
 #' @param max_tiles Maximum number of tiles to use to create map
 #' @param mapname Name of map to be produced, optionally including full path.
 #' Extension will be ignored.
+#' @param style The style of the map to be generated; one of 'light', 'streets',
+#' or 'outdoors', rendered in black and white. See
+#' \url{https://docs.mapbox.com/api/maps/#styles} for examples.
 #' @param raster_brick Instead of automatically downloading tiles within a given
 #' `bbox`, a pre-downloaded `raster::rasterBrick` object may be submitted and
 #' used to generate the `.pdf` and `.png` equivalents.
@@ -30,14 +33,18 @@
 #'
 #' @export
 ms_generate_map <- function (bbox, max_tiles = 16L, mapname = NULL,
-                             raster_brick = NULL)
+                             style = "streets", raster_brick = NULL)
 {
     if (is.null (mapname))
         stop ("Please provide a 'mapname' (with optional path) ",
               "for the maps to be generated")
+
+    style <- match.arg (tolower (style), c ("light", "streets", "outdoors"))
+
     if (is.null (raster_brick))
         raster_brick <- get_raster_brick (bbox = bbox,              # nocov
-                                          max_tiles = max_tiles)    # nocov
+                                          max_tiles = max_tiles,    # nocov
+                                          style = style)            # nocov
 
     fname_p <- map_to_pdf (raster_brick, mapname)
     fname_j <- map_to_png (raster_brick, mapname)
@@ -48,11 +55,11 @@ ms_generate_map <- function (bbox, max_tiles = 16L, mapname = NULL,
 }
 
 # nocov start
-get_raster_brick <- function (bbox, max_tiles = 16L)
+get_raster_brick <- function (bbox, max_tiles = 16L, style)
 {
     bbox <- convert_bbox (bbox)
     bbox_pair <- slippy_bbox (bbox)
-    tiles <- get_tiles (bbox_pair, max_tiles = max_tiles)
+    tiles <- get_tiles (bbox_pair, max_tiles = max_tiles, style = style)
     tgrid <- tiles$tiles
     br <- lapply (tiles$files, raster_brick)
 
@@ -65,7 +72,13 @@ get_raster_brick <- function (bbox, max_tiles = 16L)
 
     out <- fast_merge (br)
     raster::projection (out) <- "+proj=merc +a=6378137 +b=6378137"
-    raster::crop (out, tiles$extent, snap = "out")
+    out <- raster::crop (out, tiles$extent, snap = "out")
+    if (!style == "light") # then convert to black & white
+    {
+        out_avg <- raster::stackApply (out, c (1, 1, 1), fun = mean)
+        out <- raster::brick (out_avg, out_avg, out_avg)
+    }
+    return (out)
 }
 # nocov end
 
@@ -218,19 +231,19 @@ down_loader <- function (x, query_string)
                 zoom = x$zoom)
 }
 
-get_tiles <- function (bbox_pair, max_tiles = 16L)
+get_tiles <- function (bbox_pair, max_tiles = 16L, style)
 {
     bb_points <- bbox_pair$user_points
 
     tile_grid <- slippymath::bbox_to_tile_grid (bbox_pair$tile_bbox,
                                                 max_tiles = max_tiles)
-    type <- "mapbox.light"
+    styles <- c ("mapbox.light", "mapbox.streets", "mapbox.outdoors")
+    style <- styles [grep (style, styles)]
     format <- "jpg"
-    #query_string <- mapbox_string(type = type, format = format)
     baseurl <- "https://api.mapbox.com/v4"
     mapbox_token <- Sys.getenv ("MAPBOX_TOKEN")
     query_string <- paste0 (sprintf ("%s/%s/{zoom}/{x}/{y}.%s",
-                                     baseurl, type, format),
+                                     baseurl, style, format),
                            "?access_token=", mapbox_token)
 
     files <- unlist (down_loader (tile_grid, query_string))
