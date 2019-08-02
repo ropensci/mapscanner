@@ -13,8 +13,9 @@ status](https://ci.appveyor.com/api/projects/status/github/mpadge/mapscanner?bra
 Concept](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
 <!-- badges: end -->
 
-Print maps, draw on them, scan them back in, and convert to spatial
-objects.
+R package to print maps, draw on them, scan them back in, and convert to
+spatial objects. Currently [under review at
+rOpenSci](https://github.com/ropensci/software-review/issues/330#event-2513283441).
 
 ## installation
 
@@ -67,11 +68,14 @@ f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
 system.time (res <- ms_rectify_maps (f_orig, f_mod, type = "polygons"))
 #> ══ mapscanner ═════════════════════════════════════════════════════════════
+#> ❯ rectifying the two maps 
 ✔ rectifying the two maps 
+#> ❯ extracting drawn objects 
 ✔ extracting drawn objects 
+#> ❯ converting to spatial format 
 ✔ converting to spatial format
 #>    user  system elapsed 
-#>  38.749   0.669  13.147
+#>  38.834   0.634  11.507
 res
 #> Simple feature collection with 2 features and 0 fields
 #> geometry type:  POLYGON

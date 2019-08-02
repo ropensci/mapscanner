@@ -20,7 +20,10 @@ knitr::opts_chunk$set(
 [![Project Status: Concept](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
 <!-- badges: end -->
 
-Print maps, draw on them, scan them back in, and convert to spatial objects.
+R package to print maps, draw on them, scan them back in, and convert to
+spatial objects. Currently [under review at
+rOpenSci](https://github.com/ropensci/software-review/issues/330#event-2513283441).
+
 
 ## installation
 
