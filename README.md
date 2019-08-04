@@ -14,8 +14,9 @@ Concept](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repo
 <!-- badges: end -->
 
 R package to print maps, draw on them, scan them back in, and convert to
-spatial objects. Currently [under review at
-rOpenSci](https://github.com/ropensci/software-review/issues/330#event-2513283441).
+spatial objects. Currently [under
+review](https://github.com/ropensci/software-review/issues/330#event-2513283441)
+at [rOpenSci](https://ropensci.org).
 
 ## installation
 
@@ -75,7 +76,7 @@ system.time (res <- ms_rectify_maps (f_orig, f_mod, type = "polygons"))
 #> ❯ converting to spatial format 
 ✔ converting to spatial format
 #>    user  system elapsed 
-#>  38.834   0.634  11.507
+#>  37.547   0.661  11.177
 res
 #> Simple feature collection with 2 features and 0 fields
 #> geometry type:  POLYGON

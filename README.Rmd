@@ -21,9 +21,9 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 R package to print maps, draw on them, scan them back in, and convert to
-spatial objects. Currently [under review at
-rOpenSci](https://github.com/ropensci/software-review/issues/330#event-2513283441).
-
+spatial objects. Currently [under
+review](https://github.com/ropensci/software-review/issues/330#event-2513283441)
+at [rOpenSci](https://ropensci.org).
 
 ## installation
 
