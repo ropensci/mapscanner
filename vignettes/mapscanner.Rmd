@@ -299,7 +299,7 @@ mapview::mapview (xy)
 
 ## Bonus Feature: Polygon Aggregation
 
-Maps are typically used in social surveys to delineate participant's
+Maps are typically used in social surveys to delineate participants'
 understanding or perception of particular regions or areas. In such contexts,
 surveys often result in numerous polygonal shapes representing different
 perceptions of a particular region. The `mapscanner` package provides an
