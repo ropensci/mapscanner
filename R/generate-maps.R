@@ -54,6 +54,17 @@ ms_generate_map <- function (bbox, max_tiles = 16L, mapname = NULL,
     invisible (raster_brick)
 }
 
+get_mapbox_token <- function ()
+{
+    e <- Sys.getenv()
+    e <- e [grep ("mapbox", names (e), ignore.case = TRUE)]
+    e <- unique (as.character (e))
+    if (length (e) != 1)
+        stop ("Map generation requires a mapbox API key to be set with ",
+              "Sys.setenv with a name that includes the string 'mapbox'")
+    return (e)
+}
+
 # nocov start
 get_raster_brick <- function (bbox, max_tiles = 16L, style)
 {
@@ -241,7 +252,7 @@ get_tiles <- function (bbox_pair, max_tiles = 16L, style)
     style <- styles [grep (style, styles)]
     format <- "jpg"
     baseurl <- "https://api.mapbox.com/v4"
-    mapbox_token <- Sys.getenv ("MAPBOX_TOKEN")
+    mapbox_token <- get_mapbox_token ()
     query_string <- paste0 (sprintf ("%s/%s/{zoom}/{x}/{y}.%s",
                                      baseurl, style, format),
                            "?access_token=", mapbox_token)
