@@ -35,7 +35,30 @@ library (mapscanner)
 
 ## usage
 
-Package comes with a sample map of Omaha, Nebraska, USA, and one with
+### Mapbox API tokens
+
+Map generation with `mapscanner` requires a personal token or key from
+[`mapbox`](https://mapbox.com), which can be obtained by following the
+links from
+[https://docs.mapbox.com/api](https://docs.mapbox.com/api/#access-tokens-and-token-scopes).
+If you already have a token, the easier way to use it with `mapscanner`
+is to create (or edit) a file `~/.Renviron`, and insert a line,
+
+``` bash
+MAPBOX_TOKEN=<my_mapbox_token>
+```
+
+This will then be available every time you start R. The token may be
+given any unique name that includes “mapbox” (case insensitive).
+Alternatively, if you wish to keep your token truly private, and only
+use it for your current R session, you may load `mapscanner`, and then
+type `set_mapbox_token(<my_mapbox_token>)`.
+
+### Map generation
+
+Having obtained and set a [`mapbox`](https://mapbox.com) token as
+described above, `mapscanner` may then be used to generate maps. The
+package comes with a sample map of Omaha, Nebraska, USA, and one with
 some red lines drawn on it: ![](./man/figures/omaha-polygons.png)
 
 That’s just a standard `png` image with no notion of geographical
@@ -54,15 +77,17 @@ formats. These files must be retained as the “master” maps against which
 subsequently modified – drawn-over and scanned-in – versions will be
 rectified. The `.pdf` format is generated because it will generally be
 the most convenient for printing, while the rectification itself
-requires `.png`-format images. The magic happens via the [`RNiftyReg`
+requires `.png`-format images.
+
+### Map rectification
+
+The magic within the `mapscanner` package happens via the [`RNiftyReg`
 package](https://github.com/jonclayden/RNiftyReg), itself primarily
 intended to align brain scans and other medical images, but which is
-precisely the tool needed here.
-
-The `mapscanner` package comes with two sample `.png` images which can
-be used to demonstrate functionality. In the following code,
-`f_modified` is the image shown above, modified from the original by
-drawing a red line around a particular region of Omaha.
+precisely the tool needed here. The package comes with two sample `.png`
+images which can be used to demonstrate map rectification. In the
+following code, `f_modified` is the image shown above, modified from the
+original by drawing a red line around a particular region of Omaha.
 
 ``` r
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
@@ -76,7 +101,7 @@ system.time (res <- ms_rectify_maps (f_orig, f_mod, type = "polygons"))
 #> ❯ converting to spatial format 
 ✔ converting to spatial format
 #>    user  system elapsed 
-#>  37.547   0.661  11.177
+#>  45.095   0.611  12.350
 res
 #> Simple feature collection with 2 features and 0 fields
 #> geometry type:  POLYGON

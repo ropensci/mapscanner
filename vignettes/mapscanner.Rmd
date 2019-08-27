@@ -96,14 +96,27 @@ order to extract spatial objects. The second of these sections also describes
 the kinds of markings able to be recognised, and the kinds of spatial objects
 to which these may be converted.
 
+## Mapbox API tokens
+
+Map generation with `mapscanner` requires a personal token or key from
+[`mapbox`](https://mapbox.com), which can be obtained by following the links
+from
+[https://docs.mapbox.com/api](https://docs.mapbox.com/api/#access-tokens-and-token-scopes). If you already have a token, the easier way to use it with `mapscanner` is to create (or edit) a file `~/.Renviron`, and insert a line,
+``` bash
+MAPBOX_TOKEN=<my_mapbox_token>
+```
+This will then be available every time you start R. The token may be given any
+unique name that includes "mapbox" (case insensitive). Alternatively, if you wish to keep your token truly private, and only use it for your current R session, you may load `mapscanner`, and then type `set_mapbox_token(<my_mapbox_token>)`.
+
 
 
 ## Map generation
 
-The
+Having obtained and set a [`mapbox`](https://mapbox.com) token as described
+above, the
 [`ms_generate_map()`](https://mpadge.github.io/mapscanner/reference/ms_generate_map.html)
-function generates printable maps for a specified bounding box in both `.pdf`
-and `.png` formats. Usage is a simple as,
+function can be used to generate printable maps for a specified bounding box in
+both `.pdf` and `.png` formats. Usage is a simple as,
 ```{r generate-fakey, eval = FALSE}
 ms_generate_map ("chennai india", mapname = "chennai")
 ```
