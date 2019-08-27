@@ -8,7 +8,7 @@ set_mapbox_token(token)
 }
 \arguments{
 \item{token}{Personal mapbox API token, obtained from
-\link{https://docs.mapbox.com/api/#access-tokens-and-token-scopes}.}
+\url{https://docs.mapbox.com/api/#access-tokens-and-token-scopes}.}
 }
 \value{
 `TRUE` if the token was able to be set; otherwise `FALSE`.

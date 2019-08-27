@@ -18,7 +18,7 @@ get_mapbox_token <- function ()
 #' Set a mapbox token for use with the \link{ms_generate_map} function.
 #'
 #' @param token Personal mapbox API token, obtained from
-#' \link{https://docs.mapbox.com/api/#access-tokens-and-token-scopes}.
+#' \url{https://docs.mapbox.com/api/#access-tokens-and-token-scopes}.
 #' @return `TRUE` if the token was able to be set; otherwise `FALSE`.
 #' @export
 set_mapbox_token <- function (token)
