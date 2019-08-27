@@ -54,17 +54,6 @@ ms_generate_map <- function (bbox, max_tiles = 16L, mapname = NULL,
     invisible (raster_brick)
 }
 
-get_mapbox_token <- function ()
-{
-    e <- Sys.getenv()
-    e <- e [grep ("mapbox", names (e), ignore.case = TRUE)]
-    e <- unique (as.character (e))
-    if (length (e) != 1)
-        stop ("Map generation requires a mapbox API key to be set with ",
-              "Sys.setenv with a name that includes the string 'mapbox'")
-    return (e)
-}
-
 # nocov start
 get_raster_brick <- function (bbox, max_tiles = 16L, style)
 {
