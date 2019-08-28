@@ -41,18 +41,19 @@ Map generation with `mapscanner` requires a personal token or key from
 [`mapbox`](https://mapbox.com), which can be obtained by following the
 links from
 [https://docs.mapbox.com/api](https://docs.mapbox.com/api/#access-tokens-and-token-scopes).
-If you already have a token, the easier way to use it with `mapscanner`
+If you already have a token, the easiest way to use it with `mapscanner`
 is to create (or edit) a file `~/.Renviron`, and insert a line,
 
 ``` bash
 MAPBOX_TOKEN=<my_mapbox_token>
 ```
 
-This will then be available every time you start R. The token may be
-given any unique name that includes “mapbox” (case insensitive).
-Alternatively, if you wish to keep your token truly private, and only
-use it for your current R session, you may load `mapscanner`, and then
-type `set_mapbox_token(<my_mapbox_token>)`.
+This will then be available every time you start R, without any need to
+explicitly set the token each time you want to use the package. The
+token may be given any unique name that includes “mapbox” (case
+insensitive). Alternatively, if you wish to keep your token truly
+private, and only use it for your current R session, you may load
+`mapscanner`, and then run `set_mapbox_token(<my_mapbox_token>)`.
 
 ### Map generation
 
@@ -101,7 +102,7 @@ system.time (res <- ms_rectify_maps (f_orig, f_mod, type = "polygons"))
 #> ❯ converting to spatial format 
 ✔ converting to spatial format
 #>    user  system elapsed 
-#>  45.095   0.611  12.350
+#>  50.908   0.704  13.183
 res
 #> Simple feature collection with 2 features and 0 fields
 #> geometry type:  POLYGON
