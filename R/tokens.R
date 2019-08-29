@@ -1,15 +1,12 @@
 get_mapbox_token <- function ()
 {
     e <- Sys.getenv()
-    e <- e [grep ("mapbox", names (e), ignore.case = TRUE)]
+    e <- e [grep ("mapbox|mapscan", names (e), ignore.case = TRUE)]
     tok <- unique (as.character (e))
-    if (length (tok) != 1)
-    {
-        tok <- Sys.getenv ("mapscanner")
-        if (tok == "")
-            stop ("Map generation requires a mapbox API key to be set with ",
-                  "Sys.setenv with a name that includes the string 'mapbox'")
-    }
+    if (length (tok) != 1 | tok == "")
+        stop ("Map generation requires a mapbox API key to be set with ",
+              "Sys.setenv with a name that includes either the strings "
+              "'mapbox' or 'mapscanner'")
     return (tok)
 }
 
