@@ -1,3 +1,5 @@
+# nocov start
+
 get_mapbox_token <- function ()
 {
     e <- Sys.getenv()
@@ -22,3 +24,5 @@ set_mapbox_token <- function (token)
 {
     Sys.setenv ("mapscanner" = token)
 }
+
+# nocov end
