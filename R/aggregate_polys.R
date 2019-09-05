@@ -81,12 +81,14 @@ triangulate_map_sf <- function (x, ...)
                                 object = rep (gmap$object, gmap$nrow),
                                 coord = dplyr::row_number ())
     #object <- tibble::tibble (object_ = seq_len (nrow (x)))
-    if (length (unique (instances$path)) == nrow (instances)) {
+    if (length (unique (instances$path)) == nrow (instances))
+    {
 
-        print ("tell Mike") # nocov
+        print ("Unknown error in map triangulation") # nocov
         # instances[".vx0"] <- instances["vertex_"]
         # object$topology_ <- split (instances[c (".vx0")], instances$object)
-    } else {
+    } else
+    {
         ## convert to edge-based rather than path-based
         segs0 <-   dplyr::mutate (instances[c ("path", "coord", "object")],
                                   .cx0 = .data$coord, .cx1 = .data$coord + 1L)
@@ -144,7 +146,8 @@ triangulate_map_sf <- function (x, ...)
 
     ## loop over path and only to pip lookup for triangle centroid inside this
     ## features's bbox
-    for (i in seq_along (pipmap)) {
+    for (i in seq_along (pipmap))
+    {
         if (len[i] > 0) {
             centr_in <- list (x = centroids[pipmap[[i]], 1],
                             y = centroids[pipmap[[i]], 2])
@@ -173,8 +176,8 @@ triangulate_map_sf <- function (x, ...)
                                   triangle_idx = unlist (ix)))
 }
 
-n_intersections <-
-    function (x, n = 2, ...) {
+n_intersections <- function (x, n = 2, ...)
+{
         triangles <- x$index %>%
             dplyr::group_by (.data$triangle_idx) %>%
             dplyr::mutate (nn = dplyr::n ()) %>%
@@ -192,7 +195,7 @@ n_intersections <-
         ## now build each triangle
         P <- x$primitives$P
         TR <- x$primitives$T
-        sf::st_sf(idx = idx$triangle_idx,
-                  geometry = sf::st_sfc(purrr::map(idx$triangle_idx,
-                    ~sf::st_polygon(list(P[TR[.x, ][c(1, 2, 3, 1)], ])))))
+        g <- purrr::map (idx$triangle_idx,
+                    ~sf::st_polygon (list (P [TR [.x, ] [c (1, 2, 3, 1)], ])))
+        sf::st_sf (idx = idx$triangle_idx, geometry = sf::st_sfc (g))
     }
