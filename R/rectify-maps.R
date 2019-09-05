@@ -78,8 +78,11 @@ ms_rectify_maps <- function (map_original, map_modified, non_linear = 1,
     concavity <- check_concavity (concavity)
     length_threshold <- check_threshold (length_threshold)
 
-    map_original <- get_map_png (map_original)
-    map_modified <- get_map_png (map_modified)
+    if (!quiet)
+        message (cli::rule (left = "mapscanner", line = 2, col = "green"))
+
+    map_original <- get_map_png (map_original, quiet = quiet)
+    map_modified <- get_map_png (map_modified, quiet = quiet)
 
     f_orig <- trim_white (map_original)
     f_mod <- trim_white (map_modified)
@@ -91,7 +94,6 @@ ms_rectify_maps <- function (map_original, map_modified, non_linear = 1,
     # space of the 'target' image"
     if (!quiet)
     {
-        message (cli::rule (left = "mapscanner", line = 2, col = "green"))
         message (cli::symbol$pointer, " rectifying the two maps ",
                  appendLF = FALSE)
     }

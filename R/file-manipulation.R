@@ -1,5 +1,5 @@
 # get name of png file, converting pdf to png if neccesary
-get_map_png <- function (mapfile)
+get_map_png <- function (mapfile, quiet = TRUE)
 {
     png_name <- paste0 (tools::file_path_sans_ext (mapfile), ".png")
     if (!(file.exists (mapfile) | file.exists (png_name)))
@@ -7,6 +7,11 @@ get_map_png <- function (mapfile)
 
     if (!file.exists (png_name))
         pdf_to_png (mapfile) # nocov
+
+    if (file.size (mapfile) > 1e6)
+    {
+        png_name <- reduce_size (png_name, quiet = quiet) # nocov
+    }
     return (png_name)
 }
 
@@ -25,6 +30,44 @@ pdf_to_png <- function (file)
     img <- magick::image_read (fout)
     magick::image_write (img, path = fout, comment = bb)
 }
+
+hash <- function (len = 10)
+{
+    sample (c (letters, LETTERS, 0:9), len, replace = TRUE) %>%
+        paste0 (collapse = "")
+}
+
+# nocov start
+reduce_size <- function (mapfile, quiet = TRUE)
+{
+    s <- file.size (mapfile)
+    if (!quiet)
+    {
+        smb <- formatC (s / 1e6, format = "f", digits = 1)
+        message (cli::symbol$pointer, " Reducing size of '", mapfile,
+                 "' of ", smb, "MB", appendLF = FALSE)
+    }
+
+    newname <- file.path (tempdir (), paste0 ("img", hash (10), ".png"))
+    chk <- file.copy (mapfile, newname)
+    s <- file.size (newname)
+    # % reduction to resize to 1MB:
+    red <- paste0 (floor (100 / (s / 1e6)), "%")
+    img <- magick::image_read (newname)
+    bbox <- magick::image_comment (img)
+    magick::image_resize (img, geometry = red) %>%
+        magick::image_write (path = newname, comment = bbox)
+
+    if (!quiet)
+    {
+        snew <- formatC (file.size (newname)/ 1e6, format = "f", digits = 1)
+        message ("\r", cli::symbol$tick, " Reduced size of '", mapfile,
+                 "' of ", smb, "MB to ", snew, "MB")
+    }
+
+    return (newname)
+}
+# nocov end
 
 bbox_from_pdf <- function (file, as_string = FALSE)
 {
