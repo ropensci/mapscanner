@@ -13,11 +13,6 @@ status](https://ci.appveyor.com/api/projects/status/github/mpadge/mapscanner?bra
 Concept](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
 <!-- badges: end -->
 
-R package to print maps, draw on them, scan them back in, and convert to
-spatial objects. Currently [under
-review](https://github.com/ropensci/software-review/issues/330#event-2513283441)
-at [rOpenSci](https://ropensci.org).
-
 ## What does this package do for me?
 
 `mapscanner` is an **R** package that enables maps to be printed out,
@@ -30,6 +25,9 @@ to spatial objects. The use of paper maps is often advantageous because
 digital equivalents; and (ii) they may in many situations be deemed to
 yield more reliable or accurate results through removing the
 psychological barriers often associated with screen-based surveys.
+Currently [under
+review](https://github.com/ropensci/software-review/issues/330#event-2513283441)
+at [rOpenSci](https://ropensci.org).
 
 ## installation
 
@@ -168,7 +166,7 @@ system.time (res <- ms_rectify_maps (f_orig, f_mod, type = "polygons"))
 #> ❯ converting to spatial format 
 ✔ converting to spatial format
 #>    user  system elapsed 
-#>  39.881   0.739  11.675
+#>  43.696   0.696  12.117
 res
 #> Simple feature collection with 2 features and 0 fields
 #> geometry type:  POLYGON

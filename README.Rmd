@@ -20,10 +20,6 @@ knitr::opts_chunk$set(
 [![Project Status: Concept](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
 <!-- badges: end -->
 
-R package to print maps, draw on them, scan them back in, and convert to
-spatial objects. Currently [under
-review](https://github.com/ropensci/software-review/issues/330#event-2513283441)
-at [rOpenSci](https://ropensci.org).
 
 ## What does this package do for me?
 
@@ -36,6 +32,9 @@ often advantageous because (i) they cost much less than computer devices
 otherwise needed for digital equivalents; and (ii) they may in many situations
 be deemed to yield more reliable or accurate results through removing the
 psychological barriers often associated with screen-based surveys.
+Currently [under
+review](https://github.com/ropensci/software-review/issues/330#event-2513283441)
+at [rOpenSci](https://ropensci.org).
 
 ## installation
 
