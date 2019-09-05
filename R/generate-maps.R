@@ -316,11 +316,11 @@ raster_brick <- function (x) {
 spherical_mercator <- function (provider = "mapbox")
 {
     #MAXEXTENT is the bounds between [-180, 180] and [-85.0511, 85.0511]
-    tibble::tibble (provider = provider,
-                    MAXEXTENT = 20037508.342789244,
-                    A = 6378137.0, B = 6378137.0,
-                    crs = glue::glue("+proj=merc +a={A} +b={A}")) %>%
-        dplyr::filter (provider == provider)
+    res <- tibble::tibble (provider = provider,
+                           MAXEXTENT = 20037508.342789244,
+                           A = 6378137.0, B = 6378137.0,
+                           crs = glue::glue("+proj=merc +a={A} +b={A}"))
+    res [, res$provider == provider]
 }
 
 # nocov start

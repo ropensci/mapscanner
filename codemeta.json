@@ -52,6 +52,30 @@
   "softwareSuggestions": [
     {
       "@type": "SoftwareApplication",
+      "identifier": "dplyr",
+      "name": "dplyr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=dplyr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "gibble",
+      "name": "gibble",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=gibble"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "ggplot2",
       "name": "ggplot2",
       "provider": {
@@ -180,18 +204,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "dplyr",
-      "name": "dplyr",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=dplyr"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "fs",
       "name": "fs",
       "provider": {
@@ -288,6 +300,18 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "polyclip",
+      "name": "polyclip",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=polyclip"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "purrr",
       "name": "purrr",
       "provider": {
@@ -336,6 +360,18 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "rlang",
+      "name": "rlang",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rlang"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "RNiftyReg",
       "name": "RNiftyReg",
       "provider": {
@@ -345,6 +381,18 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=RNiftyReg"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "RTriangle",
+      "name": "RTriangle",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=RTriangle"
     },
     {
       "@type": "SoftwareApplication",
@@ -384,42 +432,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "RTriangle",
-      "name": "RTriangle",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=RTriangle"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "gibble",
-      "name": "gibble",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=gibble"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "polyclip",
-      "name": "polyclip",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=polyclip"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "unjoin",
       "name": "unjoin",
       "provider": {
@@ -432,23 +444,11 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "rlang",
-      "name": "rlang",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=rlang"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "https://sysreqs.r-hub.io/get/cxx11"
     }
   ],
   "readme": "https://github.com/mpadge/mapscanner/blob/master/README.md",
-  "fileSize": "2742.612KB",
+  "fileSize": "2745.278KB",
   "contIntegration": [
     "https://travis-ci.org/mpadge/mapscanner",
     "https://ci.appveyor.com/project/mpadge/mapscanner",

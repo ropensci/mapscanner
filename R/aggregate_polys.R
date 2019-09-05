@@ -9,22 +9,24 @@
 #' @importFrom rlang .data
 #' @examples
 #' g <- sf::st_sfc(list(sf::st_point(cbind(0, 0)),
-#'                                 sf::st_point(cbind(0, 1)),
-#'                                 sf::st_point(cbind(1, 0))))
+#'                      sf::st_point(cbind(0, 1)),
+#'                      sf::st_point(cbind(1, 0))))
 #' pts <- sf::st_sf(a = 1:3,  geometry = g)
 #' overlapping_polys <- sf::st_buffer(pts, 0.75)
 #'
 #' ## decompose and count space-filling from overlapping polygons
-#' x <- ms_aggregate_polys(overlapping_polys); plot(x)
-#' #library(ggplot2)
-#' #ggplot(x) + geom_sf() + facet_wrap(~n)
+#' x <- ms_aggregate_polys(overlapping_polys)
+#' plot(x)
+#' # library(ggplot2)
+#' # ggplot(x) + geom_sf() + facet_wrap(~n)
 #'
 #' library(sf)
 #' set.seed(6)
-#' pts <- expand.grid(x = 1:8, y = 1:10) %>% st_as_sf(coords = c("x", "y"))
-#' xsf <- sf::st_buffer (pts, runif(nrow(pts), 0.2, 1.5))
-#' #system.time(out <- ms_aggregate_polys(xsf))
-ms_aggregate_polys <- function (px, ...) {
+#' pts <- expand.grid (x = 1:8, y = 1:10) %>% st_as_sf (coords = c("x", "y"))
+#' xsf <- sf::st_buffer (pts, runif (nrow (pts), 0.2, 1.5))
+#' # system.time (out <- ms_aggregate_polys (xsf))
+ms_aggregate_polys <- function (px, ...)
+{
     tri_map <- triangulate_map_sf (px)
 
     n_types <- max (lengths (split (tri_map$index$path_,
@@ -45,8 +47,8 @@ ms_aggregate_polys <- function (px, ...) {
 
 p_paste <- function (x, paster = function (...) paste (..., sep = "-"))
 {
-    do.call (paster, x[intersect (names (x), c ("object", "subobject",
-                                                "path"))])
+    do.call (paster,
+             x [intersect (names (x), c ("object", "subobject", "path"))])
 }
 
 
@@ -59,6 +61,8 @@ sf_df <- function (x, n) {
 # combination of path <- silicate::PATH(sfall); RTri <- pfft::edge_RTriangle(path)
 triangulate_map_sf <- function (x, ...)
 {
+    requireNamespace ("dplyr")
+    requireNamespace ("gibble")
 
     ## we need all coordinates in order, and their normalized form
     ## (unique in x, y)
