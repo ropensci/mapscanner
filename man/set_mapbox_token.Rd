@@ -11,7 +11,7 @@ set_mapbox_token(token)
 \url{https://docs.mapbox.com/api/#access-tokens-and-token-scopes}.}
 }
 \value{
-`TRUE` if the token was able to be set; otherwise `FALSE`.
+\code{TRUE} if the token was able to be set; otherwise \code{FALSE}.
 }
 \description{
 Set a mapbox token for use with the \link{ms_generate_map} function.

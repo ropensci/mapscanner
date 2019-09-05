@@ -22,16 +22,16 @@ or 'outdoors', rendered in black and white. See
 \url{https://docs.mapbox.com/api/maps/#styles} for examples.}
 
 \item{raster_brick}{Instead of automatically downloading tiles within a given
-`bbox`, a pre-downloaded `raster::rasterBrick` object may be submitted and
-used to generate the `.pdf` and `.png` equivalents.}
+\code{bbox}, a pre-downloaded \code{raster::rasterBrick} object may be submitted and
+used to generate the \code{.pdf} and \code{.png} equivalents.}
 }
 \value{
-Invisibly returns a `rasterBrick` object from the \pkg{raster}
+Invisibly returns a \code{rasterBrick} object from the \pkg{raster}
 package containing all data used to generate the map.
 }
 \description{
 Generate a map image for a specified area or bounding box. Map is
-automatically save in both `.pdf` and `.png` formats.
+automatically save in both \code{.pdf} and \code{.png} formats.
 }
 \examples{
 \dontrun{

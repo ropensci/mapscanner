@@ -12,7 +12,7 @@ ms_aggregate_polys(px, ...)
 \item{...}{unused}
 }
 \description{
-Planar partition from disparate polygon inputs. Overlaps aggregate to `n`.
+Planar partition from disparate polygon inputs. Overlaps aggregate to \code{n}.
 }
 \details{
 Input is a single simple features polygon data frame. No attribute data is considered.

@@ -54,4 +54,5 @@ VignetteBuilder: knitr
 URL: https://github.com/mpadge/mapscanner
 BugReports: https://github.com/mpadge/mapscanner/issues
 RoxygenNote: 6.1.1
+Roxygen: list(markdown = TRUE)
 Language: en-GB

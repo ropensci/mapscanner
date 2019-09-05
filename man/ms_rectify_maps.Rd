@@ -10,10 +10,10 @@ ms_rectify_maps(map_original, map_modified, non_linear = 1,
 }
 \arguments{
 \item{map_original}{File name of the original map without anything drawn over
-it (either a `.pdf` or `.png`; extension will be ignored).}
+it (either a \code{.pdf} or \code{.png}; extension will be ignored).}
 
 \item{map_modified}{File name of the modified version with drawings (either a
-`.pdf` or `.png`; extension will be ignored).}
+\code{.pdf} or \code{.png}; extension will be ignored).}
 
 \item{non_linear}{Integer value of 0, 1, or 2 representing degree of
 non-linearity in modified image - see Note.}
@@ -24,26 +24,26 @@ non-linearity in modified image - see Note.}
 the outer boundary of each; and "hulls" constructs convex or concave polygons
 around each group.}
 
-\item{downsample}{Factor by which to downsample `type = "polygons"`, noting
+\item{downsample}{Factor by which to downsample \code{type = "polygons"}, noting
 that polygons initially include every outer pixel of image, so can generally
-be downsampled by at least an order or magnitude (`n = 10`). Higher values
+be downsampled by at least an order or magnitude (\code{n = 10}). Higher values
 may be used for higher-resolution images; lower values will generally only be
 necessary for very low lower resolution images.}
 
-\item{concavity}{For `type = "hulls"`, a value between 0 and 1, with 0 giving
+\item{concavity}{For \code{type = "hulls"}, a value between 0 and 1, with 0 giving
 convex hulls and 1 giving highly concave hulls.}
 
-\item{length_threshold}{For `type = "hulls"`, the minimal length of a segment
+\item{length_threshold}{For \code{type = "hulls"}, the minimal length of a segment
 to be made more convex. Low values will produce highly detailed hulls which
 may cause problems; if in doubt, or if odd results appear, increase this
 value.}
 
-\item{quiet}{If `FALSE`, display progress information on screen}
+\item{quiet}{If \code{FALSE}, display progress information on screen}
 }
 \value{
 An \pkg{sf} object representing the drawn additions to map_modified.
 
-The `non-linear` parameter should generally set according to how the modified
+The \code{non-linear} parameter should generally set according to how the modified
 maps were digitised. A value of 0 will give fastest results, and should be
 used for directly scanned or photocopied images. A value of 1 (the default)
 still presumes modified images have been linearly translated, and will apply
@@ -51,12 +51,12 @@ affine transformations (rotations, contractions, dilations). This value
 should be used when modified images have been photographed (potentially from
 an oblique angle). A value of 2 should only be used when modified maps have
 somehow been non-linearly distorted, for example through having been crumpled
-or screwed up. Rectification with `non-linear = 2` will likely take
+or screwed up. Rectification with \code{non-linear = 2} will likely take
 considerably longer than with lower values.
 }
 \description{
-Rectify two previously scanned-in pdf or png maps with `RNiftyReg`, and
-return the modifications in `map_modified` as spatial objects in \pkg{sf}
+Rectify two previously scanned-in pdf or png maps with \code{RNiftyReg}, and
+return the modifications in \code{map_modified} as spatial objects in \pkg{sf}
 format.
 }
 \examples{
