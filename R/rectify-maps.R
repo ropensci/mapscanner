@@ -1,8 +1,9 @@
 
 #' ms_rectify_maps
 #'
-#' Scan in two pdf or png maps, rectify them with `RNiftyReg`, and return the
-#' modifications in `map_modified` as spatial objects in \pkg{sf} format.
+#' Rectify two previously scanned-in pdf or png maps with `RNiftyReg`, and
+#' return the modifications in `map_modified` as spatial objects in \pkg{sf}
+#' format.
 #'
 #' @param map_original File name of the original map without anything drawn over
 #' it (either a `.pdf` or `.png`; extension will be ignored).

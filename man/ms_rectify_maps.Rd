@@ -55,8 +55,9 @@ or screwed up. Rectification with `non-linear = 2` will likely take
 considerably longer than with lower values.
 }
 \description{
-Scan in two pdf or png maps, rectify them with `RNiftyReg`, and return the
-modifications in `map_modified` as spatial objects in \pkg{sf} format.
+Rectify two previously scanned-in pdf or png maps with `RNiftyReg`, and
+return the modifications in `map_modified` as spatial objects in \pkg{sf}
+format.
 }
 \examples{
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
