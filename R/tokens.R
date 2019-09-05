@@ -8,7 +8,8 @@ get_mapbox_token <- function ()
     if (length (tok) != 1 | tok == "")
         stop ("Map generation requires a mapbox API key to be set with ",
               "Sys.setenv with a name that includes either the strings ",
-              "'mapbox' or 'mapscanner'")
+              "'mapbox' or 'mapscanner'. Tokens can be obtained from ",
+              "https://docs.mapbox.com/api/#access-tokens-and-token-scopes")
     return (tok)
 }
 
