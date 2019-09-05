@@ -31,7 +31,7 @@ package containing all data used to generate the map.
 }
 \description{
 Generate a map image for a specified area or bounding box. Map is
-automatically save in both \code{.pdf} and \code{.png} formats.
+automatically saved in both \code{.pdf} and \code{.png} formats.
 }
 \examples{
 \dontrun{

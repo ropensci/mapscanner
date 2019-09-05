@@ -4,7 +4,7 @@
 #' ms_generate_map
 #'
 #' Generate a map image for a specified area or bounding box. Map is
-#' automatically save in both `.pdf` and `.png` formats.
+#' automatically saved in both `.pdf` and `.png` formats.
 #'
 #' @param bbox Either a string specifying the location, or a numeric bounding
 #' box as a single vector of (xmin, ymin, xmax, ymax), or a 2-by-2 matrix with

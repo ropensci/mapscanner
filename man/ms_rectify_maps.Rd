@@ -42,22 +42,23 @@ value.}
 }
 \value{
 An \pkg{sf} object representing the drawn additions to map_modified.
-
-The \code{non-linear} parameter should generally set according to how the modified
-maps were digitised. A value of 0 will give fastest results, and should be
-used for directly scanned or photocopied images. A value of 1 (the default)
-still presumes modified images have been linearly translated, and will apply
-affine transformations (rotations, contractions, dilations). This value
-should be used when modified images have been photographed (potentially from
-an oblique angle). A value of 2 should only be used when modified maps have
-somehow been non-linearly distorted, for example through having been crumpled
-or screwed up. Rectification with \code{non-linear = 2} will likely take
-considerably longer than with lower values.
 }
 \description{
 Rectify two previously scanned-in pdf or png maps with \code{RNiftyReg}, and
 return the modifications in \code{map_modified} as spatial objects in \pkg{sf}
 format.
+}
+\note{
+The \code{non-linear} parameter should generally set according to how the
+modified maps were digitised. A value of 0 will give fastest results, and
+should be used for directly scanned or photocopied images. A value of 1 (the
+default) still presumes modified images have been linearly translated, and
+will apply affine transformations (rotations, contractions, dilations). This
+value should be used when modified images have been photographed (potentially
+from an oblique angle). A value of 2 should only be used when modified maps
+have somehow been non-linearly distorted, for example through having been
+crumpled or screwed up. Rectification with \code{non-linear = 2} will likely take
+considerably longer than with lower values.
 }
 \examples{
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
