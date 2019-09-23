@@ -15,6 +15,7 @@ Rcpp::IntegerMatrix rcpp_components (Rcpp::LogicalMatrix image)
         traceComponent (image, start_ij.first, start_ij.second,
                 comp_mat, group_num++);
         start_ij = getStartingMember (image, comp_mat);
+        Rcpp::checkUserInterrupt ();
     }
 
     return comp_mat;
