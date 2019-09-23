@@ -162,26 +162,38 @@ m_niftyreg <- memoise::memoise (function (map_scanned, map, non_linear)
 
 # extract any non-greyscale components from RNiftyReg output
 # nr is result of scanmaps, output from RNiftyReg
-extract_channel <- function (nr)
+# threshold is based on delta, which is the aggregate difference between colour
+# channels. Values above (threhold * median (delta)) are considered to be a
+# single colour and are kept for futher analysis; all other values are removed.
+extract_channel <- function (nr, threshold = 10)
 {
     img <- nr$image # house and img have 3 layers [r, g, b]
-    img <- round (img * 100) / 100
+    res <- array (0, dim = c (dim (img) [1], dim (img) [2]))
 
-    get1layer <- function (img, i) {
-        res <- img [, , i]      # nolint
-        ifelse (res < 0.5, 0, 1)
-    }
-    img_r <- get1layer (img, 1)
-    img_b <- get1layer (img, 2)
-    img_g <- get1layer (img, 3)
-
-    delta <- abs (img_r - img_b) +
-        abs (img_r - img_b) +
-        abs (img_b - img_g)
-
-    index <- which (delta > 0)
-    res <- array (0, dim = dim (img_r))
+    delta <- abs (img [, , 1] - img [, , 2]) +
+        abs (img [, , 1] - img [, , 2]) +
+        abs (img [, , 2] - img [, , 3])
+    index <- which (delta >= (threshold * mean (delta)))
     res [index] <- 1
+
+    cmat <- rcpp_components (res)
+    tc <- table (cmat [cmat > 0])
+    if (length (tc) > 4) #  > 4 components
+    {
+        tc2 <- table (tc)
+        # names (tc2) gives the sizes of different clusters in ascending order.
+        # The following code finds the first value at which these sizes make a
+        # positive jump, and takes that as the *smallest* size of clusters to be
+        # analysed.
+        x <- diff (as.integer (names (tc2))) # diff between consecutive sizes
+        d3 <- diff (diff (x)) # curvatures of those differences
+        # n is location in names (tc2) of first point of positive curvature in
+        # size
+        n <- as.integer (names (tc2 [which (d3 > 0) [1] + 3]))
+        comps <- names (tc [which (tc >= n)])
+        small_comps <- names (tc) [which (!names (tc) %in% comps)]
+        res [which (cmat %in% as.integer (small_comps))] <- 0
+    }
 
     return (res)
 }
