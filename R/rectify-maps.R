@@ -165,20 +165,13 @@ m_niftyreg <- memoise::memoise (function (map_scanned, map, non_linear)
 # threshold is based on delta, which is the aggregate difference between colour
 # channels. Values above (threhold * median (delta)) are considered to be a
 # single colour and are kept for futher analysis; all other values are removed.
-extract_channel <- function (nr, threshold = 10)
+extract_channel <- function (nr, nitems = NULL)
 {
     img <- nr$image # house and img have 3 layers [r, g, b]
-    res <- array (0, dim = c (dim (img) [1], dim (img) [2]))
-
-    delta <- abs (img [, , 1] - img [, , 2]) +
-        abs (img [, , 1] - img [, , 2]) +
-        abs (img [, , 2] - img [, , 3])
-    index <- which (delta >= (threshold * mean (delta)))
-    res [index] <- 1
-
-    cmat <- rcpp_components (res)
+    threshold <- get_channel_diff_threshold (img)
+    cmat <- get_component_mat (img, threshold)
     tc <- table (cmat [cmat > 0])
-    if (length (tc) > 4) #  > 4 components
+    if (any (tc < 10) & length (tc) > 4) #  > 4 components
     {
         tc2 <- table (tc)
         # names (tc2) gives the sizes of different clusters in ascending order.
@@ -192,10 +185,41 @@ extract_channel <- function (nr, threshold = 10)
         n <- as.integer (names (tc2 [which (d3 > 0) [1] + 3]))
         comps <- names (tc [which (tc >= n)])
         small_comps <- names (tc) [which (!names (tc) %in% comps)]
-        res [which (cmat %in% as.integer (small_comps))] <- 0
+        cmat [which (cmat %in% as.integer (small_comps))] <- 0
     }
+    cmat [which (cmat > 0)] <- 1
 
-    return (res)
+    return (cmat)
+}
+
+get_component_mat <- function (img, threshold)
+{
+    res <- array (0, dim = c (dim (img) [1], dim (img) [2]))
+
+    delta <- abs (img [, , 1] - img [, , 2]) +
+        abs (img [, , 1] - img [, , 2]) +
+        abs (img [, , 2] - img [, , 3])
+    index <- which (delta >= (threshold * mean (delta)))
+    res [index] <- 1
+
+    rcpp_components (res)
+}
+
+get_channel_diff_threshold <- function (img, nitems = NULL, threshold = 20)
+{
+    if (is.null (nitems))
+        nitems <- 5
+
+    nc <- 0
+    while (nc == 0 | nc > (2 * nitems))
+    {
+        threshold <- threshold / 2
+        cmat <- get_component_mat (img, threshold)
+        tc <- table (cmat [cmat > 0])
+        tc <- tc [tc > 10]
+        nc <- length (tc)
+    }
+    return (threshold)
 }
 
 # origin is the raster image, channel is result of extract_channel
@@ -252,9 +276,11 @@ rectify_channel <- function (channel, original, type, n = 10,
                                   i$x <- ((i$x - 1) / (ncol (channel) - 1))
                                   i$y <- ((i$y - 1) / (nrow (channel) - 1))
                                   return (i)    })
-        # Then scale to bbox and convert to st_polygon
+        # Then scale to bbox and convert to st_polygon. smooth boundary polygons
+        # that have > (10 * n = downsample) points
         boundaries <- lapply (boundaries, function (i) {
-                                  i <- smooth_polygon (i, n = n)
+                                  if (nrow (i) > (10 * n))
+                                      i <- smooth_polygon (i, n = n)
                                   i$x <- bbox [1] + i$x * (bbox [3] - bbox [1])
                                   i$y <- bbox [2] + i$y * (bbox [4] - bbox [2])
                                   sf::st_polygon (list (as.matrix (i)))
