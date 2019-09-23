@@ -8,7 +8,7 @@ get_map_png <- function (mapfile, quiet = TRUE)
     if (!file.exists (png_name))
         pdf_to_png (mapfile) # nocov
 
-    if (file.size (mapfile) > 1e6)
+    if (file.size (png_name) > 1e6)
     {
         png_name <- reduce_size (png_name, quiet = quiet) # nocov
     }
