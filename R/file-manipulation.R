@@ -1,3 +1,49 @@
+#' ms_rotate_map
+#'
+#' Display original and modified maps to determine necessary rotation
+#' @inheritParams ms_rectify_maps
+#' @param rotation Rotation value to be applied, generally +/- 90
+#' @param apply_rotation If `FALSE`, display results of rotation without
+#' actually applying it; otherwise transform the specified `map_modified` image
+#' according to the specified rotation.
+#'
+#' @note If a call to \link{ms_rectify_maps} detects potential image rotation,
+#' that function will stop and suggest that rotation be applied using this
+#' function in order to determine the required degree of image rotation. Values
+#' for `rotation` can be trialled in order to determine the correct value,
+#' following which that value can be entered with `apply_rotation = TRUE` in
+#' order to actually apply that rotation to the modified image.
+#'
+#' @export
+ms_rotate_map <- function (map_original, map_modified, rotation = 0,
+                            apply_rotation = FALSE)
+{
+    map_original <- get_map_png (map_original, quiet = TRUE)
+    map_modified <- get_map_png (map_modified, quiet = TRUE)
+
+    if (!apply_rotation)
+        f <- file.path (tempdir (), "test.png")
+    else
+        f <- map_modified
+
+    magick::image_read (map_modified) %>%
+        magick::image_rotate (rotation) %>%
+        magick::image_write (f)
+
+    if (!apply_rotation)
+    {
+        map <- png::readPNG (map_original)
+        map_scanned <- png::readPNG (f)
+
+        par (mfrow = c (1, 2), mar = c (0, 0, 1, 0))
+        plot.new ()
+        mmand::display (map, add = TRUE)
+        plot.new ()
+        mmand::display (map_scanned, add = TRUE)
+        title (main = paste0 ("rotation = ", rotation))
+    }
+}
+
 # get name of png file, converting pdf to png if neccesary
 get_map_png <- function (mapfile, quiet = TRUE)
 {

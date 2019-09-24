@@ -98,7 +98,7 @@ ms_rectify_maps <- function (map_original, map_modified, non_linear = 1,
         message (cli::symbol$pointer, " rectifying the two maps ",
                  appendLF = FALSE)
     }
-    res <- m_niftyreg (map_scanned, map, non_linear = non_linear)
+    nr <- m_niftyreg (map_scanned, map, non_linear = non_linear)
     if (!quiet)
     {
         message ("\r", cli::symbol$tick, " rectifying the two maps ")
@@ -106,7 +106,7 @@ ms_rectify_maps <- function (map_original, map_modified, non_linear = 1,
         message (cli::symbol$pointer, " extracting drawn objects ",
                  appendLF = FALSE)
     }
-    img <- extract_channel (res)
+    img <- extract_channel (nr)
     if (!quiet)
     {
         message ("\r", cli::symbol$tick, " extracting drawn objects ")
@@ -270,11 +270,13 @@ rectify_channel <- function (channel, original, type, n = 10,
         # x <- y
         # y <- nrow (channel) - x
         boundaries <- lapply (boundaries, function (i) {
-                                  temp <- i$x
-                                  i$x <- i$y
-                                  i$y <- nrow (channel) - temp
-                                  i$x <- ((i$x - 1) / (ncol (channel) - 1))
-                                  i$y <- ((i$y - 1) / (nrow (channel) - 1))
+                                  #temp <- i$x
+                                  #i$x <- i$y
+                                  #i$y <- nrow (channel) - temp
+                                  #i$x <- ((i$x - 1) / (ncol (channel) - 1))
+                                  #i$y <- ((i$y - 1) / (nrow (channel) - 1))
+                                  i$x <- ((i$x - 1) / (nrow (channel) - 1))
+                                  i$y <- ((i$y - 1) / (ncol (channel) - 1))
                                   return (i)    })
         # Then scale to bbox and convert to st_polygon. smooth boundary polygons
         # that have > (10 * n = downsample) points
