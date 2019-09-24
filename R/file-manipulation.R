@@ -32,15 +32,16 @@ ms_rotate_map <- function (map_original, map_modified, rotation = 0,
 
     if (!apply_rotation)
     {
+        requireNamespace ("mmand")
         map <- png::readPNG (map_original)
         map_scanned <- png::readPNG (f)
 
-        par (mfrow = c (1, 2), mar = c (0, 0, 1, 0))
-        plot.new ()
+        graphics::par (mfrow = c (1, 2), mar = c (0, 0, 1, 0))
+        graphics::plot.new ()
         mmand::display (map, add = TRUE)
-        plot.new ()
+        graphics::plot.new ()
         mmand::display (map_scanned, add = TRUE)
-        title (main = paste0 ("rotation = ", rotation))
+        graphics::title (main = paste0 ("rotation = ", rotation))
     }
 }
 

@@ -124,6 +124,18 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "mmand",
+      "name": "mmand",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=mmand"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "osmdata",
       "name": "osmdata",
       "provider": {
@@ -448,7 +460,7 @@
     }
   ],
   "readme": "https://github.com/mpadge/mapscanner/blob/master/README.md",
-  "fileSize": "11136.476KB",
+  "fileSize": "45381.581KB",
   "contIntegration": [
     "https://travis-ci.org/mpadge/mapscanner",
     "https://ci.appveyor.com/project/mpadge/mapscanner",

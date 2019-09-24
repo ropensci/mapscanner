@@ -43,6 +43,7 @@ Suggests:
     knitr,
     lwgeom,
     mapview,
+    mmand,
     osmdata,
     rmarkdown,
     testthat,
