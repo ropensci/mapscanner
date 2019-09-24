@@ -76,6 +76,9 @@ void getNeighbours (
     {
         size_t i_k = static_cast <size_t> (i + dx [k]),
                j_k = static_cast <size_t> (j + dy [k]);
+        if (i_k < 0 || j_k < 0 || i_k > (image.nrow () - 1) ||
+                j_k > (image.ncol () - 1))
+            continue;
         if (image (i_k, j_k) && comp_mat (i_k, j_k) == 0)
         {
             std::pair <int, int> nbPair = std::make_pair (i + dx [k], j + dy [k]);

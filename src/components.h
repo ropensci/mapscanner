@@ -4,11 +4,17 @@
 
 #include <Rcpp.h>
 
-struct pair_hash {
-    inline std::size_t operator () (const std::pair <int, int> & v) const {
-        return static_cast <size_t> (v.first * 31 + v.second);
+struct pair_hash
+{
+    std::size_t operator () (std::pair<int, int> const &pair) const
+    {
+        std::size_t h1 = std::hash <int> () (pair.first);
+        std::size_t h2 = std::hash <int> () (pair.second);
+
+        return h1 ^ h2;
     }
 };
+
 
 // These are all <int>s to allow for relative offsets (-1, 0, 1):
 typedef std::unordered_set <std::pair <int, int>, pair_hash > NbSet;
