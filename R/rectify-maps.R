@@ -94,6 +94,8 @@ ms_rectify_maps <- function (map_original, map_modified, non_linear = 1,
 
     f_orig <- trim_white (map_original)
     f_mod <- trim_white (map_modified)
+    f_orig <- reduce_image_size (f_orig, quiet = quiet)
+    f_mod <- reduce_image_size (f_mod, quiet = quiet)
     map <- png::readPNG (f_orig)
     map_scanned <- png::readPNG (f_mod)
 

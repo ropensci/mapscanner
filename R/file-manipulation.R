@@ -133,6 +133,29 @@ reduce_size <- function (mapfile, quiet = TRUE)
 }
 # nocov end
 
+# maxdim is maximal pixel size in any one dimension
+reduce_image_size <- function (mapfile, maxdim = 1000, quiet = FALSE)
+{
+    o <- magick::image_read (mapfile)
+    i <- magick::image_info (o)
+    maxpix <- max (c (i$width, i$height))
+    newname <- mapfile # default return value
+    if (maxpix > maxdim)
+    {
+        # new name for modified file
+        newname <- file.path (tempdir (), paste0 ("img", hash (10), ".png"))
+        scl <- ceiling (maxpix / maxdim)
+        if (!quiet)
+            message (cli::symbol$tick, " Image [", mapfile, "] reduced in size ",
+                     "by factor of ", scl)
+        dims <- paste0 (ceiling (c (i$width, i$height) / scl), collapse = "x")
+        bbox <- magick::image_comment (o)
+        magick::image_resize (o, geometry = dims) %>%
+            magick::image_write (newname, comment = bbox)
+    }
+    return (newname)
+}
+
 bbox_from_pdf <- function (file, as_string = FALSE)
 {
     file <- paste0 (tools::file_path_sans_ext (file), ".pdf")
