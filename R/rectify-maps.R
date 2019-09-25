@@ -117,12 +117,10 @@ ms_rectify_maps <- function (map_original, map_modified, nitems = NULL,
     img <- extract_channel (nr, nitems = nitems, quiet = quiet)
     check_img_sanity (img)
 
-    if (!quiet)
-        message (cli::symbol$pointer, " converting to spatial format ",
-                 appendLF = FALSE)
     res <- rectify_channel (img, f_orig, type = type, n = downsample,
                             concavity = concavity,
-                            length_threshold = length_threshold)
+                            length_threshold = length_threshold,
+                            quiet = quiet)
     if (!quiet)
         message ("\r", cli::symbol$tick, " converting to spatial format ")
     return (res)
@@ -313,7 +311,7 @@ check_img_sanity <- function (img)
 
 # origin is the raster image, channel is result of extract_channel
 rectify_channel <- function (channel, original, type, n = 10,
-                             concavity, length_threshold)
+                             concavity, length_threshold, quiet = TRUE)
 {
     crs_from <- "+proj=merc +a=6378137 +b=6378137"
     crs_to <- 4326
@@ -322,6 +320,9 @@ rectify_channel <- function (channel, original, type, n = 10,
 
     if (type == "hulls")
     {
+        if (!quiet)
+            message (cli::symbol$pointer, " converting to spatial format ",
+                     appendLF = FALSE)
         if (concavity == 0) {
             hulls <- polygon_hulls (channel, as_index = FALSE)
         } else # concaveman
@@ -355,18 +356,23 @@ rectify_channel <- function (channel, original, type, n = 10,
     } else # make polygons
     {
         boundaries <- polygon_boundaries (channel)
-        # boundaries then need to be rotated, so first lines impelement:
-        # x <- y
-        # y <- nrow (channel) - x
         boundaries <- lapply (boundaries, function (i) {
-                                  #temp <- i$x
-                                  #i$x <- i$y
-                                  #i$y <- nrow (channel) - temp
-                                  #i$x <- ((i$x - 1) / (ncol (channel) - 1))
-                                  #i$y <- ((i$y - 1) / (nrow (channel) - 1))
                                   i$x <- ((i$x - 1) / (nrow (channel) - 1))
                                   i$y <- ((i$y - 1) / (ncol (channel) - 1))
                                   return (i)    })
+        # remove any boundaries with < 4 points
+        lens <- vapply (boundaries, nrow, integer (1))
+        if (any (lens < 4))
+        {
+            nrm <- length (which (lens < 4))
+            txt <- ifelse (nrm == 1, "item", "items")
+            message (cli::symbol$tick, " removed ", nrm,
+                     " anomalously detected ", txt)
+            boundaries <- boundaries [which (lens > 3)]
+        }
+        if (!quiet)
+            message (cli::symbol$pointer, " converting to spatial format ",
+                     appendLF = FALSE)
         # Then scale to bbox and convert to st_polygon. smooth boundary polygons
         # that have > (10 * n = downsample) points
         boundaries <- lapply (boundaries, function (i) {
