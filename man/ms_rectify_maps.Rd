@@ -4,9 +4,9 @@
 \alias{ms_rectify_maps}
 \title{ms_rectify_maps}
 \usage{
-ms_rectify_maps(map_original, map_modified, non_linear = 1,
-  type = "polygons", downsample = 10, concavity = 0,
-  length_threshold = 10, quiet = FALSE)
+ms_rectify_maps(map_original, map_modified, nitems = NULL,
+  non_linear = 1, type = "polygons", downsample = 10,
+  concavity = 0, length_threshold = 10, quiet = FALSE)
 }
 \arguments{
 \item{map_original}{File name of the original map without anything drawn over
@@ -14,6 +14,10 @@ it (either a \code{.pdf} or \code{.png}; extension will be ignored).}
 
 \item{map_modified}{File name of the modified version with drawings (either a
 \code{.pdf} or \code{.png}; extension will be ignored).}
+
+\item{nitems}{Optional parameter to explicitly specify number of distinct
+items to be extracted from map; if possible, specifying this parameter may
+improve results.}
 
 \item{non_linear}{Integer value of 0, 1, or 2 representing degree of
 non-linearity in modified image - see Note.}

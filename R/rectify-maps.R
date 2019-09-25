@@ -9,6 +9,9 @@
 #' it (either a `.pdf` or `.png`; extension will be ignored).
 #' @param map_modified File name of the modified version with drawings (either a
 #' `.pdf` or `.png`; extension will be ignored).
+#' @param nitems Optional parameter to explicitly specify number of distinct
+#' items to be extracted from map; if possible, specifying this parameter may
+#' improve results.
 #' @param non_linear Integer value of 0, 1, or 2 representing degree of
 #' non-linearity in modified image - see Note.
 #' @param type Currently either "points", "polygons", or "hulls", where
@@ -65,8 +68,8 @@
 #' xy_pts <- ms_rectify_maps (f_orig2, f_modified2, type = "points")
 #'
 #' @export
-ms_rectify_maps <- function (map_original, map_modified, non_linear = 1,
-                             type = "polygons", downsample = 10,
+ms_rectify_maps <- function (map_original, map_modified, nitems = NULL,
+                             non_linear = 1, type = "polygons", downsample = 10,
                              concavity = 0, length_threshold = 10,
                              quiet = FALSE)
 {
@@ -111,7 +114,7 @@ ms_rectify_maps <- function (map_original, map_modified, non_linear = 1,
     if (!quiet)
         message ("\r", cli::symbol$tick, " rectified the two maps  ")
 
-    img <- extract_channel (nr, quiet = quiet)
+    img <- extract_channel (nr, nitems = nitems, quiet = quiet)
 
     if (!quiet)
         message (cli::symbol$pointer, " converting to spatial format ",
@@ -171,7 +174,7 @@ m_niftyreg <- memoise::memoise (function (map_scanned, map, non_linear)
 extract_channel <- function (nr, nitems = NULL, quiet = FALSE)
 {
     img <- nr$image # house and img have 3 layers [r, g, b]
-    x <- get_channel_diff_threshold (img, quiet = quiet)
+    x <- get_channel_diff_threshold (img, nitems = nitems, quiet = quiet)
     if (is.null (nitems))
         nitems <- x$ncomps
     cmat <- get_component_mat (img, x$threshold)
