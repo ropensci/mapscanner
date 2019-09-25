@@ -45,6 +45,23 @@ ms_rotate_map <- function (map_original, map_modified, rotation = 0,
     }
 }
 
+# params are names of .png files
+check_rotation <- function (map_original, map_modified)
+{
+    o <- magick::image_read (map_original) %>%
+        magick::image_info ()
+    o_w2h <- o$width / o$height
+    m <- magick::image_read (map_modified) %>%
+        magick::image_info ()
+    m_w2h <- m$width / m$height
+
+    rotated <- FALSE
+    if (sign (1 - o_w2h) != sign (1 - m_w2h))
+        rotated <- TRUE
+
+    return (rotated)
+}
+
 # get name of png file, converting pdf to png if neccesary
 get_map_png <- function (mapfile, quiet = TRUE)
 {

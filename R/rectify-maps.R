@@ -84,6 +84,13 @@ ms_rectify_maps <- function (map_original, map_modified, non_linear = 1,
 
     map_original <- get_map_png (map_original, quiet = quiet)
     map_modified <- get_map_png (map_modified, quiet = quiet)
+    chk <- check_rotation (map_original, map_modified)
+    if (chk)
+    {
+        ms_rotate_map (map_original, map_modified) 
+        stop ("file [", map_modified, "] appears to be rotated relative to [",
+              map_original, "]; please rotate image using `ms_rotate_maps`")
+    }
 
     f_orig <- trim_white (map_original)
     f_mod <- trim_white (map_modified)
