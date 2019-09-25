@@ -184,17 +184,26 @@ bbox_from_png <- function (file)
 # trim white space from border of png images
 trim_white <- function (fname)
 {
-    bbox <- magick::image_read (fname) %>%
-        magick::image_comment ()
+    i <- magick::image_read (fname)
+    bbox <- magick::image_comment (i)
     # change "EX" at start of file comment to "TX" to flag trimmed:
     if (substring (bbox, 1, 1) != "T")
     {
         # nocov start
         # -- sample images have already been trimmed, so can't be tested
-        img <- magick::image_read (fname) %>%
-            magick::image_trim (fuzz = 1)
-        bbox <- paste0 ("T", substring (bbox, 2, nchar (bbox)))
-        magick::image_write (img, path = fname, comment = bbox)
+        dims <- magick::image_info (i)
+        dims0 <- as.integer (dims [c ("width", "height")])
+        img <- magick::image_trim (i, fuzz = 1)
+        dims <- magick::image_info (img)
+        dims1 <- as.integer (dims [c ("width", "height")])
+        if (identical (dims0, dims1))
+            warning ("Attempt to trim white space from image appears to have ",
+                     "failed - result may not be reliable. Please manually trim",
+                     " whitespace from [", fname, "] to improve results")
+        else {
+            bbox <- paste0 ("T", substring (bbox, 2, nchar (bbox)))
+            magick::image_write (img, path = fname, comment = bbox)
+        }
         # nocov end
     }
 

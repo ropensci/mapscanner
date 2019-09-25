@@ -115,6 +115,7 @@ ms_rectify_maps <- function (map_original, map_modified, nitems = NULL,
         message ("\r", cli::symbol$tick, " rectified the two maps  ")
 
     img <- extract_channel (nr, nitems = nitems, quiet = quiet)
+    check_img_sanity (img)
 
     if (!quiet)
         message (cli::symbol$pointer, " converting to spatial format ",
@@ -268,31 +269,46 @@ get_num_components <- function (img)
     # used, before increasing again due to adding extra noise.
     thr <- c (1, ceiling (2 ^ ((2:10) / 2)))
     n <- sapply (thr, function (i) num_comps (img, thr = i))
-    nf <- stats::filter (n, rep (1, 3))
+    nf <- stats::filter (n, rep (1, 3) / 3)
     n [which (!is.na (nf))] <- nf [which (!is.na (nf))]
     # find first concave region
     dn <- diff (n)
     # do no consider any initial positive values
     index <- which (dn > 0)
-    if (index [1] == 1)
+    if (length (index) == 0) # all thresholds give same #comps
     {
-        index <- index [c (1, which (diff (index) == 1) + 1)]
-        dn [index] <- -1 # arbitrary negative value for next step
-    }
-    if (all (dn < 0))
-        thr0 <- thr [which.min (dn)] # in case no local min
-    else
-        thr0 <- thr [which (dn > 0) [1]]
+        thr0 <- thr [1]
+        n <- n [1]
+    } else {
+        if (index [1] == 1)
+        {
+            index <- index [c (1, which (diff (index) == 1) + 1)]
+            dn [index] <- -1 # arbitrary negative value for next step
+        }
+        if (all (dn < 0))
+            thr0 <- thr [which.min (dn)] # in case no local min
+        else
+            thr0 <- thr [which (dn > 0) [1]]
 
-    # estimate number of components for that threshold
-    cmat <- get_component_mat (img, threshold = thr0)
-    tc <- table (cmat [cmat > 0])
-    n <- as.integer (names (table (tc)))
-    # n is then sizes of components in increasing order. The first "real"
-    # component is presumed to be after the first jump in size of > 2
-    n <- length (which (diff (n) > 2))
+        # estimate number of components for that threshold
+        cmat <- get_component_mat (img, threshold = thr0)
+        tc <- table (cmat [cmat > 0])
+        n <- as.integer (names (table (tc)))
+        # n is then sizes of components in increasing order. The first "real"
+        # component is presumed to be after the first jump in size of > 2
+        n <- length (which (diff (n) > 2))
+    }
 
     list (ncomps = n, threshold = thr0)
+}
+
+# currently implements only one sanity check for feature extraction failure,
+# which is whether the number of feature pixels > number of background pixels
+check_img_sanity <- function (img)
+{
+    if (length (which (img == 1)) > length (which (img == 0)))
+        stop ("Items unable to be extracted from map; perhaps try ",
+              "explicitly specifying 'nitems'?")
 }
 
 # origin is the raster image, channel is result of extract_channel
