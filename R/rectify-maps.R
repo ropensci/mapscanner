@@ -100,19 +100,13 @@ ms_rectify_maps <- function (map_original, map_modified, non_linear = 1,
     }
     nr <- m_niftyreg (map_scanned, map, non_linear = non_linear)
     if (!quiet)
-    {
-        message ("\r", cli::symbol$tick, " rectifying the two maps ")
+        message ("\r", cli::symbol$tick, " rectified the two maps  ")
 
-        message (cli::symbol$pointer, " extracting drawn objects ",
-                 appendLF = FALSE)
-    }
-    img <- extract_channel (nr)
+    img <- extract_channel (nr, quiet = quiet)
+
     if (!quiet)
-    {
-        message ("\r", cli::symbol$tick, " extracting drawn objects ")
         message (cli::symbol$pointer, " converting to spatial format ",
                  appendLF = FALSE)
-    }
     res <- rectify_channel (img, f_orig, type = type, n = downsample,
                             concavity = concavity,
                             length_threshold = length_threshold)
@@ -165,33 +159,26 @@ m_niftyreg <- memoise::memoise (function (map_scanned, map, non_linear)
 # threshold is based on delta, which is the aggregate difference between colour
 # channels. Values above (threhold * median (delta)) are considered to be a
 # single colour and are kept for futher analysis; all other values are removed.
-extract_channel <- function (nr, nitems = NULL)
+extract_channel <- function (nr, nitems = NULL, quiet = FALSE)
 {
     img <- nr$image # house and img have 3 layers [r, g, b]
-    threshold <- get_channel_diff_threshold (img)
-    cmat <- get_component_mat (img, threshold)
+    x <- get_channel_diff_threshold (img, quiet = quiet)
+    if (is.null (nitems))
+        nitems <- x$ncomps
+    cmat <- get_component_mat (img, x$threshold)
     tc <- table (cmat [cmat > 0])
-    if (any (tc < 10) & length (tc) > 4) #  > 4 components
-    {
-        tc2 <- table (tc)
-        # names (tc2) gives the sizes of different clusters in ascending order.
-        # The following code finds the first value at which these sizes make a
-        # positive jump, and takes that as the *smallest* size of clusters to be
-        # analysed.
-        x <- diff (as.integer (names (tc2))) # diff between consecutive sizes
-        d3 <- diff (diff (x)) # curvatures of those differences
-        # n is location in names (tc2) of first point of positive curvature in
-        # size
-        n <- as.integer (names (tc2 [which (d3 > 0) [1] + 3]))
-        comps <- names (tc [which (tc >= n)])
-        small_comps <- names (tc) [which (!names (tc) %in% comps)]
-        cmat [which (cmat %in% as.integer (small_comps))] <- 0
-    }
-    cmat [which (cmat > 0)] <- 1
+    comp_nums <- as.integer (names (sort (tc, decreasing = TRUE)) [1:nitems])
+    cmat [which (!cmat %in% comp_nums)] <- 0
+    cmat [which (cmat > 0)] <- 1 # same as %in% comp_nums, but more efficient
+
+    cmat <- t (apply (cmat, 2, rev))
 
     return (cmat)
 }
 
+# threshold is for aggregate difference between the 3 channels, used to
+# distinguish coloured from grey-scale pixels. Higher values extract fewer
+# pixels.
 get_component_mat <- function (img, threshold)
 {
     res <- array (0, dim = c (dim (img) [1], dim (img) [2]))
@@ -205,21 +192,95 @@ get_component_mat <- function (img, threshold)
     rcpp_components (res)
 }
 
-get_channel_diff_threshold <- function (img, nitems = NULL, threshold = 20)
+# terminology note: user interface refers to "items", but code itself identifies
+# connected components, so internal code uses "components" or "comps", while
+# "nitems" is the user-exposed parameter.
+get_channel_diff_threshold <- function (img, nitems = NULL, quiet = FALSE)
 {
-    if (is.null (nitems))
-        nitems <- 5
-
-    nc <- 0
-    while (nc == 0 | nc > (2 * nitems))
-    {
-        threshold <- threshold / 2
-        cmat <- get_component_mat (img, threshold)
+    # count number of pixels in specified number of components to numbers of
+    # pixels above threshold but not in those components.
+    count_comp_pixels <- function (img, threshold, ncomps) {
+        cmat <- get_component_mat (img, threshold = threshold)
         tc <- table (cmat [cmat > 0])
-        tc <- tc [tc > 10]
-        nc <- length (tc)
+        n_in <- sum (sort (tc, decreasing = TRUE) [1:ncomps])
+        n_out <- sum (tc) - n_in
+        c (threshold = threshold, n_in = n_in, n_out = n_out)
     }
-    return (threshold)
+
+    if (is.null (nitems))
+    {
+        if (!quiet)
+            message (cli::symbol$pointer, " Estimating number of items on map ",
+                     appendLF = FALSE)
+        nitems <- get_num_components (img)
+        thr0 <- nitems$threshold
+        nitems <- nitems$ncomps
+        if (!quiet)
+            message ("\r", cli::symbol$tick,
+                     " Estimated number of items on map: ", nitems)
+    } else
+    {
+        # in this case, do an initial coarse search, which is simply repeated
+        # below over a more refined range.
+        thr <- c (1, ceiling (2 ^ ((2:10) / 2)))
+        np <- vapply (thr, function (i) count_comp_pixels (img, i, nitems),
+                      numeric (3))
+        np <- data.frame (t (np))
+        thr0 <- thr [which.max (np$n_in / np$n_out)] # works also for n_out == 0
+    }
+
+    if (!quiet)
+        message (cli::symbol$pointer,
+                 " Estimating optimal signal-to-noise threshold",
+                 appendLF = FALSE)
+    thr <- thr0 + (-4:5) * thr0 / 5
+    np <- vapply (thr, function (i) count_comp_pixels (img, i, ncomps = nitems),
+                  numeric (3))
+    np <- data.frame (t (np))
+    thr0 <- thr [which.max (np$n_in / np$n_out)] # works also for n_out == 0
+    if (!quiet)
+        message ("\r", cli::symbol$tick,
+                 " Estimated optimal signal-to-noise threshold")
+
+    list (ncomps = nitems, threshold = thr0)
+}
+
+get_num_components <- function (img)
+{
+    num_comps <- function (img, thr = 1) {
+        cmat <- get_component_mat (img, threshold = thr)
+        length (table (cmat [cmat > 0]))
+    }
+    # Number of components extracted decreases with increasing threshold,
+    # generally to a local minimum which is taken as the initial threshold to be
+    # used, before increasing again due to adding extra noise.
+    thr <- c (1, ceiling (2 ^ ((2:10) / 2)))
+    n <- sapply (thr, function (i) num_comps (img, thr = i))
+    nf <- stats::filter (n, rep (1, 3))
+    n [which (!is.na (nf))] <- nf [which (!is.na (nf))]
+    # find first concave region
+    dn <- diff (n)
+    # do no consider any initial positive values
+    index <- which (dn > 0)
+    if (index [1] == 1)
+    {
+        index <- index [c (1, which (diff (index) == 1) + 1)]
+        dn [index] <- -1 # arbitrary negative value for next step
+    }
+    if (all (dn < 0))
+        thr0 <- thr [which.min (dn)] # in case no local min
+    else
+        thr0 <- thr [which (dn > 0) [1]]
+
+    # estimate number of components for that threshold
+    cmat <- get_component_mat (img, threshold = thr0)
+    tc <- table (cmat [cmat > 0])
+    n <- as.integer (names (table (tc)))
+    # n is then sizes of components in increasing order. The first "real"
+    # component is presumed to be after the first jump in size of > 2
+    n <- length (which (diff (n) > 2))
+
+    list (ncomps = n, threshold = thr0)
 }
 
 # origin is the raster image, channel is result of extract_channel
