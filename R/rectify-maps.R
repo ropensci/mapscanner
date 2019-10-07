@@ -69,7 +69,7 @@
 #'
 #' @export
 ms_rectify_maps <- function (map_original, map_modified, nitems = NULL,
-                             non_linear = 1, type = "polygons", downsample = 10,
+                             non_linear = 1, type = "hulls", downsample = 10,
                              concavity = 0, length_threshold = 10,
                              quiet = FALSE)
 {

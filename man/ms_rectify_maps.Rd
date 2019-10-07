@@ -5,8 +5,8 @@
 \title{ms_rectify_maps}
 \usage{
 ms_rectify_maps(map_original, map_modified, nitems = NULL,
-  non_linear = 1, type = "polygons", downsample = 10,
-  concavity = 0, length_threshold = 10, quiet = FALSE)
+  non_linear = 1, type = "hulls", downsample = 10, concavity = 0,
+  length_threshold = 10, quiet = FALSE)
 }
 \arguments{
 \item{map_original}{File name of the original map without anything drawn over
