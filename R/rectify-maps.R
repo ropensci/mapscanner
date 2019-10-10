@@ -325,6 +325,10 @@ rectify_channel <- function (channel, original, type, n = 10,
                      appendLF = FALSE)
         if (concavity == 0) {
             hulls <- polygon_hulls (channel, as_index = FALSE)
+            hulls <- lapply (hulls, function (i) {
+                                 i$x <- ((i$x - 1) / (ncol (channel) - 1))
+                                 i$y <- ((i$y - 1) / (nrow (channel) - 1))
+                                 return (i)    })
         } else # concaveman
         {
             hulls <- polygon_hulls (channel, as_index = TRUE)
@@ -338,13 +342,11 @@ rectify_channel <- function (channel, original, type, n = 10,
                                                          length_threshold)
                                  rbind (res, res [1, ])
                     })
+            hulls <- lapply (hulls, function (i) {
+                                 i$x <- ((i$x - 1) / (nrow (channel) - 1))
+                                 i$y <- ((i$y - 1) / (ncol (channel) - 1))
+                                 return (i)    })
         }
-        # Only need to flip the y-axis here:
-        hulls <- lapply (hulls, function (i) {
-                             i$y <- nrow (channel) - i$y
-                             i$x <- ((i$x - 1) / (ncol (channel) - 1))
-                             i$y <- ((i$y - 1) / (nrow (channel) - 1))
-                             return (i)    })
 
         # Then scale to bbox and convert to st_polygon
         hulls <- lapply (hulls, function (i) {
@@ -454,16 +456,20 @@ polygon_hulls <- function (img, as_index = FALSE)
         cmat_i <- cmat
         cmat_i [cmat_i != ci] <- 0
 
-        x <- t (array (seq (ncol (img)), dim = c (ncol (img), nrow (img))))
-        y <- array (seq (nrow (img)), dim = c (nrow (img), ncol (img)))
+        y <- t (array (seq (ncol (img)), dim = c (ncol (img), nrow (img))))
+        x <- array (seq (nrow (img)), dim = c (nrow (img), ncol (img)))
 
         index <- which (cmat == ci)
-        xy <- data.frame (x = x [index], y = y [index])
-        index <- grDevices::chull (xy)
-        if (as_index)
-            hulls [[length (hulls) + 1]] <- list (xy = xy, index = index)
-        else
-            hulls [[length (hulls) + 1]] <- xy [c (index, index [1]), ]
+        # only make hulls around > 4 points:
+        if (length (index) > 4)
+        {
+            xy <- data.frame (x = x [index], y = y [index])
+            index <- grDevices::chull (xy)
+            if (as_index)
+                hulls [[length (hulls) + 1]] <- list (xy = xy, index = index)
+            else
+                hulls [[length (hulls) + 1]] <- xy [c (index, index [1]), ]
+        }
     }
     return (hulls)
 }
