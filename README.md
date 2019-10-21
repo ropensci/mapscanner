@@ -140,9 +140,7 @@ ms_generate_map (bbox, max_tiles = 16L, mapname = "omaha")
 As indicated, the function generates a map in both `.pdf` and `.png`
 formats. These files must be retained as the “master” maps against which
 subsequently modified – drawn-over and scanned-in – versions will be
-rectified. The `.pdf` format is generated because it will generally be
-the most convenient for printing, while the rectification itself
-requires `.png`-format images.
+rectified.
 
 ### Map rectification
 
