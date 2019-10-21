@@ -34,5 +34,5 @@ library(sf)
 set.seed(6)
 pts <- expand.grid (x = 1:8, y = 1:10) \%>\% st_as_sf (coords = c("x", "y"))
 xsf <- sf::st_buffer (pts, runif (nrow (pts), 0.2, 1.5))
-# system.time (out <- ms_aggregate_polys (xsf))
+# out <- ms_aggregate_polys (xsf)
 }
