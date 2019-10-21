@@ -43,6 +43,9 @@ ms_generate_map <- function (bbox, max_tiles = 16L, mapname = NULL,
 
     style <- match.arg (tolower (style), c ("light", "streets", "outdoors"))
 
+    # used here just to confirm token exists:
+    mapbox_token <- get_mapbox_token ()
+
     if (is.null (raster_brick))
         raster_brick <- get_raster_brick (bbox = bbox,              # nocov
                                           max_tiles = max_tiles,    # nocov

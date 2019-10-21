@@ -5,12 +5,32 @@ get_mapbox_token <- function ()
     e <- Sys.getenv()
     e <- e [grep ("mapbox|mapscan", names (e), ignore.case = TRUE)]
     tok <- unique (as.character (e))
-    if (length (tok) != 1 | tok == "")
-        stop ("Map generation requires a mapbox API key to be set with ",
-              "Sys.setenv with a name that includes either the strings ",
-              "'mapbox' or 'mapscanner'. Tokens can be obtained from ",
-              "https://docs.mapbox.com/api/#access-tokens-and-token-scopes")
+    if (all (tok == ""))
+        stop0 ()
+    else if (length (tok) > 1)
+    {
+        e <- e [grep ("mapscan", names (e), ignore.case = TRUE)]
+        tok <- unique (as.character (e))
+        if (length (tok) == 0)
+            stop0 ()
+        else if (length (tok) > 1)
+            stop ("Found multiple potential tokens named [",
+                  paste0 (names (e), collapse = ","), "];\nplease specify ",
+                  "only one environnmental variable which includes the ",
+                  "name\n'mapscan', and contains a personal API key for ",
+                  "mapbox services.")
+    }
     return (tok)
+}
+
+stop0 <- function ()
+{
+    stop ("Map generation requires a mapbox API key to be set with ",
+          "Sys.setenv\nor the package's 'set_mapbox_token' function, ",
+          "using a token name that\nincludes either the strings ",
+          "'mapbox' or 'mapscanner'. Tokens can be obtained\nfrom ",
+          "https://docs.mapbox.com/api/#access-tokens-and-token-scopes",
+          call. = FALSE)
 }
 
 #' set_mapbox_token
