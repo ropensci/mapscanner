@@ -23,7 +23,11 @@ get_mapbox_token <- function ()
 #' @export
 set_mapbox_token <- function (token)
 {
-    Sys.setenv ("mapscanner" = token)
+    chk <- Sys.setenv ("mapscanner" = token)
+    if (chk)
+        message ("Token successfully set")
+    else
+        warning ("Unable to set token")
 }
 
 # nocov end
