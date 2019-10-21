@@ -155,7 +155,7 @@ a particular region of Omaha.
 ```{r scan_maps}
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
-system.time (res <- ms_rectify_maps (f_orig, f_mod, type = "polygons"))
+res <- ms_rectify_maps (f_orig, f_mod, type = "polygons")
 res
 ```
 The rectification can take quite some time, during which [`RNiftyReg`
@@ -165,8 +165,21 @@ transformation of the modified image back on to the original. The result of
 [`sf`](https://cran.r-project.org/package=sf)-format in which each drawn
 component is represented as a separate polygon. Finally, we can plot the result
 as an interactive map using packages like
-[`mapdeck`](https://github.com/symbolixAU/mapdeck), or
-[`mapview`](https://github.com/r-spatial/mapview):
+[`mapview`](https://github.com/r-spatial/mapview) with the following commands:
+```{r mapview, eval = FALSE}
+library (mapview)
+mapview (res)
+```
+or [`mapdeck`](https://github.com/symbolixAU/mapdeck), which similarly requires
+a mapbox token:
+```{r mapdeck, eval = FALSE}
+library (mapdeck)
+set_token (Sys.getenv ("<my_mapbox_token>"))
+mapdeck () %>%
+    add_polygon (res, fill_colour = "#ffff00cc",
+                 stroke_colour = "#ff0000", stroke_width = 20)
+```
+
 
 ```{r leaflet, echo = FALSE, eval = FALSE}
 library(leaflet)

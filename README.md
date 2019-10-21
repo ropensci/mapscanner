@@ -155,7 +155,7 @@ original by drawing a red line around a particular region of Omaha.
 ``` r
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
-system.time (res <- ms_rectify_maps (f_orig, f_mod, type = "polygons"))
+res <- ms_rectify_maps (f_orig, f_mod, type = "polygons")
 #> ══ mapscanner ═════════════════════════════════════════════════════════════
 #> ❯ rectifying the two maps 
 ✔ rectifying the two maps 
@@ -163,8 +163,6 @@ system.time (res <- ms_rectify_maps (f_orig, f_mod, type = "polygons"))
 ✔ extracting drawn objects 
 #> ❯ converting to spatial format 
 ✔ converting to spatial format
-#>    user  system elapsed 
-#>  43.696   0.696  12.117
 res
 #> Simple feature collection with 2 features and 0 fields
 #> geometry type:  POLYGON
@@ -184,8 +182,24 @@ result of `ms_rectify_maps()` is a spatial object in
 [`sf`](https://cran.r-project.org/package=sf)-format in which each drawn
 component is represented as a separate polygon. Finally, we can plot the
 result as an interactive map using packages like
-[`mapdeck`](https://github.com/symbolixAU/mapdeck), or
-[`mapview`](https://github.com/r-spatial/mapview):
+[`mapview`](https://github.com/r-spatial/mapview) with the following
+commands:
+
+``` r
+library (mapview)
+mapview (res)
+```
+
+or [`mapdeck`](https://github.com/symbolixAU/mapdeck), which similarly
+requires a mapbox token:
+
+``` r
+library (mapdeck)
+set_token (Sys.getenv ("<my_mapbox_token>"))
+mapdeck () %>%
+    add_polygon (res, fill_colour = "#ffff00cc",
+                 stroke_colour = "#ff0000", stroke_width = 20)
+```
 
 ![](./man/figures/leaflet-1.png)
 
