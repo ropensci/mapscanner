@@ -46,7 +46,8 @@
 #'
 #' @examples
 #' f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
-#' f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
+#' f_mod <- system.file ("extdata", "omaha-polygons.png",
+#'                       package = "mapscanner")
 #' \dontrun{
 #' xy_hull <- ms_rectify_maps (f_orig, f_mod, type = "hull")
 #' xy_poly <- ms_rectify_maps (f_orig, f_mod, type = "polygons")
@@ -90,7 +91,7 @@ ms_rectify_maps <- function (map_original, map_modified, nitems = NULL,
     chk <- check_rotation (map_original, map_modified)
     if (chk)
     {
-        ms_rotate_map (map_original, map_modified) 
+        ms_rotate_map (map_original, map_modified)
         stop ("file [", map_modified, "] appears to be rotated relative to [",
               map_original, "]; please rotate image using `ms_rotate_maps`")
     }

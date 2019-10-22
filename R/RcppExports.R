@@ -15,8 +15,8 @@ rcpp_components <- function(image) {
 
 #' rcpp_concaveman
 #' @noRd 
-rcpp_concaveman <- function(xy, hull_in, concavity, lengthThreshold) {
-    .Call(`_mapscanner_rcpp_concaveman`, xy, hull_in, concavity, lengthThreshold)
+rcpp_concaveman <- function(xy, hull_in, concavity, length_threshold) {
+    .Call(`_mapscanner_rcpp_concaveman`, xy, hull_in, concavity, length_threshold)
 }
 
 #' rcpp_edge_thin

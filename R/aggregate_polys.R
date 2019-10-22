@@ -2,7 +2,8 @@
 #'
 #' Planar partition from disparate polygon inputs. Overlaps aggregate to `n`.
 #'
-#' Input is a single simple features polygon data frame. No attribute data is considered.
+#' Input is a single simple features polygon data frame. No attribute data is
+#' considered.
 #' @param px input polygons (assumed overlapping poly/mpolys in sf_df)
 #' @param ... unused
 #' @export
@@ -37,7 +38,7 @@ ms_aggregate_polys <- function (px, ...)
     sf::st_cast (rbind (sf::st_sf (n = 1, geometry = sf::st_union (px)),
                         do.call (rbind, lapply (seq_len (n_types)[-1],
                                                 function (ni) {
-                            sf_df ( n_intersections (tri_map, ni), n = ni)
+                            sf_df (n_intersections (tri_map, ni), n = ni)
                                                 }
                                                 ))), "MULTIPOLYGON")
 
@@ -58,7 +59,8 @@ sf_df <- function (x, n) {
 }
 
 
-# combination of path <- silicate::PATH(sfall); RTri <- pfft::edge_RTriangle(path)
+# combination of path <- silicate::PATH(sfall);
+# RTri <- pfft::edge_RTriangle(path)
 triangulate_map_sf <- function (x, ...)
 {
     requireNamespace ("dplyr")
@@ -80,13 +82,10 @@ triangulate_map_sf <- function (x, ...)
     instances <- dplyr::mutate (udata$data, path = path,
                                 object = rep (gmap$object, gmap$nrow),
                                 coord = dplyr::row_number ())
-    #object <- tibble::tibble (object_ = seq_len (nrow (x)))
     if (length (unique (instances$path)) == nrow (instances))
     {
 
         print ("Unknown error in map triangulation") # nocov
-        # instances[".vx0"] <- instances["vertex_"]
-        # object$topology_ <- split (instances[c (".vx0")], instances$object)
     } else
     {
         ## convert to edge-based rather than path-based
@@ -154,9 +153,7 @@ triangulate_map_sf <- function (x, ...)
             pip_in <- list (x = lc[[i]][["x_"]], y = lc[[i]][["y_"]])
             pip_out <- polyclip::pointinpolygon (centr_in, pip_in)
             pip[[i]] [pipmap[[i]]] <- abs (pip_out) > 0L
-        }# else {
-        #  pip[[i]][] <- FALSE
-        #}
+        }
     }
 
     ## collate indexes and return a) input layers, b) triangles, c) mapping
@@ -189,7 +186,7 @@ n_intersections <- function (x, n = 2, ...)
         ## every unique triangle keeps a record of which path, object, layer
         ## (a bit of redundancy until we get a single path/object index or ...)
             ## path joins us to layer + object
-        idx <- triangles%>% dplyr::inner_join(gmap, "path")
+        idx <- triangles %>% dplyr::inner_join(gmap, "path")
 
 
         ## now build each triangle

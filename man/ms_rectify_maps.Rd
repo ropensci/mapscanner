@@ -66,7 +66,8 @@ considerably longer than with lower values.
 }
 \examples{
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
-f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
+f_mod <- system.file ("extdata", "omaha-polygons.png",
+                      package = "mapscanner")
 \dontrun{
 xy_hull <- ms_rectify_maps (f_orig, f_mod, type = "hull")
 xy_poly <- ms_rectify_maps (f_orig, f_mod, type = "polygons")

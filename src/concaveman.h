@@ -710,4 +710,4 @@ template<class T, int MAX_CHILDREN> bool noIntersections(
 }
 
 Rcpp::DataFrame rcpp_concaveman (Rcpp::DataFrame xy, Rcpp::IntegerVector hull_in,
-        const double concavity, const double lengthThreshold);
+        const double concavity, const double length_threshold);

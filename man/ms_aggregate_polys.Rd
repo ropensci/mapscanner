@@ -15,7 +15,8 @@ ms_aggregate_polys(px, ...)
 Planar partition from disparate polygon inputs. Overlaps aggregate to \code{n}.
 }
 \details{
-Input is a single simple features polygon data frame. No attribute data is considered.
+Input is a single simple features polygon data frame. No attribute data is
+considered.
 }
 \examples{
 g <- sf::st_sfc(list(sf::st_point(cbind(0, 0)),
