@@ -107,12 +107,12 @@ ms_rectify_maps <- function (map_original, map_modified, nitems = NULL,
     # space of the 'target' image"
     if (!quiet)
     {
-        message (cli::symbol$pointer, " rectifying the two maps ",
+        message (cli::symbol$pointer, " Rectifying the two maps ",
                  appendLF = FALSE)
     }
     nr <- m_niftyreg (map_scanned, map, non_linear = non_linear)
     if (!quiet)
-        message ("\r", cli::symbol$tick, " rectified the two maps  ")
+        message ("\r", cli::symbol$tick, " Rectified the two maps  ")
 
     img <- extract_channel (nr, nitems = nitems, quiet = quiet)
     check_img_sanity (img)
@@ -122,7 +122,7 @@ ms_rectify_maps <- function (map_original, map_modified, nitems = NULL,
                             length_threshold = length_threshold,
                             quiet = quiet)
     if (!quiet)
-        message ("\r", cli::symbol$tick, " converting to spatial format ")
+        message ("\r", cli::symbol$tick, " Converted to spatial format ")
     return (res)
 }
 
@@ -178,6 +178,9 @@ extract_channel <- function (nr, nitems = NULL, quiet = FALSE)
         nitems <- x$ncomps
     cmat <- get_component_mat (img, x$threshold)
     tc <- table (cmat [cmat > 0])
+    nitems <- length (which (tc > 4))
+    if (!quiet)
+        message (cli::symbol$tick, " Identified ", nitems, " objects")
     comp_nums <- as.integer (names (sort (tc, decreasing = TRUE)) [1:nitems])
     cmat [which (!cmat %in% comp_nums)] <- 0
     cmat [which (cmat > 0)] <- 1 # same as %in% comp_nums, but more efficient
@@ -218,17 +221,15 @@ get_channel_diff_threshold <- function (img, nitems = NULL, quiet = FALSE)
         c (threshold = threshold, n_in = n_in, n_out = n_out)
     }
 
+    if (!quiet)
+        message (cli::symbol$pointer,
+                 " Estimating optimal signal-to-noise threshold",
+                 appendLF = FALSE)
     if (is.null (nitems))
     {
-        if (!quiet)
-            message (cli::symbol$pointer, " Estimating number of items on map ",
-                     appendLF = FALSE)
         nitems <- get_num_components (img)
         thr0 <- nitems$threshold
         nitems <- nitems$ncomps
-        if (!quiet)
-            message ("\r", cli::symbol$tick,
-                     " Estimated number of items on map: ", nitems)
     } else
     {
         # in this case, do an initial coarse search, which is simply repeated
@@ -240,10 +241,6 @@ get_channel_diff_threshold <- function (img, nitems = NULL, quiet = FALSE)
         thr0 <- thr [which.max (np$n_in / np$n_out)] # works also for n_out == 0
     }
 
-    if (!quiet)
-        message (cli::symbol$pointer,
-                 " Estimating optimal signal-to-noise threshold",
-                 appendLF = FALSE)
     thr <- thr0 + (-4:5) * thr0 / 5
     np <- vapply (thr, function (i) count_comp_pixels (img, i, ncomps = nitems),
                   numeric (3))
@@ -321,7 +318,7 @@ rectify_channel <- function (channel, original, type, n = 10,
     if (type == "hulls")
     {
         if (!quiet)
-            message (cli::symbol$pointer, " converting to spatial format ",
+            message (cli::symbol$pointer, " Converting to spatial format ",
                      appendLF = FALSE)
         if (concavity == 0) {
             hulls <- polygon_hulls (channel, as_index = FALSE)
@@ -373,7 +370,7 @@ rectify_channel <- function (channel, original, type, n = 10,
             boundaries <- boundaries [which (lens > 3)]
         }
         if (!quiet)
-            message (cli::symbol$pointer, " converting to spatial format ",
+            message (cli::symbol$pointer, " Converting to spatial format ",
                      appendLF = FALSE)
         # Then scale to bbox and convert to st_polygon. smooth boundary polygons
         # that have > (10 * n = downsample) points
