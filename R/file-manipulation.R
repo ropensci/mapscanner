@@ -16,7 +16,7 @@
 #'
 #' @export
 ms_rotate_map <- function (map_original, map_modified, rotation = 0,
-                            apply_rotation = FALSE)
+                           apply_rotation = FALSE)
 {
     map_original <- get_map_png (map_original, quiet = TRUE)
     map_modified <- get_map_png (map_modified, quiet = TRUE)
@@ -57,7 +57,7 @@ check_rotation <- function (map_original, map_modified)
 
     rotated <- FALSE
     if (sign (1 - o_w2h) != sign (1 - m_w2h))
-        rotated <- TRUE
+        rotated <- TRUE # nocov
 
     return (rotated)
 }
@@ -113,7 +113,7 @@ reduce_size <- function (mapfile, quiet = TRUE)
     }
 
     newname <- file.path (tempdir (), paste0 ("img", hash (10), ".png"))
-    chk <- file.copy (mapfile, newname)
+    invisible (file.copy (mapfile, newname))
     s <- file.size (newname)
     # % reduction to resize to 1MB:
     red <- paste0 (floor (100 / (s / 1e6)), "%")
@@ -124,7 +124,7 @@ reduce_size <- function (mapfile, quiet = TRUE)
 
     if (!quiet)
     {
-        snew <- formatC (file.size (newname)/ 1e6, format = "f", digits = 1)
+        snew <- formatC (file.size (newname) / 1e6, format = "f", digits = 1)
         message ("\r", cli::symbol$tick, " Reduced size of '", mapfile,
                  "' of ", smb, "MB to ", snew, "MB")
     }
@@ -146,8 +146,8 @@ reduce_image_size <- function (mapfile, maxdim = 1000, quiet = FALSE)
         newname <- file.path (tempdir (), paste0 ("img", hash (10), ".png"))
         scl <- ceiling (maxpix / maxdim)
         if (!quiet)
-            message (cli::symbol$tick, " Image [", mapfile, "] reduced in size ",
-                     "by factor of ", scl)
+            message (cli::symbol$tick, " Image [", mapfile,
+                     "] reduced in size by factor of ", scl)
         dims <- paste0 (ceiling (c (i$width, i$height) / scl), collapse = "x")
         bbox <- magick::image_comment (o)
         magick::image_resize (o, geometry = dims) %>%
@@ -198,8 +198,8 @@ trim_white <- function (fname)
         dims1 <- as.integer (dims [c ("width", "height")])
         if (identical (dims0, dims1))
             warning ("Attempt to trim white space from image appears to have ",
-                     "failed - result may not be reliable. Please manually trim",
-                     " whitespace from [", fname, "] to improve results")
+                     "failed - result may not be reliable. Please manually ",
+                     "trim whitespace from [", fname, "] to improve results")
         else {
             bbox <- paste0 ("T", substring (bbox, 2, nchar (bbox)))
             magick::image_write (img, path = fname, comment = bbox)
