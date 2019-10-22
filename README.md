@@ -15,17 +15,16 @@ Concept](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repo
 
 ## What does this package do for me?
 
-`mapscanner` is an **R** package that enables maps to be printed out,
-drawn on, scanned back in, and have the drawn components converted to
-spatial objects. It is intended for use in social surveys and similar
-endeavours in which printed paper maps are preferred over digital
-screens, and enables marks drawn by hand on paper maps to be converted
-to spatial objects. The use of paper maps is often advantageous because
-(i) they cost much less than computer devices otherwise needed for
-digital equivalents; and (ii) they may in many situations be deemed to
-yield more reliable or accurate results through removing the
-psychological barriers often associated with screen-based surveys.
-Currently [under
+`mapscanner` is an **R** package that enables lines drawn by hand on
+maps to be converted to spatial objects. The package has two primary
+functions: one for producing maps, and one for rectifying hand-drawn
+lines to the coordinate system of the original map. The package is
+intended for use in social surveys and similar endeavours in which
+hand-drawn markings on maps need to be converted to spatial objects.
+Maps can be either paper- or screen-based. Markings on paper maps need
+to be scanned, photographed, or otherwise digitised, while maps with
+screen-based markings need to be saved as `.png`-format images. The
+package is currently [under
 review](https://github.com/ropensci/software-review/issues/330#event-2513283441)
 at [rOpenSci](https://ropensci.org).
 
@@ -53,13 +52,14 @@ The package is designed to enable the following workflow:
     function, which automatically produces both `.pdf` and `.png`
     versions;
 
-2.  Print the `.pdf` version to use as desired in any kind of survey
-    environment;
+2.  Either print the `.pdf` version to use as desired in any kind of
+    survey environment, or use either the `.pdf` or `.png` versions in
+    digital form for screen-based surveys.
 
 3.  Draw on the map;
 
-4.  Digitise the drawn-on (from here on, “modified”) map, converting it
-    to either `.pdf` or `.png` format; and
+4.  For paper maps, digitise the drawn-on (from here on, “modified”)
+    map, converting it to either `.pdf` or `.png` format; and
 
 5.  Rectify the modified version against the original via the
     [`ms_rectify_maps()`](https://mpadge.github.io/mapscanner/reference/ms_rectify_maps.html)
@@ -69,9 +69,8 @@ The package is designed to enable the following workflow:
 
 ### Practical tips
 
-Unlike most software packages, `mapscanner` is intended to aid a
-*practical* workflow, and so a few practical tips may be recommended
-here to ensure best results:
+The `mapscanner` package is intended to aid a *practical* workflow, and
+so a few practical tips may be recommended here to ensure best results:
 
 1.  The original digital files generated with
     [`ms_generate_map()`](https://mpadge.github.io/mapscanner/reference/ms_generate_map.html)
@@ -82,22 +81,25 @@ here to ensure best results:
     annotations *not* intended to be converted to spatial objects (such
     as unique identification or participant codes) may be made on maps
     in black or grey.
-3.  For drawings of areas, care should be taken to ensure all lines form
-    closed polygons; only in cases where this is not possible or
-    practicable, the `type = "hulls"` argument should be used in map
-    rectification, as described further below.
-4.  Digitised versions should contain *white* borders, so do not, for
-    example, photograph modified maps lying on dark surfaces. If maps
-    are to be photographed, then best results can be achieved by simply
-    placing them on a larger, enclosing sheet of white paper.
+3.  For drawings of areas, best results will be achieved through
+    ensuring that all lines form closed polygons. While the default
+    `type = "hulls"` argument should work even when lines are not
+    closed, the `type = "polygons"` argument will generally produce more
+    accurate results, yet should only be used when all lines form closed
+    polygons (see below for details on how these two differ).
+4.  Digitised versions of paper maps should contain *white* borders, so
+    do not, for example, photograph modified maps lying on dark
+    surfaces. If maps are to be photographed, then best results can be
+    achieved by simply placing them on a larger, enclosing sheet of
+    white paper.
 
 The following two sections describe the two primary functions of the
 `mapscanner` package, corresponding to the two primary steps of
-producing maps to be used in surveys, and rectifying modified maps
-against these originals in order to extract spatial objects. The second
-of these sections also describes the kinds of markings able to be
-recognised, and the kinds of spatial objects to which these may be
-converted.
+producing maps to be used in surveys (or other activities), and
+rectifying modified maps against these originals in order to extract
+spatial objects. The second of these sections also describes the kinds
+of markings able to be recognised, and the kinds of spatial objects to
+which these may be converted.
 
 ### Mapbox API tokens
 
