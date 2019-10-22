@@ -159,22 +159,21 @@ f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
 res <- ms_rectify_maps (f_orig, f_mod, type = "polygons")
 #> ══ mapscanner ═════════════════════════════════════════════════════════════
-#> ❯ rectifying the two maps 
-✔ rectifying the two maps 
-#> ❯ extracting drawn objects 
-✔ extracting drawn objects 
-#> ❯ converting to spatial format 
-✔ converting to spatial format
+#> ✔ Image [/usr/lib/R/library/mapscanner/extdata/omaha.png] reduced in size by factor of 2
+✔ Rectified the two maps  
+✔ Estimated optimal signal-to-noise threshold
+✔ Identified 2 objects
+✔ Converted to spatial format
 res
 #> Simple feature collection with 2 features and 0 fields
 #> geometry type:  POLYGON
 #> dimension:      XY
-#> bbox:           xmin: -96.11764 ymin: 41.26657 xmax: -96.02752 ymax: 41.3008
+#> bbox:           xmin: -96.11814 ymin: 41.26638 xmax: -96.02722 ymax: 41.30109
 #> epsg (SRID):    4326
 #> proj4string:    +proj=longlat +datum=WGS84 +no_defs
 #>                         geometry
-#> 1 POLYGON ((-96.04196 41.2963...
-#> 2 POLYGON ((-96.11764 41.2697...
+#> 1 POLYGON ((-96.11589 41.2663...
+#> 2 POLYGON ((-96.03544 41.2927...
 ```
 
 The rectification can take quite some time, during which [`RNiftyReg`
