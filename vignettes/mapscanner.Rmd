@@ -153,9 +153,9 @@ The amount of detail in resultant maps is controlled by the `max_tiles`
 argument, with larger values producing more detail, and resulting in larger
 file sizes. The default value of `max_tiles = 16L` (where the `L` symbol tells
 `R`to treat the value as an integer) should produce acceptable results for maps
-extending across hundreds of metres to a few kilometers. Smaller-scale maps may
+extending across hundreds of metres to a few kilometres Smaller-scale maps may
 require higher values, and vice-versa. Map generation is relatively fast, and
-so different values can be readily trialed.
+so different values can be readily trialled.
 
 Maps are generated in two formats, because the `.pdf` version will generally
 be the most convenient for printing, while the `png` version should be retained
