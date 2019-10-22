@@ -7,7 +7,7 @@
 ms_aggregate_polys(px, ...)
 }
 \arguments{
-\item{px}{input polygons (assumed overlapping poly/mpolys in sf_df)}
+\item{px}{input polygons (assumed overlapping poly/mpolys)}
 
 \item{...}{unused}
 }
