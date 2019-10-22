@@ -21,15 +21,16 @@ requireNamespace ("sf")
 
 ## What does this package do for me?
 
-`mapscanner` is an **R** package that enables maps to be printed out, drawn on,
-scanned back in, and have the drawn components converted to spatial objects. It
-is intended for use in social surveys and similar endeavours in which printed
-paper maps are preferred over digital screens, and enables marks drawn by hand
-on paper maps to be converted to spatial objects. The use of paper maps is
-often advantageous because (i) they cost much less than computer devices
-otherwise needed for digital equivalents; and (ii) they may in many situations
-be deemed to yield more reliable or accurate results through removing the
-psychological barriers often associated with screen-based surveys.
+`mapscanner` is an **R** package that enables lines drawn by hand on maps to be
+converted to spatial objects. The package has two primary functions: one for
+producing maps, and one for rectifying hand-drawn lines to the coordinate
+system of the original map. The package is intended for use in social surveys
+and similar endeavours in which hand-drawn markings on maps need to be
+converted to spatial objects. Maps can be either paper- or screen-based.
+Markings on paper maps need to be scanned, photographed, or otherwise
+digitised, while maps with screen-based markings need to be saved as
+`.png`- or `.pdf`-format images.
+
 
 ## How do I use it?
 
@@ -53,12 +54,14 @@ The package is designed to enable the following workflow:
    [`ms_generate_map()`](https://mpadge.github.io/mapscanner/reference/ms_generate_map.html)
    function, which automatically produces both `.pdf` and `.png` versions;
 
-2. Print the `.pdf` version to use as desired in any kind of survey environment;
+2. Either print the `.pdf` version to use as desired in any kind of survey
+   environment, or use either the `.pdf` or `.png` versions in digital form for
+   screen-based surveys.
 
 3. Draw on the map;
 
-4. Digitise the drawn-on (from here on, "modified") map, converting it to
-   either `.pdf` or `.png` format; and
+4. For paper maps, digitise the drawn-on (from here on, "modified") map,
+   converting it to either `.pdf` or `.png` format; and
 
 5. Rectify the modified version against the original via the
    [`ms_rectify_maps()`](https://mpadge.github.io/mapscanner/reference/ms_rectify_maps.html)
@@ -68,9 +71,8 @@ The package is designed to enable the following workflow:
 
 ### Practical tips
 
-Unlike most software packages, `mapscanner` is intended to aid a *practical*
-workflow, and so a few practical tips may be recommended here to ensure best
-results:
+The `mapscanner` package is intended to aid a *practical* workflow, and so
+a few practical tips may be recommended here to ensure best results:
 
 1. The original digital files generated with
    [`ms_generate_map()`](https://mpadge.github.io/mapscanner/reference/ms_generate_map.html)
@@ -80,21 +82,22 @@ results:
    be ignored. This has the advantage that individual annotations *not*
    intended to be converted to spatial objects (such as unique identification
    or participant codes) may be made on maps in black or grey.
-3. For drawings of areas, care should be taken to ensure all lines form closed
-   polygons; only in cases where this is not possible or practicable, the `type
-   = "hulls"` argument should be used in map rectification, as described
-   further below.
-4. Digitised versions should contain *white* borders, so do not, for example,
-   photograph modified maps lying on dark surfaces. If maps are to be
-   photographed, then best results can be achieved by simply placing them on
+3. For drawings of areas, best results will be achieved through ensuring that
+   all lines form closed polygons. While the default `type = "hulls"` argument
+   should work even when lines are not closed, the `type = "polygons"` argument
+   will generally produce more accurate results, yet should only be used when
+   all lines form closed polygons (see below for details on how these two differ).
+4. Digitised versions of paper maps should contain *white* borders, so do not,
+   for example, photograph modified maps lying on dark surfaces. If maps are to
+   be photographed, then best results can be achieved by simply placing them on
    a larger, enclosing sheet of white paper.
 
 The following two sections describe the two primary functions of the
 `mapscanner` package, corresponding to the two primary steps of producing maps
-to be used in surveys, and rectifying modified maps against these originals in
-order to extract spatial objects. The second of these sections also describes
-the kinds of markings able to be recognised, and the kinds of spatial objects
-to which these may be converted.
+to be used in surveys (or other activities), and rectifying modified maps
+against these originals in order to extract spatial objects. The second of
+these sections also describes the kinds of markings able to be recognised, and
+the kinds of spatial objects to which these may be converted.
 
 ## Mapbox API tokens
 
@@ -104,6 +107,7 @@ from
 [https://docs.mapbox.com/api](https://docs.mapbox.com/api/#access-tokens-and-token-scopes).
 If you already have a token, the easiest way to use it with `mapscanner` is to
 create (or edit) a file `~/.Renviron`, and insert a line,
+
 ``` bash
 MAPBOX_TOKEN=<my_mapbox_token>
 ```
@@ -144,6 +148,14 @@ simply need to be entered in to the `bbox` parameter of
 [`ms_generate_map()`](https://mpadge.github.io/mapscanner/reference/ms_generate_map.html)
 in the order (`xmin`, `ymin`, `xmax`, `ymax`) -- or anti-clockwise from the
 left-hand coordinate.
+
+The amount of detail in resultant maps is controlled by the `max_tiles`
+argument, with larger values producing more detail, and resulting in larger
+file sizes. The default value of `max_tiles = 16L` (where the `L` symbol tells
+`R`to treat the value as an integer) should produce acceptable results for maps
+extending across hundreds of metres to a few kilometers. Smaller-scale maps may
+require higher values, and vice-versa. Map generation is relatively fast, and
+so different values can be readily trialed.
 
 Maps are generated in two formats, because the `.pdf` version will generally
 be the most convenient for printing, while the `png` version should be retained
@@ -191,9 +203,9 @@ ms_generate_map (raster_brick = x, mapname = "chennai")
 
 Having produced digital maps using the
 [`ms_generate_map()`](https://mpadge.github.io/mapscanner/reference/ms_generate_map.html)
-function as described above, and having printed, variously drawn-on, and
-scanned the result back in to digital form, the package can then be used to
-rectify the hand-drawn markings against the original map with the
+function as described above, and having printed, variously drawn-on, and, for
+paper maps, scanned the result back in to digital form, the package can then be
+used to rectify the hand-drawn markings against the original map with the
 [`ms_rectify_maps()`](https://mpadge.github.io/mapscanner/reference/ms_rectify_maps.html)
 function, which returns the drawn-on objects as spatial objects in [Simple
 Features (`sf`)](https://cran.r-project.org/package=sf) format. The only
@@ -205,12 +217,12 @@ such annotations in grey or black.
 
 The
 [`ms_rectify_maps()`](https://mpadge.github.io/mapscanner/reference/ms_rectify_maps.html)
-function has only two primary arguments, specifying the names (and locations)
-of the original and modified map files -- in that order:
-`ms_rectify_maps(original, modified)`. These files should ideally be in `.png`
-formats, but will be auto-converted from `.pdf` if needed. The package comes
-with two sample maps, both in `.png` format. The first is the reference version
-needed for rectification, while the second has two red lines drawn upon it:
+function has two primary arguments, specifying the names (and locations) of the
+original and modified map files -- in that order: `ms_rectify_maps(original,
+modified)`. These files should ideally be in `.png` formats, but will be
+auto-converted from `.pdf` if needed. The package comes with two sample maps,
+both in `.png` format. The first is the reference version needed for
+rectification, while the second has two red lines drawn upon it:
 
 <img src="omaha-polygons.png" width="600" height="400"/>
 
@@ -219,7 +231,7 @@ Converting the lines on this scanned image file is then as simple as:
 ```{r rectify}
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
-xy <- ms_rectify_maps (f_orig, f_mod)
+xy <- ms_rectify_maps (f_orig, f_mod, nitems = 2)
 xy
 ```
 The result of
@@ -248,35 +260,35 @@ The
 [`ms_rectify_maps()`](https://mpadge.github.io/mapscanner/reference/ms_rectify_maps.html)
 function has an additional argument, `type`, which takes the following values:
 
-1. `type = "polygons"` (the default), which returns the outlines traced around
-   each individual drawn object. This tracing is pixel-based, resulting in
-   polygons with one spatial point for each scanned pixel. This may generate
-   spatial objects that are both overly large as well as visually pixillated.
-   The function includes an additional `downsample` parameter which
-   down-samples as smooths the resultant polygons by the specified multiple.
-2. `type = "hulls"`, which returns convex or concave hulls around distinct sets
-   of contiguously marked lines, regardless of whether those lines form closed
-   polygons or not (see function help for details).
+1. `type = "hulls"` (the default), which returns convex or concave hulls around
+   distinct sets of contiguously marked lines, regardless of whether those
+   lines form closed polygons or not (see function help for details).
+2. `type = "polygons"`, which returns the outlines traced around each
+   individual drawn object. This tracing is pixel-based, resulting in polygons
+   with one spatial point for each scanned pixel. This may generate spatial
+   objects that are both overly large as well as visually pixillated. The
+   function includes an additional `downsample` parameter which down-samples
+   and smooths the resultant polygons by the specified multiple.
 3. `type = "points"`, which returns single points (as geometric centroids) for
    each object. This is useful for identification of individual point locations
    regardless of the kinds of marks actually drawn on a map (dots, circles,
    crosses, or any shape, should all give equivalent results).
 
-The default type of `polygons` assumes -- and indeed requires -- that the drawn
-objects are *closed* polygons (as illustrated in the first of the above
-figures), so care must be taken to ensure this is in fact the case. Any lines
-that do not form closed circles will not be appropriately translated. The `type
-= "hulls"` parameter should be used in all other cases where areal rather than
-point-based results are desired, and in which lines may or do not necessarily
-form single closed polygons. Examples include participants being asked to
-colour particular areas using any desired kind of marks, enabling areal-filling
-scribbles can be converted to polygons representing the outer boundaries.
+The type of `polygons` assumes -- and indeed requires -- that the drawn objects
+are *closed* polygons (as illustrated in the first of the above figures), so
+care must be taken to ensure this is in fact the case. Any lines that do not
+form closed circles will not be appropriately translated. The `type = "hulls"`
+parameter should be used in all other cases where areal rather than point-based
+results are desired, and in which lines may or do not necessarily form single
+closed polygons. Examples include participants being asked to colour particular
+areas using any desired kind of marks, enabling areal-filling scribbles can be
+converted to polygons representing the outer boundaries.
 
 The `"polygon"` and `"point"` types are illustrated in the following maps:
 ```{r type-hulls}
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
-xy <- ms_rectify_maps (f_orig, f_mod, type = "hulls", quiet = TRUE)
+xy <- ms_rectify_maps (f_orig, f_mod, type = "polygons", quiet = TRUE)
 ```
 ```{r mapview-hulls, eval = TRUE, echo = FALSE}
 xy$id <- seq (nrow (xy))
