@@ -277,12 +277,18 @@ function has an additional argument, `type`, which takes the following values:
 The type of `polygons` assumes -- and indeed requires -- that the drawn objects
 are *closed* polygons (as illustrated in the first of the above figures), so
 care must be taken to ensure this is in fact the case. Any lines that do not
-form closed circles will not be appropriately translated. The `type = "hulls"`
-parameter should be used in all other cases where areal rather than point-based
-results are desired, and in which lines may or do not necessarily form single
-closed polygons. Examples include participants being asked to colour particular
-areas using any desired kind of marks, enabling areal-filling scribbles can be
-converted to polygons representing the outer boundaries.
+form closed circles will not be appropriately translated. Algorithms for
+extracting objects with `type = "polygons"`are fundamentally different from
+`type = "hulls"`. The latter applies convex or concave-hull tracing algorithms,
+while the former explicitly traces every individual pixel of a contiguous
+object, and returns the external boundary comprised of the coordinates of all
+pixels lying on that boundary. This will thus often produce more accurate and
+detailed results, yet as mentioned should only be applied where markings form
+strictly closed polygons. All other cases in which areal rather than
+point-based results are desired should use the default `type = "hulls"`.
+Examples include participants being asked to colour particular areas using any
+desired kind of marks, enabling areal-filling scribbles can be converted to
+polygons representing the outer boundaries.
 
 The `"polygon"` and `"point"` types are illustrated in the following maps:
 ```{r type-hulls}
