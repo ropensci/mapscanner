@@ -46,11 +46,13 @@ ms_generate_map <- function (bbox, max_tiles = 16L, mapname = NULL,
 
     if (is.null (raster_brick))
     {
+        # nocov start
         # used here just to confirm token exists:
         mapbox_token <- get_mapbox_token ()
-        raster_brick <- get_raster_brick (bbox = bbox,              # nocov
-                                          max_tiles = max_tiles,    # nocov
-                                          style = style)            # nocov
+        raster_brick <- get_raster_brick (bbox = bbox,
+                                          max_tiles = max_tiles,
+                                          style = style)
+        # nocov end
     }
 
     fname_p <- map_to_pdf (raster_brick, mapname)
@@ -322,9 +324,9 @@ raster_brick <- function (x) {
 
 spherical_mercator <- function (provider = "mapbox")
 {
-    #MAXEXTENT is the bounds between [-180, 180] and [-85.0511, 85.0511]
+    #maxextent is the bounds between [-180, 180] and [-85.0511, 85.0511]
     res <- tibble::tibble (provider = provider,
-                           MAXEXTENT = 20037508.342789244,
+                           maxextent = 20037508.342789244,
                            A = 6378137.0, B = 6378137.0,
                            crs = glue::glue("+proj=merc +a={A} +b={A}"))
     res [, res$provider == provider]
@@ -335,10 +337,10 @@ mercator_tile_extent <- function (tile_x, tile_y, zoom, tile_size = 256)
 {
   params <- spherical_mercator (provider = "mapbox")
   params <- params [1, ]  ## FIXME: param query should provide a unique set
-  MAXEXTENT <- params$MAXEXTENT
-  z0_size <- (MAXEXTENT * 2)
-  xlim <- -MAXEXTENT + (tile_x + c(0, 1)) * (z0_size / (2 ^ zoom))
-  ylim <- range (MAXEXTENT - (tile_y + c (0, 1) - 0) * (z0_size / (2 ^ zoom)))
+  maxextent <- params$maxextent
+  z0_size <- (maxextent * 2)
+  xlim <- -maxextent + (tile_x + c(0, 1)) * (z0_size / (2 ^ zoom))
+  ylim <- range (maxextent - (tile_y + c (0, 1) - 0) * (z0_size / (2 ^ zoom)))
   stats::setNames (c (xlim, ylim), c ("xmin", "xmax", "ymin", "ymax"))
 }
 

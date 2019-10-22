@@ -67,6 +67,6 @@ test_that ("spherical_mercator", {
                expect_is (x, "tbl")
                expect_equal (nrow (x), 1)
                expect_equal (ncol (x), 5)
-               expect_identical (names (x), c ("provider", "MAXEXTENT", "A",
+               expect_identical (names (x), c ("provider", "maxextent", "A",
                                                "B", "crs"))
 })
