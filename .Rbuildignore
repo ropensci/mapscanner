@@ -11,7 +11,6 @@
 ^CODE_OF_CONDUCT\.md$
 ^CONTRIBUTING\.md$
 inst/WORDLIST$
-=======
+vignettes/mapstyles.Rmd
 ^.*\.Rproj$
 ^\.Rproj\.user$
->>>>>>> aggregate-poly-faster
