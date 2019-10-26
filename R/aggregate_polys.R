@@ -4,7 +4,7 @@
 #'
 #' Input is a single simple features polygon data frame. No attribute data is
 #' considered.
-#' @param px input polygons (assumed overlapping poly/mpolys in sf_df)
+#' @param px input polygons (assumed overlapping poly/mpolys)
 #' @param ... unused
 #' @export
 #' @importFrom rlang .data
@@ -45,22 +45,50 @@ ms_aggregate_polys <- function (px, ...)
 }
 
 
-
+#' Create group IDs
+#'
+#' Generate unique group IDs from sets of columns, any or all of 'object',
+#' 'subobject', 'path' that are present in the input data frame.
+#'
+#' The trick is that only the intersection is taken, so some columns are optional.
+#' This idiom is taken from practices learnt in the silicate project for encoding
+#' hierarchical geometric objects in decomposed form (and pretty WIP).
+#' @noRd
+#' @param x data frame with column identifying object, subobject, path
+#' @param paster function (defined inline) to paste sets of columns together
+#' @return vector of character, unique IDs fo the combinations
 p_paste <- function (x, paster = function (...) paste (..., sep = "-"))
 {
     do.call (paster,
              x [intersect (names (x), c ("object", "subobject", "path"))])
 }
 
-
+#' Create sf data frame
+#'
+#' This function is a wrapper to take any set of polygons and
+#' union them together as a single MULTIPOLYGON.
+#'
+#' By convention we also
+#' record number of intersections (this is used in-place while identifying
+#' overlapping regions that have n-overlaps).
+#' @noRd
+#' @param x sfc vector of polygon geometries
+#' @param n the number of overlapping regions
 sf_df <- function (x, n) {
     sf::st_sf (n = n, geometry = sf::st_union (x)) %>%
         sf::st_cast ("MULTIPOLYGON")
 }
 
-
-# combination of path <- silicate::PATH(sfall);
-# RTri <- pfft::edge_RTriangle(path)
+#' Triangulate polygon layer and identify triangles by their containing polygon/s.
+#'
+#' Triangles can fall within holes or non-holes, so we use the belonging to
+#' higher-level paths in order to keep holes separate and also use an
+#' edge-based triangulation algorithm.
+#'
+#' This is a combination of path <- silicate::PATH(sfall) and
+#' RTri <- pfft::edge_RTriangle(path)
+#' @noRd
+#' @param x sf data frame of triangles
 triangulate_map_sf <- function (x, ...)
 {
     requireNamespace ("dplyr")
@@ -173,6 +201,14 @@ triangulate_map_sf <- function (x, ...)
                                   triangle_idx = unlist (ix)))
 }
 
+#' Regions that overlap  with n-intersections
+#'
+#' Input a triangle index and find all those with n overlaps. Default is two,
+#' this is used to iterate through all sets of n-intersections.
+#' @noRd
+#' @param x triangle index as returned by triangulate_map_sf
+#' @param n number of intersections to find (default is two)
+#' @param ... ignored
 n_intersections <- function (x, n = 2, ...)
 {
         triangles <- x$index %>%
