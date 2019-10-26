@@ -281,7 +281,7 @@ get_num_components <- function (img)
             index <- index [c (1, which (diff (index) == 1) + 1)]
             dn [index] <- -1 # arbitrary negative value for next step
         }
-        if (all (dn < 0))
+        if (all (dn <= 0))
             thr0 <- thr [which.min (dn)] # in case no local min
         else
             thr0 <- thr [which (dn > 0) [1]]
