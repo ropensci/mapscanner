@@ -10,7 +10,7 @@
   "codeRepository": "https://github.com/mpadge/mapscanner",
   "issueTracker": "https://github.com/mpadge/mapscanner/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.0.1.6",
+  "version": "0.0.1.7",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -456,7 +456,7 @@
     }
   ],
   "readme": "https://github.com/mpadge/mapscanner/blob/master/README.md",
-  "fileSize": "43470.825KB",
+  "fileSize": "43471.769KB",
   "contIntegration": [
     "https://travis-ci.org/mpadge/mapscanner",
     "https://ci.appveyor.com/project/mpadge/mapscanner",
