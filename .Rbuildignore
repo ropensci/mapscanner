@@ -5,7 +5,6 @@
 ^makefile$
 ^appveyor\.yml$
 ^aaa.Rmd$
-<<<<<<< HEAD
 ^vignettes/makefile$
 ^codemeta\.json$
 ^CODE_OF_CONDUCT\.md$
@@ -14,3 +13,4 @@ inst/WORDLIST$
 vignettes/mapstyles.Rmd
 ^.*\.Rproj$
 ^\.Rproj\.user$
+rev-testdata
