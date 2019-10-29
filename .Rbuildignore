@@ -11,6 +11,7 @@
 ^CONTRIBUTING\.md$
 inst/WORDLIST$
 vignettes/mapstyles.Rmd
+vignettes/mapstyles.html
 ^.*\.Rproj$
 ^\.Rproj\.user$
 rev-testdata

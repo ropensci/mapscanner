@@ -17,6 +17,11 @@ vignette: >
 ```{r pkg-load, echo = FALSE, message = FALSE}
 library (mapscanner)
 requireNamespace ("sf")
+# vwidth/height are passed via mapview::mapshot to webshot::webshot,
+# and default to (992,744), which bloats package size (issue #27).
+red <- 2
+vwidth <- 992 / red
+vheight <- 744 / red
 ```
 
 ## What does this package do for me?
@@ -224,7 +229,13 @@ auto-converted from `.pdf` if needed. The package comes with two sample maps,
 both in `.png` format. The first is the reference version needed for
 rectification, while the second has two red lines drawn upon it:
 
+<!--
 <img src="omaha-polygons.png" width="600" height="400"/>
+-->
+```{r omaha-poly-png, echo = FALSE, out.width = "75%"}
+knitr::include_graphics ("omaha-polygons.png")
+```
+
 
 Converting the lines on this scanned image file is then as simple as:
 
@@ -238,12 +249,14 @@ The result of
 [`ms_rectify_maps()`](https://mpadge.github.io/mapscanner/reference/ms_rectify_maps.html)
 can be plotted using any standard option for plotting spatial data, such as
 through online mapping packages such as `mapview`:
-```{r mapshot-polys, eval = TRUE, echo = FALSE}
+```{r mapshot-hulls, eval = TRUE, echo = FALSE}
 xy$id <- seq (nrow (xy))
 if (!file.exists ("mapshot-polys.png"))
 {
     x <- mapview::mapview (xy)
-    mapview::mapshot (x, file = "mapshot-polys.png")
+    mapview::mapshot (x, file = "mapshot-hulls.png",
+                      remove_controls = c ("layersControl", "zoomControl"),
+                      vwidth = vwidth, vheight = vheight)
 }
 ```
 ```{r mapview-fakey, eval = FALSE}
@@ -251,7 +264,12 @@ xy$id <- seq (nrow (xy))
 mapview::mapview (xy)
 ```
 
+<!--
 ![](mapshot-polys.png)
+-->
+```{r mapshot-hulls-png, echo = FALSE, out.width = "75%"}
+knitr::include_graphics ("mapshot-hulls.png")
+```
 
 
 ### Types of map markings and types of spatial objects
@@ -291,25 +309,32 @@ desired kind of marks, enabling areal-filling scribbles can be converted to
 polygons representing the outer boundaries.
 
 The `"polygon"` and `"point"` types are illustrated in the following maps:
-```{r type-hulls}
+```{r type-polys}
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
 xy <- ms_rectify_maps (f_orig, f_mod, type = "polygons", quiet = TRUE)
 ```
-```{r mapview-hulls, eval = TRUE, echo = FALSE}
+```{r mapview-polys, eval = TRUE, echo = FALSE}
 xy$id <- seq (nrow (xy))
-if (!file.exists ("mapshot-hulls.png"))
+if (!file.exists ("mapshot-polys.png"))
 {
     x <- mapview::mapview (xy)
-    mapview::mapshot (x, file = "mapshot-hulls.png")
+    mapview::mapshot (x, file = "mapshot-polys.png",
+                      remove_controls = c ("layersControl", "zoomControl"),
+                      vwidth = vwidth, vheight = vheight)
 }
 ```
-```{r mapview-hulls-fakey, eval = FALSE}
+```{r mapview-polys-fakey, eval = FALSE}
 xy$id <- seq (nrow (xy))
 mapview::mapview (xy)
 ```
 
-![](mapshot-hulls.png)
+<!--
+![](mapshot-polys.png)
+-->
+```{r mapshot-polys-png, echo = FALSE, out.width = "75%"}
+knitr::include_graphics ("mapshot-polys.png")
+```
 
 
 ```{r type-points}
@@ -322,7 +347,9 @@ xy$id <- seq (nrow (xy))
 if (!file.exists ("mapshot-points.png"))
 {
     x <- mapview::mapview (xy)
-    mapview::mapshot (x, file = "mapshot-points.png")
+    mapview::mapshot (x, file = "mapshot-points.png",
+                      remove_controls = c ("layersControl", "zoomControl"),
+                      vwidth = vwidth, vheight = vheight)
 }
 ```
 ```{r mapview-points-fakey, eval = FALSE}
@@ -330,7 +357,12 @@ xy$id <- seq (nrow (xy))
 mapview::mapview (xy)
 ```
 
+<!--
 ![](mapshot-points.png)
+-->
+```{r mapshot-points-png, echo = FALSE, out.width = "75%"}
+knitr::include_graphics ("mapshot-points.png")
+```
 
 
 
