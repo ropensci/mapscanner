@@ -1,6 +1,6 @@
 Package: mapscanner
 Title: Print Maps, Draw on Them, Scan Them Back In
-Version: 0.0.1.008
+Version: 0.0.1.009
 Authors@R: c(
     person("Mark", "Padgham", email="mark.padgham@email.com", role=c("aut", "cre")),
     person("Michael D.", "Sumner", role = "aut", email = "mdsumner@gmail.com"),
@@ -54,6 +54,6 @@ SystemRequirements:
 VignetteBuilder: knitr
 URL: https://github.com/mpadge/mapscanner
 BugReports: https://github.com/mpadge/mapscanner/issues
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.1
 Roxygen: list(markdown = TRUE)
 Language: en-GB

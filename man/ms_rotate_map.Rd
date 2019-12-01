@@ -4,8 +4,7 @@
 \alias{ms_rotate_map}
 \title{ms_rotate_map}
 \usage{
-ms_rotate_map(map_original, map_modified, rotation = 0,
-  apply_rotation = FALSE)
+ms_rotate_map(map_original, map_modified, rotation = 0, apply_rotation = FALSE)
 }
 \arguments{
 \item{map_original}{File name of the original map without anything drawn over

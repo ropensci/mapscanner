@@ -4,8 +4,13 @@
 \alias{ms_generate_map}
 \title{ms_generate_map}
 \usage{
-ms_generate_map(bbox, max_tiles = 16L, mapname = NULL,
-  style = "streets", raster_brick = NULL)
+ms_generate_map(
+  bbox,
+  max_tiles = 16L,
+  mapname = NULL,
+  style = "streets",
+  raster_brick = NULL
+)
 }
 \arguments{
 \item{bbox}{Either a string specifying the location, or a numeric bounding
