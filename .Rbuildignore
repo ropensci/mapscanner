@@ -10,6 +10,7 @@
 ^CODE_OF_CONDUCT\.md$
 ^CONTRIBUTING\.md$
 inst/WORDLIST$
+^paper\.md$
 vignettes/mapstyles.Rmd
 vignettes/mapstyles.html
 ^.*\.Rproj$
