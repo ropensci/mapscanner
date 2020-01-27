@@ -34,7 +34,7 @@ at [rOpenSci](https://ropensci.org).
 installed with
 
 ``` r
-remote::install_github("mpadge/mapscanner")
+remotes::install_github("mpadge/mapscanner")
 ```
 
 The package can then be loaded for usage in a R session with
@@ -158,12 +158,12 @@ original by drawing a red line around a particular region of Omaha.
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
 res <- ms_rectify_maps (f_orig, f_mod, type = "polygons")
-#> ══ mapscanner ═════════════════════════════════════════════════════════════
+#> ══ mapscanner ══════════════════════════════════════════════════════════════════
 #> ✔ Image [/usr/lib/R/library/mapscanner/extdata/omaha.png] reduced in size by factor of 2
-✔ Rectified the two maps  
-✔ Estimated optimal signal-to-noise threshold
-✔ Identified 2 objects
-✔ Converted to spatial format
+#> ❯ Rectifying the two maps ✔ Rectified the two maps  
+#> ❯ Estimating optimal signal-to-noise threshold✔ Estimated optimal signal-to-noise threshold
+#> ✔ Identified 2 objects
+#> ❯ Converting to spatial format ✔ Converted to spatial format
 res
 #> Simple feature collection with 2 features and 0 fields
 #> geometry type:  POLYGON
