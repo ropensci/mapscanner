@@ -324,8 +324,8 @@ rectify_channel <- function (channel, original, type, n = 10,
         if (concavity == 0) {
             hulls <- polygon_hulls (channel, as_index = FALSE)
             hulls <- lapply (hulls, function (i) {
-                                 i$x <- ((i$x - 1) / (ncol (channel) - 1))
-                                 i$y <- ((i$y - 1) / (nrow (channel) - 1))
+                                 i$x <- ((i$x - 1) / (nrow (channel) - 1))
+                                 i$y <- ((i$y - 1) / (ncol (channel) - 1))
                                  return (i)    })
         } else # concaveman
         {
