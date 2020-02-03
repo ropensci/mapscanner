@@ -10,7 +10,7 @@
   "codeRepository": "https://github.com/mpadge/mapscanner",
   "issueTracker": "https://github.com/mpadge/mapscanner/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.0.1.11",
+  "version": "0.0.1.12",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -88,6 +88,18 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "jpeg",
+      "name": "jpeg",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=jpeg"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "knitr",
       "name": "knitr",
       "provider": {
@@ -145,6 +157,18 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=osmdata"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "polyclip",
+      "name": "polyclip",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=polyclip"
     },
     {
       "@type": "SoftwareApplication",
@@ -240,18 +264,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "jpeg",
-      "name": "jpeg",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=jpeg"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "magrittr",
       "name": "magrittr",
       "provider": {
@@ -309,18 +321,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=png"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "polyclip",
-      "name": "polyclip",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=polyclip"
     },
     {
       "@type": "SoftwareApplication",
@@ -460,7 +460,7 @@
     }
   ],
   "readme": "https://github.com/mpadge/mapscanner/blob/master/README.md",
-  "fileSize": "1852.11KB",
+  "fileSize": "1852.13KB",
   "contIntegration": [
     "https://travis-ci.org/mpadge/mapscanner",
     "https://ci.appveyor.com/project/mpadge/mapscanner",

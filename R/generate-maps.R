@@ -304,9 +304,10 @@ is_pdf <- function (x)
 
 raster_brick <- function (x) {
   out <- NULL
-  if (is_jpeg (x))
+  if (is_jpeg (x)) {
+    requireNamespace ("jpeg")
     out <- jpeg::readJPEG (x) # nocov
-  else if (is_png(x))
+  } else if (is_png(x))
     out <- png::readPNG (x)
   else
     stop ("Unrecognised format; must be jpg or png") # nocov

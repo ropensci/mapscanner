@@ -93,6 +93,7 @@ triangulate_map_sf <- function (x, ...)
 {
     requireNamespace ("dplyr")
     requireNamespace ("gibble")
+    requireNamespace ("polyclip")
 
     ## we need all coordinates in order, and their normalized form
     ## (unique in x, y)
