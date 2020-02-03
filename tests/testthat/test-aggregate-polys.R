@@ -9,6 +9,7 @@ test_that ("aggregate", {
 
                requireNamespace ("dplyr") # produces output
                requireNamespace ("gibble")
+               requireNamespace ("polyclip")
                expect_silent (x <- ms_aggregate_polys (overlapping_polys))
                expect_is (x, "sf")
                expect_is (x$geometry, "sfc_MULTIPOLYGON")
