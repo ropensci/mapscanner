@@ -22,6 +22,7 @@ articles:
   - title: The mapscanner package
     contents:
     - mapscanner
+    - mapstyles
 
 navbar:
   title: mapscanner
