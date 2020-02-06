@@ -1,4 +1,5 @@
 LFILE = README
+PAPER=paper
 
 all: knith #open 
 
@@ -7,6 +8,9 @@ knith: $(LFILE).Rmd
 
 knitr: $(LFILE).Rmd
 	echo "rmarkdown::render('$(LFILE).Rmd',rmarkdown::md_document(variant='gfm'))" | R --no-save -q
+
+paper: $(PAPER).md
+	pandoc --filter pandoc-citeproc -s $(PAPER).md -o $(PAPER).html
 
 open: $(LFILE).html
 	xdg-open $(LFILE).html &
