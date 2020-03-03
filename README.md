@@ -31,9 +31,12 @@ at [rOpenSci](https://ropensci.org).
 ## installation
 
 `mapscanner` is not (yet) on CRAN. The development version can be
-installed with
+installed with any of the following options:
 
 ``` r
+remotes::install_git("https://git.sr.ht/~mpadge/mapscanner")
+remotes::install_bitbucket("mpadge/mapscanner")
+remotes::install_gitlab("mpadge/mapscanner")
 remotes::install_github("mpadge/mapscanner")
 ```
 
