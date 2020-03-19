@@ -52,8 +52,8 @@ LinkingTo: Rcpp
 SystemRequirements:
     C++11
 VignetteBuilder: knitr
-URL: https://github.com/mpadge/mapscanner
-BugReports: https://github.com/mpadge/mapscanner/issues
+URL: https://github.com/ropensci/mapscanner
+BugReports: https://github.com/ropensci/mapscanner/issues
 RoxygenNote: 7.0.2
 Roxygen: list(markdown = TRUE)
 Language: en-GB

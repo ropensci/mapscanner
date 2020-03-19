@@ -61,9 +61,12 @@ digitised, while maps with screen-based markings need to be saved as
 ### Installation
 
 `mapscanner` is not yet on CRAN, so must be installed with the `remotes`
-package:
+package, via any one of the following options:
 ```{r install, eval = FALSE}
-remotes::install_github ("mpadge/mapscanner")
+remotes::install_github ("ropensci/mapscanner")
+remotes::install_git("https://git.sr.ht/~mpadge/mapscanner")
+remotes::install_bitbucket("mpadge/mapscanner")
+remotes::install_gitlab("mpadge/mapscanner")
 ```
 After that, the library can be loaded with
 ```{r load}
@@ -75,7 +78,7 @@ library (mapscanner)
 The package is designed to enable the following workflow:
 
 1. Generate a map with the
-   [`ms_generate_map()`](https://mpadge.github.io/mapscanner/reference/ms_generate_map.html)
+   [`ms_generate_map()`](https://docs.ropensci.org/mapscanner/reference/ms_generate_map.html)
    function, which automatically produces both `.pdf` and `.png` versions;
 
 2. Either print the `.pdf` version to use as desired in any kind of survey
@@ -88,7 +91,7 @@ The package is designed to enable the following workflow:
    converting it to either `.pdf` or `.png` format; and
 
 5. Rectify the modified version against the original via the
-   [`ms_rectify_maps()`](https://mpadge.github.io/mapscanner/reference/ms_rectify_maps.html)
+   [`ms_rectify_maps()`](https://docs.ropensci.org/mapscanner/reference/ms_rectify_maps.html)
    function, which distinguishes individual annotations,
    and converts each one to a spatial object able to be analysed in any desired
    manner.
@@ -99,7 +102,7 @@ The `mapscanner` package is intended to aid a *practical* workflow, and so
 a few practical tips may be recommended here to ensure best results:
 
 1. The original digital files generated with
-   [`ms_generate_map()`](https://mpadge.github.io/mapscanner/reference/ms_generate_map.html)
+   [`ms_generate_map()`](https://docs.ropensci.org/mapscanner/reference/ms_generate_map.html)
    are necessary to rectify subsequently drawn-on and scanned maps, and so must
    be retained at all times.
 2. Marks drawn on maps should be *coloured* -- any black or grey markings will
@@ -148,7 +151,7 @@ for your current R session, you may load `mapscanner`, and then run
 
 Having obtained and set a [`mapbox`](https://mapbox.com) token as described
 above, the
-[`ms_generate_map()`](https://mpadge.github.io/mapscanner/reference/ms_generate_map.html)
+[`ms_generate_map()`](https://docs.ropensci.org/mapscanner/reference/ms_generate_map.html)
 function can be used to generate printable maps for a specified bounding box in
 both `.pdf` and `.png` formats. Usage is a simple as,
 ```{r generate-fakey, eval = FALSE}
@@ -169,7 +172,7 @@ finer control can be gained by clicking beneath this coordinate window on the
 line which says, "Manually select a different area," which brings a drag-able
 rectangle onto the current screen. The coordinates in the bounding box then
 simply need to be entered in to the `bbox` parameter of
-[`ms_generate_map()`](https://mpadge.github.io/mapscanner/reference/ms_generate_map.html)
+[`ms_generate_map()`](https://docs.ropensci.org/mapscanner/reference/ms_generate_map.html)
 in the order (`xmin`, `ymin`, `xmax`, `ymax`) -- or anti-clockwise from the
 left-hand coordinate.
 
@@ -217,7 +220,7 @@ Standard uses of the package should not need to explicitly access or modify
 these data, but it is nevertheless possible to do so, and then use a
 custom-modified object to produce the external `.pdf` and `.png` files by
 submitting the `rasterBrick` object to
-[`ms_generate_map()`](https://mpadge.github.io/mapscanner/reference/ms_generate_map.html):
+[`ms_generate_map()`](https://docs.ropensci.org/mapscanner/reference/ms_generate_map.html):
 ```{r chennaiBrick2, eval = FALSE}
 ms_generate_map (raster_brick = x, mapname = "chennai")
 ```
@@ -226,11 +229,11 @@ ms_generate_map (raster_brick = x, mapname = "chennai")
 ## Map rectification
 
 Having produced digital maps using the
-[`ms_generate_map()`](https://mpadge.github.io/mapscanner/reference/ms_generate_map.html)
+[`ms_generate_map()`](https://docs.ropensci.org/mapscanner/reference/ms_generate_map.html)
 function as described above, and having printed, variously drawn-on, and, for
 paper maps, scanned the result back in to digital form, the package can then be
 used to rectify the hand-drawn markings against the original map with the
-[`ms_rectify_maps()`](https://mpadge.github.io/mapscanner/reference/ms_rectify_maps.html)
+[`ms_rectify_maps()`](https://docs.ropensci.org/mapscanner/reference/ms_rectify_maps.html)
 function, which returns the drawn-on objects as spatial objects in [Simple
 Features (`sf`)](https://cran.r-project.org/package=sf) format. The only
 requirement is that the drawn-on objects are coloured; black or grey objects
@@ -240,7 +243,7 @@ adding unique identification or participant codes), through simply providing
 such annotations in grey or black.
 
 The
-[`ms_rectify_maps()`](https://mpadge.github.io/mapscanner/reference/ms_rectify_maps.html)
+[`ms_rectify_maps()`](https://docs.ropensci.org/mapscanner/reference/ms_rectify_maps.html)
 function has two primary arguments, specifying the names (and locations) of the
 original and modified map files -- in that order: `ms_rectify_maps(original,
 modified)`. These files should ideally be in `.png` formats, but will be
@@ -265,7 +268,7 @@ xy <- ms_rectify_maps (f_orig, f_mod, nitems = 2)
 xy
 ```
 The result of
-[`ms_rectify_maps()`](https://mpadge.github.io/mapscanner/reference/ms_rectify_maps.html)
+[`ms_rectify_maps()`](https://docs.ropensci.org/mapscanner/reference/ms_rectify_maps.html)
 can be plotted using any standard option for plotting spatial data, such as
 through online mapping packages such as `mapview`:
 ```{r mapshot-hulls, eval = TRUE, echo = FALSE}
@@ -296,7 +299,7 @@ knitr::include_graphics ("mapshot-hulls.png")
 ### Types of map markings and types of spatial objects
 
 The
-[`ms_rectify_maps()`](https://mpadge.github.io/mapscanner/reference/ms_rectify_maps.html)
+[`ms_rectify_maps()`](https://docs.ropensci.org/mapscanner/reference/ms_rectify_maps.html)
 function has an additional argument, `type`, which takes the following values:
 
 1. `type = "hulls"` (the default), which returns convex or concave hulls around
@@ -452,7 +455,7 @@ ggplot (polys, aes (fill = n)) + geom_sf () +
 The left panel of that figure shows the random polygons in raw form
 successively overlaid upon one another. The right panel shows the
 aggregated contours of successive overlap from 1 to 5. The object returned from
-[`ms_aggregate_polys()`](https://mpadge.github.io/mapscanner/reference/ms_aggregate_polys.html)
+[`ms_aggregate_polys()`](https://docs.ropensci.org/mapscanner/reference/ms_aggregate_polys.html)
 contains polygons ordered by level of aggregation (`n`), so the first entirely
 encloses the second; the second encloses the third; and so on. Particular
 contours can then be directly selected by filtering for desired values of `n`:
@@ -483,7 +486,7 @@ rectify the images. This package is itself primarily aimed at rectifying
 medical scans, but also happens to be the perfect tool for the present
 purposes. Being an image analysis software, the library requires image
 objects, and not `pdf` files, which is why the
-[`ms_generate_map()`](https://mpadge.github.io/mapscanner/reference/ms_generate_map.html)
+[`ms_generate_map()`](https://docs.ropensci.org/mapscanner/reference/ms_generate_map.html)
 function produces both kinds of files - the `.pdf` for printing and the `.png`
 for rectifying with the `RNiftyReg` package.
 
@@ -492,7 +495,7 @@ an original image. This coordinate system translates here in to a defined
 bounding box (which may differ slightly from the values input into the
 function, due to the cutting and stitching of the vector tiles). This bounding
 box is embedded as meta-information in both the files produced by
-[`ms_generate_map()`](https://mpadge.github.io/mapscanner/reference/ms_generate_map.html);
+[`ms_generate_map()`](https://docs.ropensci.org/mapscanner/reference/ms_generate_map.html);
 in the `.pdf` as standard meta information accessible in **R** like this:
 
 ```{r pdfinfo-fakey, eval = FALSE}

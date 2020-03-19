@@ -5,10 +5,10 @@
 <!-- badges: start -->
 
 [![Travis build
-status](https://travis-ci.org/mpadge/mapscanner.svg?branch=master)](https://travis-ci.org/mpadge/mapscanner)
+status](https://travis-ci.org/ropensci/mapscanner.svg?branch=master)](https://travis-ci.org/ropensci/mapscanner)
 [![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/mpadge/mapscanner?branch=master&svg=true)](https://ci.appveyor.com/project/mpadge/mapscanner)
-[![codecov](https://codecov.io/gh/mpadge/mapscanner/branch/master/graph/badge.svg)](https://codecov.io/gh/mpadge/mapscanner)
+status](https://ci.appveyor.com/api/projects/status/github/ropensci/mapscanner?branch=master&svg=true)](https://ci.appveyor.com/project/ropensci/mapscanner)
+[![codecov](https://codecov.io/gh/ropensci/mapscanner/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/mapscanner)
 [![Project Status:
 Concept](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
 <!-- badges: end -->
@@ -34,10 +34,10 @@ at [rOpenSci](https://ropensci.org).
 installed with any of the following options:
 
 ``` r
+remotes::install_github("ropensci/mapscanner")
 remotes::install_git("https://git.sr.ht/~mpadge/mapscanner")
 remotes::install_bitbucket("mpadge/mapscanner")
 remotes::install_gitlab("mpadge/mapscanner")
-remotes::install_github("mpadge/mapscanner")
 ```
 
 The package can then be loaded for usage in a R session with
@@ -51,7 +51,7 @@ library (mapscanner)
 The package is designed to enable the following workflow:
 
 1.  Generate a map with the
-    [`ms_generate_map()`](https://mpadge.github.io/mapscanner/reference/ms_generate_map.html)
+    [`ms_generate_map()`](https://docs.ropensci.org/mapscanner/reference/ms_generate_map.html)
     function, which automatically produces both `.pdf` and `.png`
     versions;
 
@@ -65,7 +65,7 @@ The package is designed to enable the following workflow:
     map, converting it to either `.pdf` or `.png` format; and
 
 5.  Rectify the modified version against the original via the
-    [`ms_rectify_maps()`](https://mpadge.github.io/mapscanner/reference/ms_rectify_maps.html)
+    [`ms_rectify_maps()`](https://docs.ropensci.org/mapscanner/reference/ms_rectify_maps.html)
     function, which distinguishes individual annotations, and converts
     each one to a spatial object able to be analysed in any desired
     manner.
@@ -76,7 +76,7 @@ The `mapscanner` package is intended to aid a *practical* workflow, and
 so a few practical tips may be recommended here to ensure best results:
 
 1.  The original digital files generated with
-    [`ms_generate_map()`](https://mpadge.github.io/mapscanner/reference/ms_generate_map.html)
+    [`ms_generate_map()`](https://docs.ropensci.org/mapscanner/reference/ms_generate_map.html)
     are necessary to rectify subsequently drawn-on and scanned maps, and
     so must be retained at all times.
 2.  Marks drawn on maps should be *coloured* – any black or grey
@@ -209,7 +209,7 @@ mapdeck () %>%
 
 And our hand-drawn lines shown above have been converted to standard
 spatial objects able to be analysed in any desired way. See the [package
-vignette](https://mpadge.github.io/mapscanner/articles/mapscanner.html)
+vignette](https://docs.ropensci.org/mapscanner/articles/mapscanner.html)
 for more detail of what the `mapscanner` package can do.
 
 ## Code of Conduct

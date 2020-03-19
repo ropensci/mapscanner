@@ -36,4 +36,4 @@ navbar:
     href: reference/index.html
   right:
   - icon: fa-github fa-lg
-    href: https://github.com/mpadge/mapscanner
+    href: https://github.com/ropensci/mapscanner

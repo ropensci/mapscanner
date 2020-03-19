@@ -3,7 +3,7 @@
 ## Opening issues
 
 The easiest way to note any behavioural curiosities or to request any new
-features is by opening a [github issue](https://github.com/mpadge/mapscanner/issues).
+features is by opening a [github issue](https://github.com/ropensci/mapscanner/issues).
 
 
 ## Development guidelines

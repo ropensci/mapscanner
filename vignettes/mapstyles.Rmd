@@ -19,7 +19,7 @@ library (mapscanner)
 ```
 
 This short vignette demonstrates the three map styles available in the 
-[`ms_generate_map()`](https://mpadge.github.io/mapscanner/reference/ms_generate_map.html)
+[`ms_generate_map()`](https://docs.ropensci.org/mapscanner/reference/ms_generate_map.html)
 function. These correspond to three of the styles provided by
 [mapbox](https://docs.mapbox.com/api/maps/#styles), converted to black and
 white format for use with `mapscanner`. The styles are demonstrated here using
@@ -41,7 +41,7 @@ t (cbind ("x" = c (-96.12923, -96.01011),
 
 The following then illustrates the three different styles enabled by the
 `style` parameter of the [`ms_generate_map()`
-function](https://mpadge.github.io/mapscanner/reference/ms_generate_map.html).
+function](https://docs.ropensci.org/mapscanner/reference/ms_generate_map.html).
 
 ### style = 'light'
 
