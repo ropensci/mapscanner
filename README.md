@@ -7,7 +7,7 @@
 [![Travis build
 status](https://travis-ci.org/ropensci/mapscanner.svg?branch=master)](https://travis-ci.org/ropensci/mapscanner)
 [![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/ropensci/mapscanner?branch=master&svg=true)](https://ci.appveyor.com/project/ropensci/mapscanner)
+status](https://ci.appveyor.com/api/projects/status/github/ropensci/mapscanner?branch=master&svg=true)](https://ci.appveyor.com/project/mpadge/mapscanner)
 [![codecov](https://codecov.io/gh/ropensci/mapscanner/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/mapscanner)
 [![Project Status:
 Concept](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
