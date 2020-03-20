@@ -460,7 +460,7 @@
     }
   ],
   "readme": "https://github.com/ropensci/mapscanner/blob/master/README.md",
-  "fileSize": "1859.403KB",
+  "fileSize": "1859.611KB",
   "contIntegration": [
     "https://travis-ci.org/mpadge/mapscanner",
     "https://ci.appveyor.com/project/mpadge/mapscanner",

@@ -12,8 +12,8 @@ Print maps, draw on them, scan them back in, and convert to spatial
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/mpadge/mapscanner}
-  \item Report bugs at \url{https://github.com/mpadge/mapscanner/issues}
+  \item \url{https://github.com/ropensci/mapscanner}
+  \item Report bugs at \url{https://github.com/ropensci/mapscanner/issues}
 }
 
 }
@@ -27,6 +27,8 @@ Authors:
 
 Other contributors:
 \itemize{
+  \item Kelly Hondula (Kelly reviewed the package for rOpenSci, see https://github.com/ropensci/software-review/issues/330) [reviewer]
+  \item Nicholas Potter (Nichola reviewed the package for rOpenSci, see https://github.com/ropensci/software-review/issues/330) [reviewer]
   \item Stanislaw Adaszewski (author of include concaveman-cpp code) [copyright holder]
 }
 

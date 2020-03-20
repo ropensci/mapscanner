@@ -4,6 +4,10 @@ Version: 0.0.2.001
 Authors@R: c(
     person("Mark", "Padgham", email="mark.padgham@email.com", role=c("aut", "cre")),
     person("Michael D.", "Sumner", role = "aut", email = "mdsumner@gmail.com"),
+    person("Kelly", "Hondula", role = "rev",
+        comment = "Kelly reviewed the package for rOpenSci, see https://github.com/ropensci/software-review/issues/330"),
+    person("Nicholas", "Potter", role = "rev",
+        comment = "Nichola reviewed the package for rOpenSci, see https://github.com/ropensci/software-review/issues/330"),
     person("Stanislaw", "Adaszewski", role = "cph",
         comment = "author of include concaveman-cpp code"))
 Description: Print maps, draw on them, scan them back in, and convert to spatial
@@ -54,6 +58,6 @@ SystemRequirements:
 VignetteBuilder: knitr
 URL: https://github.com/ropensci/mapscanner
 BugReports: https://github.com/ropensci/mapscanner/issues
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
 Language: en-GB
