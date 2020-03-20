@@ -23,10 +23,7 @@ intended for use in social surveys and similar endeavours in which
 hand-drawn markings on maps need to be converted to spatial objects.
 Maps can be either paper- or screen-based. Markings on paper maps need
 to be scanned, photographed, or otherwise digitised, while maps with
-screen-based markings need to be saved as `.png`-format images. The
-package is currently [under
-review](https://github.com/ropensci/software-review/issues/330#event-2513283441)
-at [rOpenSci](https://ropensci.org).
+screen-based markings need to be saved as `.png`-format images.
 
 ## installation
 
