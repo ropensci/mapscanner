@@ -48,7 +48,7 @@ function](https://docs.ropensci.org/mapscanner/reference/ms_generate_map.html).
 ```{r style-light, eval = TRUE}
 ms_generate_map (bbox = bb, max_tiles = 16L, style = "light",
                  mapname = "omaha-light")
-image (png::readPNG ("omaha-light.png"), col = gray.colors(20),
+image (png::readPNG ("omaha-light.png") [, , 1], col = gray.colors(20),
        xaxt = "n", yaxt = "n")
 ```
 <img src="omaha-light.png" width="600" height="400"/>
