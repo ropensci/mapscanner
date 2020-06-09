@@ -80,7 +80,9 @@ get_raster_brick <- function (bbox, max_tiles = 16L, style)
     }
 
     out <- fast_merge (br)
-    raster::projection (out) <- .sph_merc() ## "+proj=merc +a=6378137 +b=6378137"
+    #raster::projection (out) <- .sph_merc() ## "+proj=merc +a=6378137 +b=6378137"
+    out@crs@projargs <- .sph_merc()  ## no churn through mill
+
     out <- raster::crop (out, tiles$extent, snap = "out")
     if (!style == "light") # then convert to black & white
     {
@@ -116,7 +118,7 @@ map_to_pdf <- function (my_map, file)
                                    title = fname, file = file)      # nocov
         }
     })
-    raster::plotRGB (my_map)
+    suppressWarnings(raster::plotRGB (my_map))  ## #33
     grDevices::graphics.off ()
 
     invisible (file)
@@ -139,7 +141,7 @@ map_to_png <- function (my_map, file)
     }
 
     grDevices::png (file = file, width = w, height = h, units = "px")
-    raster::plotRGB (my_map)
+   suppressWarnings(raster::plotRGB (my_map))  ## #33
     grDevices::graphics.off ()
 
     # Then read in png, attach comment containing bbox, and re-save
