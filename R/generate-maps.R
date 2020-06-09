@@ -80,7 +80,7 @@ get_raster_brick <- function (bbox, max_tiles = 16L, style)
     }
 
     out <- fast_merge (br)
-    raster::projection (out) <- "+proj=merc +a=6378137 +b=6378137"
+    raster::projection (out) <- .sph_merc() ## "+proj=merc +a=6378137 +b=6378137"
     out <- raster::crop (out, tiles$extent, snap = "out")
     if (!style == "light") # then convert to black & white
     {
@@ -175,8 +175,8 @@ slippy_bbox <- function (bbox)
 
     afun <- function (aa)
         stats::approx (seq_along (aa), aa, n = 180L)$y
-    srcproj <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
-    crs <- "+proj=merc +a=6378137 +b=6378137"
+    srcproj <- .lonlat() #"+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+    crs <- .sph_merc() # "+proj=merc +a=6378137 +b=6378137"
     ex <- cbind (afun (xy [, 1L]), afun (xy [, 2L])) %>%
         reproj::reproj (target = crs, source = srcproj)
     ex <- raster::extent (ex [, 1:2])
@@ -333,7 +333,8 @@ spherical_mercator <- function (provider = "mapbox")
     res <- tibble::tibble (provider = provider,
                            maxextent = 20037508.342789244,
                            A = 6378137.0, B = 6378137.0,
-                           crs = glue::glue("+proj=merc +a={A} +b={A}"))
+                           crs = .sph_merc())  ## hardcoded, not using the A,B
+                           #crs = glue::glue("+proj=merc +a={A} +b={A}"))
     res [, res$provider == provider]
 }
 
