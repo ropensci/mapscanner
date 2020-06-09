@@ -19,6 +19,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install libcurl4-openssl-dev libxml2-dev libssl-dev pandoc pandoc-citeproc
+          sudo apt-get install libudunits2-dev libgdal-dev
       - name: Install dependencies
         run: |
           install.packages(c("remotes", "rcmdcheck"))
