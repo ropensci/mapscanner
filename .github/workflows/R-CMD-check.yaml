@@ -16,8 +16,9 @@ jobs:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@master
       - name: pandoc
-        run: sudo apt-get install pandoc pandoc-citeproc
-        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install pandoc pandoc-citeproc
       - name: Install dependencies
         run: |
           install.packages(c("remotes", "rcmdcheck"))
