@@ -255,7 +255,8 @@ rectification, while the second has two red lines drawn upon it:
 <img src="omaha-polygons.png" width="600" height="400"/>
 -->
 ```{r omaha-poly-png, echo = FALSE, out.width = "75%", eval = TRUE}
-knitr::include_graphics ("omaha-polygons.png")
+op <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
+knitr::include_graphics (op)
 ```
 
 
@@ -503,7 +504,7 @@ pdftools::pdf_info ("chennai.pdf")$keys
 ```
 ```{r pdfinfo, echo = FALSE}
 x <- list ("Title" = "EX8921118.44521949+1442748.9088827+8942673.68719591+1486623.76311839",
-           "Producer" = "R 3.6.0",
+           "Producer" = "R 4.0.0",
            "Creator" = "R")
 x
 ```
