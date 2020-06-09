@@ -246,13 +246,17 @@ get_tiles <- function (bbox_pair, max_tiles = 16L, style)
 
     tile_grid <- slippymath::bbox_to_tile_grid (bbox_pair$tile_bbox,
                                                 max_tiles = max_tiles)
+    # Maxbox style API migration:
     styles <- c ("mapbox.light", "mapbox.streets", "mapbox.outdoors")
-    style <- styles [grep (style, styles)]
-    format <- "jpg"
-    baseurl <- "https://api.mapbox.com/v4"
+    style <- grep (style, styles)
+    style <- c ("light-v10", "streets-v11", "outdoors-v11") [style]
+
+    # format <- "jpg" # new API is strict png only
+    baseurl <- "https://api.mapbox.com/v4" # old API
+    baseurl <- "https://api.mapbox.com/styles/v1/mapbox"
     mapbox_token <- get_mapbox_token ()
-    query_string <- paste0 (sprintf ("%s/%s/{zoom}/{x}/{y}.%s",
-                                     baseurl, style, format),
+    query_string <- paste0 (sprintf ("%s/%s/tiles/{zoom}/{x}/{y}",
+                                     baseurl, style),
                            "?access_token=", mapbox_token)
 
     files <- unlist (down_loader (tile_grid, query_string))
