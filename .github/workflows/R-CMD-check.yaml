@@ -18,7 +18,7 @@ jobs:
       - name: pandoc
         run: |
           sudo apt-get update
-          sudo apt-get install pandoc pandoc-citeproc
+          sudo apt-get install libcurl4-openssl-dev libxml2-dev libssl-dev pandoc pandoc-citeproc
       - name: Install dependencies
         run: |
           install.packages(c("remotes", "rcmdcheck"))
