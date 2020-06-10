@@ -27,7 +27,7 @@ the same area of Omaha, Nebraska, U.S.A., defined as the bounding box provided
 by the [`osmdata::getbb()`
 function](https://ropensci.github.io/osmdata/reference/getbb.html), shrunk to
 30% of it's size.
-```{r omaha-bb-fakey, eval = TRUE}
+```{r omaha-bb-fakey, eval = FALSE}
 bb <- osmdata::getbb ("omaha nebraska")
 shrink <- 0.3 # shrink that bounding box to 30% size
 bb <- t (apply (bb, 1, function (i)
@@ -35,44 +35,77 @@ bb <- t (apply (bb, 1, function (i)
 bb
 ```
 ```{r omaha-bb, echo = FALSE}
-t (cbind ("x" = c (-96.12923, -96.01011),
-          "y" = c (41.26145,  41.32220)))
+bb <- t (cbind ("x" = c (-96.12923, -96.01011),
+                "y" = c (41.26145,  41.32220)))
+bb
 ```
 
-The following then illustrates the three different styles enabled by the
+The following illustrates the three different styles enabled by the
 `style` parameter of the [`ms_generate_map()`
 function](https://docs.ropensci.org/mapscanner/reference/ms_generate_map.html).
 
 ### style = 'light'
 
-```{r style-light, eval = TRUE}
-ms_generate_map (bbox = bb, max_tiles = 16L, style = "light",
-                 mapname = "omaha-light")
-image (png::readPNG ("omaha-light.png") [, , 1], col = gray.colors(20),
-       xaxt = "n", yaxt = "n")
+The "light" style is the only monochrome style, and so is always rendered
+black-and-white.
+
+```{r style-light, eval = !file.exists ("omaha-light.png")}
+ms_generate_map (bbox = bb,
+                 max_tiles = 16L,
+                 mapname = "omaha-light",
+                 style = "light")
 ```
+```{r light-output, echo = FALSE}
+msg <- function (type)
+    message (paste0 ("Successfully generated 'omaha-",
+                     type, ".pdf' and 'omaha-", type, ".png'"))
+msg ("light")
+```
+
+<!--
 <img src="omaha-light.png" width="600" height="400"/>
+-->
+```{r omaha-light-png, echo = FALSE, out.width = "100%", eval = TRUE}
+knitr::include_graphics ("omaha-light.png")
+```
+
 
 ### style = 'streets'
 
-```{r style-streets, eval = TRUE}
-ms_generate_map (bbox = bb, max_tiles = 16L, style = "streets",
-                 mapname = "omaha-streets")
-image (png::readPNG ("omaha-streets.png"), col = gray.colors(20),
-       xaxt = "n", yaxt = "n")
+Both the "streets" and the following "outdoors" styles are coloured maps,
+rendered here with `bw = FALSE`. These maps may be easier to draw on if
+generated with the default `bw = TRUE`.
+
+```{r style-streets, eval = !file.exists ("omaha-streets.png")}
+ms_generate_map (bbox = bb,
+                 max_tiles = 16L,
+                 mapname = "omaha-streets",
+                 style = "streets",
+                 bw = FALSE)
 ```
-<img src="omaha-streets.png" width="600" height="400"/>
+```{r streets-output, echo = FALSE}
+msg ("streets")
+```
+```{r omaha-streets-png, echo = FALSE, out.width = "100%", eval = TRUE}
+knitr::include_graphics ("omaha-streets.png")
+```
 
 
 ### style = 'outdoors'
 
-```{r style-outdoors, eval = TRUE}
-ms_generate_map (bbox = bb, max_tiles = 16L, style = "outdoors",
-                 mapname = "omaha-outdoors")
-image (png::readPNG ("omaha-outdoors.png"), col = gray.colors(20),
-       xaxt = "n", yaxt = "n")
+```{r style-outdoors, eval = !file.exists ("omaha-outdoors.png")}
+ms_generate_map (bbox = bb,
+                 max_tiles = 16L,
+                 mapname = "omaha-outdoors",
+                 style = "outdoors",
+                 bw = FALSE)
 ```
-<img src="omaha-outdoors.png" width="600" height="400"/>
+```{r outdoors-output, echo = FALSE}
+msg ("outdoors")
+```
+```{r omaha-outdoors-png, echo = FALSE, out.width = "100%", eval = TRUE}
+knitr::include_graphics ("omaha-outdoors.png")
+```
 
 
 
