@@ -8,7 +8,8 @@ ms_generate_map(
   bbox,
   max_tiles = 16L,
   mapname = NULL,
-  style = "streets",
+  bw = TRUE,
+  style = "light",
   raster_brick = NULL
 )
 }
@@ -21,6 +22,10 @@ columns of (min, max) and rows of (x, y), respectively.}
 
 \item{mapname}{Name of map to be produced, optionally including full path.
 Extension will be ignored.}
+
+\item{bw}{If \code{FALSE}, print maps in colour, otherwise black-and-white. Note
+that the default \code{style = "light"} is monochrome, and that this parameter
+only has effect for \code{style} values of \code{"streets"} or \code{"outdoors"}.}
 
 \item{style}{The style of the map to be generated; one of 'light', 'streets',
 or 'outdoors', rendered in black and white. See

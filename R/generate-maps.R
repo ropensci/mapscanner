@@ -14,6 +14,9 @@
 #' @param max_tiles Maximum number of tiles to use to create map
 #' @param mapname Name of map to be produced, optionally including full path.
 #' Extension will be ignored.
+#' @param bw If `FALSE`, print maps in colour, otherwise black-and-white. Note
+#' that the default `style = "light"` is monochrome, and that this parameter
+#' only has effect for `style` values of `"streets"` or `"outdoors"`.
 #' @param style The style of the map to be generated; one of 'light', 'streets',
 #' or 'outdoors', rendered in black and white. See
 #' \url{https://docs.mapbox.com/api/maps/#styles} for examples.
@@ -34,8 +37,12 @@
 #' }
 #'
 #' @export
-ms_generate_map <- function (bbox, max_tiles = 16L, mapname = NULL,
-                             style = "streets", raster_brick = NULL)
+ms_generate_map <- function (bbox,
+                             max_tiles = 16L,
+                             mapname = NULL,
+                             bw = TRUE,
+                             style = "light",
+                             raster_brick = NULL)
 {
     if (is.null (mapname))
         stop ("Please provide a 'mapname' (with optional path) ",
@@ -51,7 +58,8 @@ ms_generate_map <- function (bbox, max_tiles = 16L, mapname = NULL,
         mapbox_token <- get_mapbox_token ()
         raster_brick <- get_raster_brick (bbox = bbox,
                                           max_tiles = max_tiles,
-                                          style = style)
+                                          style = style,
+                                          bw = bw)
         # nocov end
     }
 
@@ -64,7 +72,7 @@ ms_generate_map <- function (bbox, max_tiles = 16L, mapname = NULL,
 }
 
 # nocov start
-get_raster_brick <- function (bbox, max_tiles = 16L, style)
+get_raster_brick <- function (bbox, max_tiles = 16L, style, bw)
 {
     bbox <- convert_bbox (bbox)
     bbox_pair <- slippy_bbox (bbox)
@@ -82,7 +90,7 @@ get_raster_brick <- function (bbox, max_tiles = 16L, style)
     out <- fast_merge (br)
 
     out <- raster::crop (out, tiles$extent, snap = "out")
-    if (!style == "light") # then convert to black & white
+    if (bw)
     {
         out_avg <- raster::stackApply (out, c (1, 1, 1), fun = mean)
         out <- raster::brick (out_avg, out_avg, out_avg)
