@@ -12,6 +12,7 @@ test_that("generate", {
               #x <- ms_generate_map (loc, max_tiles = 1L, mapname = "omaha")
               #saveRDS (x, "tests/x.Rds")
               expect_silent (x <- readRDS ("../x.Rds"))
+              x@crs@projargs <- .sph_merc()
               expect_error (x <- ms_generate_map (raster_brick = x),
                             paste0 ("Please provide a 'mapname' ",
                                     "\\(with optional path\\)"))

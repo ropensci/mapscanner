@@ -311,7 +311,7 @@ check_img_sanity <- function (img)
 rectify_channel <- function (channel, original, type, n = 10,
                              concavity, length_threshold, quiet = TRUE)
 {
-    crs_from <- "+proj=merc +a=6378137 +b=6378137"
+    crs_from <- .sph_merc() # "+proj=merc +a=6378137 +b=6378137"
     crs_to <- 4326
 
     bbox <- bbox_from_png (original)
