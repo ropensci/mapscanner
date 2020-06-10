@@ -16,3 +16,4 @@ vignettes/mapstyles.html
 ^.*\.Rproj$
 ^\.Rproj\.user$
 rev-testdata
+^\.github$
