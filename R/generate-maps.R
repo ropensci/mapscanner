@@ -80,8 +80,6 @@ get_raster_brick <- function (bbox, max_tiles = 16L, style)
     }
 
     out <- fast_merge (br)
-    #raster::projection (out) <- .sph_merc() ## "+proj=merc +a=6378137 +b=6378137"
-    out@crs@projargs <- .sph_merc()  ## no churn through mill
 
     out <- raster::crop (out, tiles$extent, snap = "out")
     if (!style == "light") # then convert to black & white
@@ -89,6 +87,10 @@ get_raster_brick <- function (bbox, max_tiles = 16L, style)
         out_avg <- raster::stackApply (out, c (1, 1, 1), fun = mean)
         out <- raster::brick (out_avg, out_avg, out_avg)
     }
+
+    #raster::projection (out) <- .sph_merc() ## "+proj=merc +a=6378137 +b=6378137"
+    out@crs@projargs <- .sph_merc()  ## no churn through mill
+
     return (out)
 }
 # nocov end
