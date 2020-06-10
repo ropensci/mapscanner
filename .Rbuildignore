@@ -13,6 +13,7 @@ inst/WORDLIST$
 ^paper\.md$
 vignettes/mapstyles.Rmd
 vignettes/mapstyles.html
+vignettes/omaha-*.png$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 rev-testdata
