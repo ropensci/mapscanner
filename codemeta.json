@@ -14,10 +14,9 @@
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
-    "version": "3.6.2",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 3.6.2 (2019-12-12)",
+  "runtimePlatform": "R version 4.0.0 (2020-04-24)",
   "author": [
     {
       "@type": "Person",
@@ -460,12 +459,8 @@
     }
   ],
   "readme": "https://github.com/ropensci/mapscanner/blob/master/README.md",
-  "fileSize": "1859.611KB",
-  "contIntegration": [
-    "https://travis-ci.org/mpadge/mapscanner",
-    "https://ci.appveyor.com/project/mpadge/mapscanner",
-    "https://codecov.io/gh/mpadge/mapscanner"
-  ],
+  "fileSize": "10938.949KB",
+  "contIntegration": ["https://travis-ci.org/ropensci/mapscanner", "https://ci.appveyor.com/project/mpadge/mapscanner", "https://codecov.io/gh/ropensci/mapscanner"],
   "developmentStatus": "https://www.repostatus.org/#concept",
   "keywords": [
     "r-package",
