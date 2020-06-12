@@ -4,6 +4,8 @@
 
 <!-- badges: start -->
 
+[![R build
+status](https://github.com/ropensci/mapscanner/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/mapscanner/actions?query=workflow%3AR-CMD-check)
 [![Travis build
 status](https://travis-ci.org/ropensci/mapscanner.svg?branch=master)](https://travis-ci.org/ropensci/mapscanner)
 [![AppVeyor build
@@ -11,6 +13,9 @@ status](https://ci.appveyor.com/api/projects/status/github/ropensci/mapscanner?b
 [![codecov](https://codecov.io/gh/ropensci/mapscanner/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/mapscanner)
 [![Project Status:
 Concept](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
+
+[![](https://badges.ropensci.org/330_status.svg)](https://github.com/ropensci/onboarding/issues/330)
+
 <!-- badges: end -->
 
 ## What does this package do for me?
@@ -169,8 +174,7 @@ res
 #> geometry type:  POLYGON
 #> dimension:      XY
 #> bbox:           xmin: -96.11814 ymin: 41.26638 xmax: -96.02722 ymax: 41.30109
-#> epsg (SRID):    4326
-#> proj4string:    +proj=longlat +datum=WGS84 +no_defs
+#> geographic CRS: WGS 84
 #>                         geometry
 #> 1 POLYGON ((-96.11589 41.2663...
 #> 2 POLYGON ((-96.03544 41.2927...
