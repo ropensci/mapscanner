@@ -202,14 +202,14 @@ x
 ```
 ```{r chennaiBrick, echo = FALSE}
 x <- paste0 ("class      : RasterBrick\n",
-    "dimensions : 574, 282, 161868, 3  (nrow, ncol, ncell, nlayers)\n",
-    "resolution : 76.43703, 76.43703  (x, y)\n",
-    "extent     : 8921118, 8942674, 1442749, 1486624  (xmin, xmax, ymin, ymax)\n",
-    "crs        : +proj=merc +a=6378137 +b=6378137\n",
-    "source     : memory\n",
-    "names      : layer.1, layer.2, layer.3\n",
-    "min values :     101,     101,     101\n",
-    "max values :     255,     255,     255")
+             "dimensions : 1147, 562, 644614, 3  (nrow, ncol, ncell, nlayers)\n",
+             "resolution : 38.21851, 38.21851  (x, y)\n",
+             "extent     : 8921157, 8942635, 1442787, 1486624  (xmin, xmax, ymin, ymax)\n",
+             "crs        : +proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs\n",
+             "source     : memory\n",
+             "names      : index_1.1, index_1.2, index_1.3\n",
+             "min values :       107,       107,       107\n",
+             "max values :       254,       254,       254")
 message (x)
 ```
 This `rasterBrick` object contains raster information for the three colour
