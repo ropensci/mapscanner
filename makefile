@@ -1,4 +1,4 @@
-LFILE = README
+LFILE=ros-blog
 PAPER=paper
 
 all: knith #open 
