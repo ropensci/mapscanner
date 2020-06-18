@@ -52,6 +52,7 @@ jobs:
           restore-keys: ${{ runner.os }}-r-${{ matrix.config.r }}-1-
 
       - name: system dependencies
+        if: runner.os == 'Linux'
         run: |
           sudo apt-get update
           sudo apt-get install libcurl4-openssl-dev libxml2-dev libssl-dev pandoc pandoc-citeproc
