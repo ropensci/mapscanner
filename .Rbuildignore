@@ -9,13 +9,16 @@
 ^codemeta\.json$
 ^CODE_OF_CONDUCT\.md$
 ^CONTRIBUTING\.md$
+^cran-comments\.md$
 ^WORDLIST$
 ^paper\.md$
+^review\.md$
 ^inst/WORDLIST$
 ^inst/paper\.md$
+^tests/spelling\.R$
 vignettes/mapstyles\.Rmd
 vignettes/mapstyles\.html
-vignettes/omaha-*.png$
+vignettes/omaha*.png$
 rev-testdata/*
 ^.*\.Rproj$
 ^.*\.bash$
