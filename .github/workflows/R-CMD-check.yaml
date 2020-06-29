@@ -43,13 +43,13 @@ jobs:
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
         shell: Rscript {0}
 
-      - name: Cache R packages
-        if: runner.os != 'Windows'
-        uses: actions/cache@v1
-        with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-${{ matrix.config.r }}-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-r-${{ matrix.config.r }}-1-
+        #- name: Cache R packages
+        #if: runner.os != 'Windows'
+        #uses: actions/cache@v1
+        #with:
+        #  path: ${{ env.R_LIBS_USER }}
+        #  key: ${{ runner.os }}-r-${{ matrix.config.r }}-1-${{ hashFiles('.github/depends.Rds') }}
+        #  restore-keys: ${{ runner.os }}-r-${{ matrix.config.r }}-1-
 
       - name: system dependencies
         if: runner.os == 'Linux'
@@ -58,7 +58,6 @@ jobs:
           sudo apt-get install libcurl4-openssl-dev libxml2-dev libssl-dev pandoc pandoc-citeproc
           sudo apt-get install libudunits2-dev libgdal-dev
           sudo apt-get install libmagick++-dev libpoppler-cpp-dev
-          sudo ldconfig /usr/local/lib
 
       - name: R dependencies
         run: |
