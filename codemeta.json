@@ -6,7 +6,7 @@
   "@type": "SoftwareSourceCode",
   "identifier": "mapscanner",
   "description": "Print maps, draw on them, scan them back in, and convert to spatial\n    objects.",
-  "name": "mapscanner: Print Maps, Draw on Them, Scan Them Back In",
+  "name": "mapscanner: Print Maps, Draw on Them, Scan Them Back in",
   "codeRepository": "https://github.com/ropensci/mapscanner",
   "issueTracker": "https://github.com/ropensci/mapscanner/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
@@ -14,9 +14,10 @@
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
+    "version": "4.0.1",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.0 (2020-04-24)",
+  "runtimePlatform": "R version 4.0.1 (2020-06-06)",
   "author": [
     {
       "@type": "Person",
@@ -459,13 +460,22 @@
     }
   ],
   "readme": "https://github.com/ropensci/mapscanner/blob/master/README.md",
-  "fileSize": "10938.949KB",
-  "contIntegration": ["https://travis-ci.org/ropensci/mapscanner", "https://ci.appveyor.com/project/mpadge/mapscanner", "https://codecov.io/gh/ropensci/mapscanner"],
+  "fileSize": "3656.349KB",
+  "contIntegration": [
+    "https://travis-ci.org/ropensci/mapscanner",
+    "https://ci.appveyor.com/project/mpadge/mapscanner",
+    "https://codecov.io/gh/ropensci/mapscanner"
+  ],
   "developmentStatus": "https://www.repostatus.org/#concept",
   "keywords": [
     "r-package",
     "maps",
     "scan",
     "spatial"
-  ]
+  ],
+  "review": {
+    "@type": "Review",
+    "url": "https://github.com/ropensci/onboarding/issues/330",
+    "provider": "http://ropensci.org"
+  }
 }
