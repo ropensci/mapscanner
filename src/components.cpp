@@ -74,12 +74,13 @@ void getNeighbours (
 
     for (size_t k = 0; k < dx.size (); k++)
     {
-        size_t i_k = static_cast <size_t> (i + dx [k]),
-               j_k = static_cast <size_t> (j + dy [k]);
-        if (i_k < 0 || j_k < 0 || i_k > (image.nrow () - 1) ||
-                j_k > (image.ncol () - 1))
+        int i_k = i + dx [k], j_k = j + dy [k];
+        size_t i_k_t = static_cast <size_t> (i_k),
+               j_k_t = static_cast <size_t> (j_k);
+
+        if (i_k > (image.nrow () - 1) || j_k > (image.ncol () - 1))
             continue; // # nocov
-        if (image (i_k, j_k) && comp_mat (i_k, j_k) == 0)
+        if (image (i_k_t, j_k_t) && comp_mat (i_k_t, j_k_t) == 0)
         {
             std::pair <int, int> nbPair = std::make_pair (i + dx [k], j + dy [k]);
             neighbours.emplace (nbPair);
