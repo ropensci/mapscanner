@@ -58,6 +58,7 @@ jobs:
           sudo apt-get install libcurl4-openssl-dev libxml2-dev libssl-dev pandoc pandoc-citeproc
           sudo apt-get install libudunits2-dev libgdal-dev
           sudo apt-get install libmagick++-dev libpoppler-cpp-dev
+          sudo ldconfig /usr/local/lib
 
       - name: R dependencies
         run: |
