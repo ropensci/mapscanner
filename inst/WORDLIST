@@ -1,4 +1,6 @@
 Adaszewski
+analysed
+api
 appveyor
 AppVeyor
 aut
@@ -10,6 +12,7 @@ cli
 codecov
 codemeta
 codeRepository
+coloured
 ComputerLanguage
 concaveman
 contIntegration
@@ -21,10 +24,14 @@ cre
 cxx
 developmentStatus
 df
+digitise
+digitised
+Digitised
 doi
 downsample
 downsampled
 dplyr
+endeavours
 familyName
 fileSize
 fs
@@ -77,6 +84,7 @@ rasterBrick
 Rcpp
 readme
 README
+recognised
 repostatus
 reproj
 rlang
