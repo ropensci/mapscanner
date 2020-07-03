@@ -24,3 +24,4 @@ rev-testdata/*
 ^.*\.bash$
 ^\.Rproj\.user$
 ^\.github$
+^\.pre-commit-config\.yaml$

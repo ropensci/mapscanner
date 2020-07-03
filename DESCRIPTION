@@ -1,29 +1,41 @@
 Package: mapscanner
 Title: Print Maps, Draw on Them, Scan Them Back in
-Version: 0.0.3
-Authors@R: c(
-    person("Mark", "Padgham", email="mark.padgham@email.com", role=c("aut", "cre")),
-    person("Michael D.", "Sumner", role = "aut", email = "mdsumner@gmail.com"),
-    person("Kelly", "Hondula", role = "rev",
-        comment = "Kelly reviewed the package for rOpenSci, see https://github.com/ropensci/software-review/issues/330"),
-    person("Nicholas", "Potter", role = "rev",
-        comment = "Nichola reviewed the package for rOpenSci, see https://github.com/ropensci/software-review/issues/330"),
-    person("Stanislaw", "Adaszewski", role = "cph",
-        comment = "author of include concaveman-cpp code"))
-Description: Print maps, draw on them, scan them back in, and convert to spatial
-    objects.
+Version: 0.0.3.002
+Authors@R: 
+    c(person(given = "Mark",
+             family = "Padgham",
+             role = c("aut", "cre"),
+             email = "mark.padgham@email.com"),
+      person(given = "Michael D.",
+             family = "Sumner",
+             role = "aut",
+             email = "mdsumner@gmail.com"),
+      person(given = "Kelly",
+             family = "Hondula",
+             role = "rev",
+             comment = "Kelly reviewed the package for rOpenSci, see https://github.com/ropensci/software-review/issues/330"),
+      person(given = "Nicholas",
+             family = "Potter",
+             role = "rev",
+             comment = "Nichola reviewed the package for rOpenSci, see https://github.com/ropensci/software-review/issues/330"),
+      person(given = "Stanislaw",
+             family = "Adaszewski",
+             role = "cph",
+             comment = "author of include concaveman-cpp code"))
+Description: Print maps, draw on them, scan them back in, and
+    convert to spatial objects.
 License: GPL-3 | BSD_2_clause + file LICENSE
-Encoding: UTF-8
-LazyData: true
-NeedsCompilation: yes
-Depends: R (>= 3.5.0)
+URL: https://github.com/ropensci/mapscanner
+BugReports: https://github.com/ropensci/mapscanner/issues
+Depends: 
+    R (>= 3.5.0)
 Imports:
     cli,
     curl,
     fs,
     glue,
-    magrittr,
     magick,
+    magrittr,
     memoise,
     pdftools,
     png,
@@ -40,8 +52,8 @@ Imports:
     unjoin
 Suggests: 
     dplyr,
-    gibble,
     ggplot2,
+    gibble,
     jpeg,
     knitr,
     lwgeom,
@@ -50,14 +62,16 @@ Suggests:
     osmdata,
     polyclip,
     rmarkdown,
-    testthat,
-    spelling
-LinkingTo: Rcpp
-SystemRequirements:
-    C++11
-VignetteBuilder: knitr
-URL: https://github.com/ropensci/mapscanner
-BugReports: https://github.com/ropensci/mapscanner/issues
-RoxygenNote: 7.1.0
-Roxygen: list(markdown = TRUE)
+    spelling,
+    testthat
+LinkingTo: 
+    Rcpp
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
 Language: en-GB
+LazyData: true
+NeedsCompilation: yes
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.0
+SystemRequirements: C++11
