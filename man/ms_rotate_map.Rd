@@ -2,7 +2,7 @@
 % Please edit documentation in R/file-manipulation.R
 \name{ms_rotate_map}
 \alias{ms_rotate_map}
-\title{ms_rotate_map}
+\title{Rotate maps}
 \usage{
 ms_rotate_map(map_original, map_modified, rotation = 0, apply_rotation = FALSE)
 }

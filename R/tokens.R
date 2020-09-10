@@ -33,7 +33,7 @@ stop0 <- function ()
           call. = FALSE)
 }
 
-#' set_mapbox_token
+#' Set 'mapbox' token
 #'
 #' Set a mapbox token for use with the \link{ms_generate_map} function.
 #'

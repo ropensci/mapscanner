@@ -2,7 +2,7 @@
 % Please edit documentation in R/rectify-maps.R
 \name{ms_rectify_map}
 \alias{ms_rectify_map}
-\title{ms_rectify_map}
+\title{Rectify one map to another}
 \usage{
 ms_rectify_map(
   map_original,

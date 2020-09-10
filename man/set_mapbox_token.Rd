@@ -2,7 +2,7 @@
 % Please edit documentation in R/tokens.R
 \name{set_mapbox_token}
 \alias{set_mapbox_token}
-\title{set_mapbox_token}
+\title{Set 'mapbox' token}
 \usage{
 set_mapbox_token(token)
 }

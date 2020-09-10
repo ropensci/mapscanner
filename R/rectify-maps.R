@@ -1,5 +1,5 @@
 
-#' ms_rectify_map
+#' Rectify one map to another
 #'
 #' Rectify two previously scanned-in pdf or png maps with `RNiftyReg`, and
 #' return the modifications in `map_modified` as spatial objects in \pkg{sf}

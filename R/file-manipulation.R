@@ -1,4 +1,4 @@
-#' ms_rotate_map
+#' Rotate maps
 #'
 #' Display original and modified maps to determine necessary rotation
 #' @inheritParams ms_rectify_map

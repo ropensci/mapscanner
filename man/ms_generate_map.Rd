@@ -2,7 +2,7 @@
 % Please edit documentation in R/generate-maps.R
 \name{ms_generate_map}
 \alias{ms_generate_map}
-\title{ms_generate_map}
+\title{Generate maps for 'mapscanner' use}
 \usage{
 ms_generate_map(
   bbox,

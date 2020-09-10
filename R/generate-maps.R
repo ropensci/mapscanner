@@ -1,7 +1,7 @@
 # most of this pilfered and otherwise mildly adapted from code by @mdsumner from
 # hypertidy/ceramic
 
-#' ms_generate_map
+#' Generate maps for 'mapscanner' use
 #'
 #' Generate a map image for a specified area or bounding box, by downloading
 #' tiles from \url{https://mapbox.com}. Map is automatically saved in both
