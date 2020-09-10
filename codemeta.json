@@ -10,14 +10,13 @@
   "codeRepository": "https://github.com/ropensci/mapscanner",
   "issueTracker": "https://github.com/ropensci/mapscanner/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.0.3.3",
+  "version": "0.0.3.4",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
-    "version": "4.0.1",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.1 (2020-06-06)",
+  "runtimePlatform": "R version 4.0.2 (2020-06-22)",
   "author": [
     {
       "@type": "Person",
@@ -460,12 +459,8 @@
     }
   ],
   "readme": "https://github.com/ropensci/mapscanner/blob/master/README.md",
-  "fileSize": "3656.379KB",
-  "contIntegration": [
-    "https://travis-ci.org/ropensci/mapscanner",
-    "https://ci.appveyor.com/project/mpadge/mapscanner",
-    "https://codecov.io/gh/ropensci/mapscanner"
-  ],
+  "fileSize": "6480.215KB",
+  "contIntegration": ["https://travis-ci.org/ropensci/mapscanner", "https://codecov.io/gh/ropensci/mapscanner"],
   "developmentStatus": "https://www.repostatus.org/#concept",
   "keywords": [
     "r-package",
@@ -475,7 +470,7 @@
   ],
   "review": {
     "@type": "Review",
-    "url": "https://github.com/ropensci/onboarding/issues/330",
-    "provider": "http://ropensci.org"
+    "url": "https://github.com/ropensci/software-review/issues/330",
+    "provider": "https://ropensci.org"
   }
 }
