@@ -1,6 +1,6 @@
 Package: mapscanner
 Title: Print Maps, Draw on Them, Scan Them Back in
-Version: 0.0.3.005
+Version: 0.0.3.006
 Authors@R: 
     c(person(given = "Mark",
              family = "Padgham",
@@ -68,6 +68,8 @@ LinkingTo:
     Rcpp
 VignetteBuilder: 
     knitr
+Remotes:
+    jonclayden/RNiftyReg
 Encoding: UTF-8
 Language: en-GB
 LazyData: true
