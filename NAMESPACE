@@ -3,7 +3,7 @@
 export("%>%")
 export(ms_aggregate_polys)
 export(ms_generate_map)
-export(ms_rectify_maps)
+export(ms_rectify_map)
 export(ms_rotate_map)
 export(set_mapbox_token)
 importFrom(RNiftyReg,niftyreg)

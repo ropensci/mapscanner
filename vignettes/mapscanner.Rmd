@@ -91,7 +91,7 @@ The package is designed to enable the following workflow:
    converting it to either `.pdf` or `.png` format; and
 
 5. Rectify the modified version against the original via the
-   [`ms_rectify_maps()`](https://docs.ropensci.org/mapscanner/reference/ms_rectify_maps.html)
+   [`ms_rectify_map()`](https://docs.ropensci.org/mapscanner/reference/ms_rectify_map.html)
    function, which distinguishes individual annotations,
    and converts each one to a spatial object able to be analysed in any desired
    manner.
@@ -233,7 +233,7 @@ Having produced digital maps using the
 function as described above, and having printed, variously drawn-on, and, for
 paper maps, scanned the result back in to digital form, the package can then be
 used to rectify the hand-drawn markings against the original map with the
-[`ms_rectify_maps()`](https://docs.ropensci.org/mapscanner/reference/ms_rectify_maps.html)
+[`ms_rectify_map()`](https://docs.ropensci.org/mapscanner/reference/ms_rectify_map.html)
 function, which returns the drawn-on objects as spatial objects in [Simple
 Features (`sf`)](https://cran.r-project.org/package=sf) format. The only
 requirement is that the drawn-on objects are coloured; black or grey objects
@@ -243,9 +243,9 @@ adding unique identification or participant codes), through simply providing
 such annotations in grey or black.
 
 The
-[`ms_rectify_maps()`](https://docs.ropensci.org/mapscanner/reference/ms_rectify_maps.html)
+[`ms_rectify_map()`](https://docs.ropensci.org/mapscanner/reference/ms_rectify_map.html)
 function has two primary arguments, specifying the names (and locations) of the
-original and modified map files -- in that order: `ms_rectify_maps(original,
+original and modified map files -- in that order: `ms_rectify_map(original,
 modified)`. These files should ideally be in `.png` formats, but will be
 auto-converted from `.pdf` if needed. The package comes with two sample maps,
 both in `.png` format. The first is the reference version needed for
@@ -268,11 +268,11 @@ Converting the lines on this scanned image file is then as simple as:
 ```{r rectify, message = FALSE}
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
-xy <- ms_rectify_maps (f_orig, f_mod, nitems = 2)
+xy <- ms_rectify_map (f_orig, f_mod, nitems = 2)
 xy
 ```
 The result of
-[`ms_rectify_maps()`](https://docs.ropensci.org/mapscanner/reference/ms_rectify_maps.html)
+[`ms_rectify_map()`](https://docs.ropensci.org/mapscanner/reference/ms_rectify_map.html)
 can be plotted using any standard option for plotting spatial data, such as
 through online mapping packages such as `mapview`:
 ```{r mapshot-hulls, eval = TRUE, echo = FALSE}
@@ -303,7 +303,7 @@ knitr::include_graphics ("mapshot-hulls.png")
 ### Types of map markings and types of spatial objects
 
 The
-[`ms_rectify_maps()`](https://docs.ropensci.org/mapscanner/reference/ms_rectify_maps.html)
+[`ms_rectify_map()`](https://docs.ropensci.org/mapscanner/reference/ms_rectify_map.html)
 function has an additional argument, `type`, which takes the following values:
 
 1. `type = "hulls"` (the default), which returns convex or concave hulls around
@@ -340,7 +340,7 @@ The `"polygon"` and `"point"` types are illustrated in the following maps:
 ```{r type-polys}
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
-xy <- ms_rectify_maps (f_orig, f_mod, type = "polygons", quiet = TRUE)
+xy <- ms_rectify_map (f_orig, f_mod, type = "polygons", quiet = TRUE)
 ```
 ```{r mapview-polys, eval = TRUE, echo = FALSE}
 xy$id <- seq (nrow (xy))
@@ -370,7 +370,7 @@ knitr::include_graphics ("mapshot-polys.png")
 ```{r type-points}
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
-xy <- ms_rectify_maps (f_orig, f_mod, type = "points", quiet = TRUE)
+xy <- ms_rectify_map (f_orig, f_mod, type = "points", quiet = TRUE)
 ```
 ```{r mapview-points, eval = TRUE, echo = FALSE}
 xy$id <- seq (nrow (xy))
@@ -525,4 +525,3 @@ magick::image_comment (img)
 or in a terminal via `identify -verbose` command (itself part of the
 `imagemagick` library which drives the [`magick` **R**
 package](https://github.com/ropensci/magick)).
-

@@ -1,5 +1,5 @@
 
-#' ms_rectify_maps
+#' ms_rectify_map
 #'
 #' Rectify two previously scanned-in pdf or png maps with `RNiftyReg`, and
 #' return the modifications in `map_modified` as spatial objects in \pkg{sf}
@@ -49,9 +49,9 @@
 #' f_mod <- system.file ("extdata", "omaha-polygons.png",
 #'                       package = "mapscanner")
 #' \dontrun{
-#' xy_hull <- ms_rectify_maps (f_orig, f_mod, type = "hull")
-#' xy_poly <- ms_rectify_maps (f_orig, f_mod, type = "polygons")
-#' xy_pts <- ms_rectify_maps (f_orig, f_mod, type = "points")
+#' xy_hull <- ms_rectify_map (f_orig, f_mod, type = "hull")
+#' xy_poly <- ms_rectify_map (f_orig, f_mod, type = "polygons")
+#' xy_pts <- ms_rectify_map (f_orig, f_mod, type = "points")
 #' }
 #' # reduce file sizes to 1/4 to speed up these examples:
 #' f_orig2 <- file.path (tempdir (), "omaha.png")
@@ -64,15 +64,15 @@
 #'     magick::image_write (f_modified2)
 #'
 #' # then rectify those files:
-#' xy_hull <- ms_rectify_maps (f_orig2, f_modified2, type = "hull")
-#' xy_poly <- ms_rectify_maps (f_orig2, f_modified2, type = "polygons")
-#' xy_pts <- ms_rectify_maps (f_orig2, f_modified2, type = "points")
+#' xy_hull <- ms_rectify_map (f_orig2, f_modified2, type = "hull")
+#' xy_poly <- ms_rectify_map (f_orig2, f_modified2, type = "polygons")
+#' xy_pts <- ms_rectify_map (f_orig2, f_modified2, type = "points")
 #'
 #' @export
-ms_rectify_maps <- function (map_original, map_modified, nitems = NULL,
-                             non_linear = 1, type = "hulls", downsample = 10,
-                             concavity = 0, length_threshold = 10,
-                             quiet = FALSE)
+ms_rectify_map <- function (map_original, map_modified, nitems = NULL,
+                            non_linear = 1, type = "hulls", downsample = 10,
+                            concavity = 0, length_threshold = 10,
+                            quiet = FALSE)
 {
     non_linear <- non_lin_to_scope (non_linear)
 

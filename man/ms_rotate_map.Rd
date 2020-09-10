@@ -23,7 +23,7 @@ according to the specified rotation.}
 Display original and modified maps to determine necessary rotation
 }
 \note{
-If a call to \link{ms_rectify_maps} detects potential image rotation,
+If a call to \link{ms_rectify_map} detects potential image rotation,
 that function will stop and suggest that rotation be applied using this
 function in order to determine the required degree of image rotation. Values
 for \code{rotation} can be trialled in order to determine the correct value,

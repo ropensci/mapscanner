@@ -70,7 +70,7 @@ The package is designed to enable the following workflow:
    converting it to either `.pdf` or `.png` format; and
 
 5. Rectify the modified version against the original via the
-   [`ms_rectify_maps()`](https://docs.ropensci.org/mapscanner/reference/ms_rectify_maps.html)
+   [`ms_rectify_map()`](https://docs.ropensci.org/mapscanner/reference/ms_rectify_map.html)
    function, which distinguishes individual annotations,
    and converts each one to a spatial object able to be analysed in any desired
    manner.
@@ -162,13 +162,13 @@ a particular region of Omaha.
 ```{r scan_maps}
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
-res <- ms_rectify_maps (f_orig, f_mod, type = "polygons")
+res <- ms_rectify_map (f_orig, f_mod, type = "polygons")
 res
 ```
 The rectification can take quite some time, during which [`RNiftyReg`
 package](https://github.com/jonclayden/RNiftyReg) is constructing the best
 transformation of the modified image back on to the original. The result of
-`ms_rectify_maps()` is a spatial object in
+`ms_rectify_map()` is a spatial object in
 [`sf`](https://cran.r-project.org/package=sf)-format in which each drawn
 component is represented as a separate polygon. Finally, we can plot the result
 as an interactive map using packages like

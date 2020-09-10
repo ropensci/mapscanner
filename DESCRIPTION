@@ -1,6 +1,6 @@
 Package: mapscanner
 Title: Print Maps, Draw on Them, Scan Them Back in
-Version: 0.0.3.004
+Version: 0.0.3.005
 Authors@R: 
     c(person(given = "Mark",
              family = "Padgham",
@@ -73,5 +73,5 @@ Language: en-GB
 LazyData: true
 NeedsCompilation: yes
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 SystemRequirements: C++11

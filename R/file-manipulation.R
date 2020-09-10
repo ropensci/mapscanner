@@ -1,13 +1,13 @@
 #' ms_rotate_map
 #'
 #' Display original and modified maps to determine necessary rotation
-#' @inheritParams ms_rectify_maps
+#' @inheritParams ms_rectify_map
 #' @param rotation Rotation value to be applied, generally +/- 90
 #' @param apply_rotation If `FALSE`, display results of rotation without
 #' actually applying it; otherwise transform the specified `map_modified` image
 #' according to the specified rotation.
 #'
-#' @note If a call to \link{ms_rectify_maps} detects potential image rotation,
+#' @note If a call to \link{ms_rectify_map} detects potential image rotation,
 #' that function will stop and suggest that rotation be applied using this
 #' function in order to determine the required degree of image rotation. Values
 #' for `rotation` can be trialled in order to determine the correct value,
