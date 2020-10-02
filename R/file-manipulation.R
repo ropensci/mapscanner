@@ -196,14 +196,8 @@ trim_white <- function (fname)
         img <- magick::image_trim (i, fuzz = 1)
         dims <- magick::image_info (img)
         dims1 <- as.integer (dims [c ("width", "height")])
-        if (identical (dims0, dims1))
-            warning ("Attempt to trim white space from image appears to have ",
-                     "failed - result may not be reliable. Please manually ",
-                     "trim whitespace from [", fname, "] to improve results")
-        else {
-            bbox <- paste0 ("T", substring (bbox, 2, nchar (bbox)))
-            magick::image_write (img, path = fname, comment = bbox)
-        }
+        bbox <- paste0 ("T", substring (bbox, 2, nchar (bbox)))
+        magick::image_write (img, path = fname, comment = bbox)
         # nocov end
     }
 
