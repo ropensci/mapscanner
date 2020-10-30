@@ -89,8 +89,7 @@ ms_rectify_map <- function (map_original, map_modified, nitems = NULL,
     map_original <- get_map_png (map_original, quiet = quiet)
     map_modified <- get_map_png (map_modified, quiet = quiet)
     chk <- check_rotation (map_original, map_modified)
-    if (chk)
-    {
+    if (chk) {
         ms_rotate_map (map_original, map_modified)
         stop ("file [", map_modified, "] appears to be rotated relative to [",
               map_original, "]; please rotate image using `ms_rotate_maps`")
@@ -106,8 +105,7 @@ ms_rectify_map <- function (map_original, map_modified, nitems = NULL,
     # niftyreg (source, target) transforms source into the space of target, and
     # returns $image as "the registered and resampled 'source' image in the
     # space of the 'target' image"
-    if (!quiet)
-    {
+    if (!quiet) {
         message (cli::symbol$pointer, " Rectifying the two maps ",
                  appendLF = FALSE)
     }
