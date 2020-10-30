@@ -220,11 +220,12 @@ abide by its terms.
 ## Contributors
 
 
+
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 
-This project uses the [`allcontributor` package](https://github.com/mpadge/allcontributor) following the [all-contributors](https://allcontributors.org) specification. Contributions of any kind are welcome!
+This project uses the [`allcontributors` package](https://github.com/mpadge/allcontributors) following the [all-contributors](https://allcontributors.org) specification. Contributions of any kind are welcome!
 
 ## Code
 
@@ -285,7 +286,7 @@ This project uses the [`allcontributor` package](https://github.com/mpadge/allco
 </td>
 <td align="center">
 <a href="https://github.com/sckott">
-<img src="https://avatars0.githubusercontent.com/u/577668?u=c93ee2da393f8267e938155821bce2143e94eaa3&v=4" width="100px;" alt=""/>
+<img src="https://avatars0.githubusercontent.com/u/577668?u=c54eb1ce08ff22365e094559a109a12437bdca40&v=4" width="100px;" alt=""/>
 </a><br>
 <a href="https://github.com/ropensci/mapscanner/issues?q=is%3Aissue+author%3Asckott">sckott</a>
 </td>
@@ -297,7 +298,7 @@ This project uses the [`allcontributor` package](https://github.com/mpadge/allco
 </td>
 <td align="center">
 <a href="https://github.com/stefaniebutland">
-<img src="https://avatars2.githubusercontent.com/u/11927811?u=f68cd5c555e5dd45a71b7961f980f2af2120b90c&v=4" width="100px;" alt=""/>
+<img src="https://avatars1.githubusercontent.com/u/11927811?u=ea2b36cbdc6c1d4b5cd9231b397c03998d730626&v=4" width="100px;" alt=""/>
 </a><br>
 <a href="https://github.com/ropensci/mapscanner/issues?q=is%3Aissue+author%3Astefaniebutland">stefaniebutland</a>
 </td>
@@ -310,6 +311,12 @@ This project uses the [`allcontributor` package](https://github.com/mpadge/allco
 <img src="https://avatars0.githubusercontent.com/u/1036163?v=4" width="100px;" alt=""/>
 </a><br>
 <a href="https://github.com/ropensci/mapscanner/issues?q=is%3Aissue+author%3ASantoshSrinivas79">SantoshSrinivas79</a>
+</td>
+<td align="center">
+<a href="https://github.com/asitemade4u">
+<img src="https://avatars0.githubusercontent.com/u/11460106?u=2d81ef9fbaa1ebcd7b9bcf65cd4894e85850d68e&v=4" width="100px;" alt=""/>
+</a><br>
+<a href="https://github.com/ropensci/mapscanner/issues?q=is%3Aissue+author%3Aasitemade4u">asitemade4u</a>
 </td>
 </tr>
 

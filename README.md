@@ -221,142 +221,108 @@ to abide by its terms.
 
 ## Contributors
 
+
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-
 <!-- prettier-ignore-start -->
-
 <!-- markdownlint-disable -->
 
-This project uses the [`allcontributor`
-package](https://github.com/mpadge/allcontributor) following the
-[all-contributors](https://allcontributors.org) specification.
-Contributions of any kind are welcome\!
+This project uses the [`allcontributors` package](https://github.com/mpadge/allcontributors) following the [all-contributors](https://allcontributors.org) specification. Contributions of any kind are welcome!
 
 ## Code
 
 <table>
 
 <tr>
-
 <td align="center">
-
 <a href="https://github.com/mpadge">
 <img src="https://avatars1.githubusercontent.com/u/6697851?v=4" width="100px;" alt=""/>
 </a><br>
 <a href="https://github.com/ropensci/mapscanner/commits?author=mpadge">mpadge</a>
-
 </td>
-
 <td align="center">
-
 <a href="https://github.com/mdsumner">
 <img src="https://avatars2.githubusercontent.com/u/4107631?v=4" width="100px;" alt=""/>
 </a><br>
 <a href="https://github.com/ropensci/mapscanner/commits?author=mdsumner">mdsumner</a>
-
 </td>
-
 <td align="center">
-
 <a href="https://github.com/potterzot">
 <img src="https://avatars0.githubusercontent.com/u/477294?v=4" width="100px;" alt=""/>
 </a><br>
 <a href="https://github.com/ropensci/mapscanner/commits?author=potterzot">potterzot</a>
-
 </td>
-
 </tr>
 
 </table>
+
 
 ## Issue Authors
 
 <table>
 
 <tr>
-
 <td align="center">
-
 <a href="https://github.com/ThomasDier">
 <img src="https://avatars0.githubusercontent.com/u/42271539?u=4194553fedeadf5bf3a23efcc829dfd51615b549&v=4" width="100px;" alt=""/>
 </a><br>
 <a href="https://github.com/ropensci/mapscanner/issues?q=is%3Aissue+author%3AThomasDier">ThomasDier</a>
-
 </td>
-
 <td align="center">
-
 <a href="https://github.com/dcooley">
 <img src="https://avatars0.githubusercontent.com/u/8093396?u=2c8d9162f246d90d433034d212b29a19e0f245c1&v=4" width="100px;" alt=""/>
 </a><br>
 <a href="https://github.com/ropensci/mapscanner/issues?q=is%3Aissue+author%3Adcooley">dcooley</a>
-
 </td>
-
 <td align="center">
-
 <a href="https://github.com/SymbolixAU">
 <img src="https://avatars2.githubusercontent.com/u/18344164?u=022e0d3bdcca3e224021bae842672bda12b599df&v=4" width="100px;" alt=""/>
 </a><br>
 <a href="https://github.com/ropensci/mapscanner/issues?q=is%3Aissue+author%3ASymbolixAU">SymbolixAU</a>
-
 </td>
-
 <td align="center">
-
 <a href="https://github.com/khondula">
 <img src="https://avatars3.githubusercontent.com/u/6106733?u=91bac57101b4e8047b2a96b8ad67437cc32e6144&v=4" width="100px;" alt=""/>
 </a><br>
 <a href="https://github.com/ropensci/mapscanner/issues?q=is%3Aissue+author%3Akhondula">khondula</a>
-
 </td>
-
 <td align="center">
-
 <a href="https://github.com/sckott">
-<img src="https://avatars0.githubusercontent.com/u/577668?u=c93ee2da393f8267e938155821bce2143e94eaa3&v=4" width="100px;" alt=""/>
+<img src="https://avatars0.githubusercontent.com/u/577668?u=c54eb1ce08ff22365e094559a109a12437bdca40&v=4" width="100px;" alt=""/>
 </a><br>
 <a href="https://github.com/ropensci/mapscanner/issues?q=is%3Aissue+author%3Asckott">sckott</a>
-
 </td>
-
 <td align="center">
-
 <a href="https://github.com/tomroh">
 <img src="https://avatars1.githubusercontent.com/u/6668593?u=9e585864a75453fb972c50d461f58aae35d65fac&v=4" width="100px;" alt=""/>
 </a><br>
 <a href="https://github.com/ropensci/mapscanner/issues?q=is%3Aissue+author%3Atomroh">tomroh</a>
-
 </td>
-
 <td align="center">
-
 <a href="https://github.com/stefaniebutland">
-<img src="https://avatars2.githubusercontent.com/u/11927811?u=f68cd5c555e5dd45a71b7961f980f2af2120b90c&v=4" width="100px;" alt=""/>
+<img src="https://avatars1.githubusercontent.com/u/11927811?u=ea2b36cbdc6c1d4b5cd9231b397c03998d730626&v=4" width="100px;" alt=""/>
 </a><br>
 <a href="https://github.com/ropensci/mapscanner/issues?q=is%3Aissue+author%3Astefaniebutland">stefaniebutland</a>
-
 </td>
-
 </tr>
 
+
 <tr>
-
 <td align="center">
-
 <a href="https://github.com/SantoshSrinivas79">
 <img src="https://avatars0.githubusercontent.com/u/1036163?v=4" width="100px;" alt=""/>
 </a><br>
 <a href="https://github.com/ropensci/mapscanner/issues?q=is%3Aissue+author%3ASantoshSrinivas79">SantoshSrinivas79</a>
-
 </td>
-
+<td align="center">
+<a href="https://github.com/asitemade4u">
+<img src="https://avatars0.githubusercontent.com/u/11460106?u=2d81ef9fbaa1ebcd7b9bcf65cd4894e85850d68e&v=4" width="100px;" alt=""/>
+</a><br>
+<a href="https://github.com/ropensci/mapscanner/issues?q=is%3Aissue+author%3Aasitemade4u">asitemade4u</a>
+</td>
 </tr>
 
 </table>
 
 <!-- markdownlint-enable -->
-
 <!-- prettier-ignore-end -->
-
 <!-- ALL-CONTRIBUTORS-LIST:END -->
