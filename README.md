@@ -213,19 +213,17 @@ to abide by its terms.
 Contributors
 ------------
 
+
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 
-This project uses the [`allcontributors`
-package](https://github.com/ropenscilabs/allcontributors) following the
-[all-contributors](https://allcontributors.org) specification.
-Contributions of any kind are welcome!
+All contributions to this project are gratefully acknowledged using the [`allcontributors` package](https://github.com/ropenscilabs/allcontributors) following the [all-contributors](https://allcontributors.org) specification. Contributions of any kind are welcome!
 
-Code
-----
+### Code
 
 <table>
+
 <tr>
 <td align="center">
 <a href="https://github.com/mpadge">
@@ -246,12 +244,14 @@ Code
 <a href="https://github.com/ropensci/mapscanner/commits?author=potterzot">potterzot</a>
 </td>
 </tr>
+
 </table>
 
-Issue Authors
--------------
+
+### Issues
 
 <table>
+
 <tr>
 <td align="center">
 <a href="https://github.com/ThomasDier">
@@ -296,6 +296,8 @@ Issue Authors
 <a href="https://github.com/ropensci/mapscanner/issues?q=is%3Aissue+author%3Astefaniebutland">stefaniebutland</a>
 </td>
 </tr>
+
+
 <tr>
 <td align="center">
 <a href="https://github.com/SantoshSrinivas79">
@@ -310,7 +312,9 @@ Issue Authors
 <a href="https://github.com/ropensci/mapscanner/issues?q=is%3Aissue+author%3Aasitemade4u">asitemade4u</a>
 </td>
 </tr>
+
 </table>
+
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->

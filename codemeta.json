@@ -10,7 +10,7 @@
   "codeRepository": "https://github.com/ropensci/mapscanner",
   "issueTracker": "https://github.com/ropensci/mapscanner/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.0.3.12",
+  "version": "0.0.3.13",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -459,7 +459,7 @@
     }
   ],
   "readme": "https://github.com/ropensci/mapscanner/blob/master/README.md",
-  "fileSize": "5134.806KB",
+  "fileSize": "5134.893KB",
   "contIntegration": ["https://travis-ci.org/ropensci/mapscanner", "https://codecov.io/gh/ropensci/mapscanner"],
   "developmentStatus": "https://www.repostatus.org/#concept",
   "keywords": [
