@@ -25,3 +25,4 @@ rev-testdata/*
 ^\.Rproj\.user$
 ^\.github$
 ^\.pre-commit-config\.yaml$
+^\.hooks$

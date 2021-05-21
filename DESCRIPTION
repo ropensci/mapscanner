@@ -1,6 +1,6 @@
 Package: mapscanner
 Title: Print Maps, Draw on Them, Scan Them Back in
-Version: 0.0.3.015
+Version: 0.0.3.016
 Authors@R: 
     c(person(given = "Mark",
              family = "Padgham",
