@@ -4,12 +4,10 @@
 \alias{ms_aggregate_polys}
 \title{Aggregate disparate polygons}
 \usage{
-ms_aggregate_polys(px, ...)
+ms_aggregate_polys(p)
 }
 \arguments{
-\item{px}{input polygons (assumed overlapping poly/mpolys)}
-
-\item{...}{unused}
+\item{p}{input (multi-)polygons (assumed to be overlapping)}
 }
 \description{
 Planar partition from disparate polygon inputs. Overlaps aggregate to \code{n}.

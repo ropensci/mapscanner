@@ -8,11 +8,9 @@ test_that ("aggregate", {
                overlapping_polys <- sf::st_buffer (pts, 0.75)
 
                requireNamespace ("dplyr") # produces output
-               requireNamespace ("gibble")
-               requireNamespace ("polyclip")
                expect_silent (x <- ms_aggregate_polys (overlapping_polys))
                expect_is (x, "sf")
-               expect_is (x$geometry, "sfc_MULTIPOLYGON")
+               expect_is (x$geometry, "sfc_POLYGON")
                expect_equal (nrow (x), 3)
                expect_equivalent(1:3, x$n)
 })
