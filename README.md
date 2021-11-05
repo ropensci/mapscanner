@@ -28,7 +28,7 @@ Maps can be either paper- or screen-based. Markings on paper maps need
 to be scanned, photographed, or otherwise digitised, while maps with
 screen-based markings need to be saved as `.png`-format images.
 
-## installation
+## Installation
 
 `mapscanner` is not (yet) on CRAN. The development version can be
 installed with any of the following options:
@@ -46,7 +46,7 @@ The package can then be loaded for usage in a R session with
 library (mapscanner)
 ```
 
-## usage
+## Usage
 
 The package is designed to enable the following workflow:
 
