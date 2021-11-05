@@ -1,7 +1,6 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-mapscanner
-==========
+# mapscanner
 
 <!-- badges: start -->
 
@@ -17,8 +16,7 @@ Concept](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repo
 
 <!-- badges: end -->
 
-What does this package do for me?
----------------------------------
+## What does this package do for me?
 
 `mapscanner` is an **R** package that enables lines drawn by hand on
 maps to be converted to spatial objects. The package has two primary
@@ -30,23 +28,25 @@ Maps can be either paper- or screen-based. Markings on paper maps need
 to be scanned, photographed, or otherwise digitised, while maps with
 screen-based markings need to be saved as `.png`-format images.
 
-installation
-------------
+## installation
 
 `mapscanner` is not (yet) on CRAN. The development version can be
 installed with any of the following options:
 
-    remotes::install_github("ropensci/mapscanner")
-    remotes::install_git("https://git.sr.ht/~mpadge/mapscanner")
-    remotes::install_bitbucket("mpadge/mapscanner")
-    remotes::install_gitlab("mpadge/mapscanner")
+``` r
+remotes::install_github("ropensci/mapscanner")
+remotes::install_git("https://git.sr.ht/~mpadge/mapscanner")
+remotes::install_bitbucket("mpadge/mapscanner")
+remotes::install_gitlab("mpadge/mapscanner")
+```
 
 The package can then be loaded for usage in a R session with
 
-    library (mapscanner)
+``` r
+library (mapscanner)
+```
 
-usage
------
+## usage
 
 The package is designed to enable the following workflow:
 
@@ -113,7 +113,9 @@ links from
 If you already have a token, the easiest way to use it with `mapscanner`
 is to create (or edit) a file `~/.Renviron`, and insert a line,
 
-    MAPBOX_TOKEN=<my_mapbox_token>
+``` bash
+MAPBOX_TOKEN=<my_mapbox_token>
+```
 
 This will then be available every time you start R, without any need to
 explicitly set the token each time you want to use the package. The
@@ -132,9 +134,11 @@ some red lines drawn on it: ![](./man/figures/omaha-polygons.png)
 That’s just a standard `png` image with no notion of geographical
 coordinates. The original map was generated with
 
-    bbox <- rbind (c (-96.12923, -96.01011),
-                   c (41.26145, 41.32220)) # portion of omaha
-    ms_generate_map (bbox, max_tiles = 16L, mapname = "omaha")
+``` r
+bbox <- rbind (c (-96.12923, -96.01011),
+               c (41.26145, 41.32220)) # portion of omaha
+ms_generate_map (bbox, max_tiles = 16L, mapname = "omaha")
+```
 
     #> Successfully generated 'omaha.pdf' and 'omaha.png'
 
@@ -153,24 +157,26 @@ images which can be used to demonstrate map rectification. In the
 following code, `f_modified` is the image shown above, modified from the
 original by drawing a red line around a particular region of Omaha.
 
-    f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
-    f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
-    res <- ms_rectify_map (f_orig, f_mod, type = "polygons")
-    #> ══ mapscanner ════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
-    #> ✔ Image [/usr/lib/R/library/mapscanner/extdata/omaha.png] reduced in size by factor of 2
-    #> ❯ Rectifying the two maps ✔ Rectified the two maps  
-    #> ❯ Estimating optimal signal-to-noise threshold✔ Estimated optimal signal-to-noise threshold
-    #> ✔ Identified 2 objects
-    #> ❯ Converting to spatial format ✔ Converted to spatial format
-    res
-    #> Simple feature collection with 2 features and 0 fields
-    #> geometry type:  POLYGON
-    #> dimension:      XY
-    #> bbox:           xmin: -96.11814 ymin: 41.26638 xmax: -96.02722 ymax: 41.30109
-    #> geographic CRS: WGS 84
-    #>                         geometry
-    #> 1 POLYGON ((-96.11589 41.2663...
-    #> 2 POLYGON ((-96.03544 41.2927...
+``` r
+f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
+f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
+res <- ms_rectify_map (f_orig, f_mod, type = "polygons")
+#> ══ mapscanner ════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+#> ✔ Image [/usr/lib/R/library/mapscanner/extdata/omaha.png] reduced in size by factor of 2
+#> ❯ Rectifying the two maps ✔ Rectified the two maps  
+#> ❯ Estimating optimal signal-to-noise threshold✔ Estimated optimal signal-to-noise threshold
+#> ✔ Identified 2 objects
+#> ❯ Converting to spatial format ✔ Converted to spatial format
+res
+#> Simple feature collection with 2 features and 0 fields
+#> Geometry type: POLYGON
+#> Dimension:     XY
+#> Bounding box:  xmin: -96.11814 ymin: 41.26638 xmax: -96.02722 ymax: 41.30109
+#> Geodetic CRS:  WGS 84
+#>                         geometry
+#> 1 POLYGON ((-96.11589 41.2663...
+#> 2 POLYGON ((-96.03544 41.2927...
+```
 
 The rectification can take quite some time, during which [`RNiftyReg`
 package](https://github.com/jonclayden/RNiftyReg) is constructing the
@@ -182,17 +188,21 @@ result as an interactive map using packages like
 [`mapview`](https://github.com/r-spatial/mapview) with the following
 commands:
 
-    library (mapview)
-    mapview (res)
+``` r
+library (mapview)
+mapview (res)
+```
 
 or [`mapdeck`](https://github.com/symbolixAU/mapdeck), which similarly
 requires a mapbox token:
 
-    library (mapdeck)
-    set_token (Sys.getenv ("<my_mapbox_token>"))
-    mapdeck () %>%
-        add_polygon (res, fill_colour = "#ffff00cc",
-                     stroke_colour = "#ff0000", stroke_width = 20)
+``` r
+library (mapdeck)
+set_token (Sys.getenv ("<my_mapbox_token>"))
+mapdeck () %>%
+    add_polygon (res, fill_colour = "#ffff00cc",
+                 stroke_colour = "#ff0000", stroke_width = 20)
+```
 
 ![](./man/figures/leaflet-1.png)
 
@@ -201,29 +211,29 @@ spatial objects able to be analysed in any desired way. See the [package
 vignette](https://docs.ropensci.org/mapscanner/articles/mapscanner.html)
 for more detail of what the `mapscanner` package can do.
 
-Code of Conduct
----------------
+## Code of Conduct
 
 Please note that this project is released with a [Contributor Code of
 Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree
 to abide by its terms.
 
-[![ropensci\_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)
+[![ropensci_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)
 
-Contributors
-------------
-
+## Contributors
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 
-All contributions to this project are gratefully acknowledged using the [`allcontributors` package](https://github.com/ropenscilabs/allcontributors) following the [all-contributors](https://allcontributors.org) specification. Contributions of any kind are welcome!
+All contributions to this project are gratefully acknowledged using the
+[`allcontributors`
+package](https://github.com/ropenscilabs/allcontributors) following the
+[all-contributors](https://allcontributors.org) specification.
+Contributions of any kind are welcome!
 
 ### Code
 
 <table>
-
 <tr>
 <td align="center">
 <a href="https://github.com/mpadge">
@@ -244,14 +254,11 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 <a href="https://github.com/ropensci/mapscanner/commits?author=potterzot">potterzot</a>
 </td>
 </tr>
-
 </table>
-
 
 ### Issues
 
 <table>
-
 <tr>
 <td align="center">
 <a href="https://github.com/ThomasDier">
@@ -296,8 +303,6 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 <a href="https://github.com/ropensci/mapscanner/issues?q=is%3Aissue+author%3Astefaniebutland">stefaniebutland</a>
 </td>
 </tr>
-
-
 <tr>
 <td align="center">
 <a href="https://github.com/SantoshSrinivas79">
@@ -312,9 +317,7 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 <a href="https://github.com/ropensci/mapscanner/issues?q=is%3Aissue+author%3Aasitemade4u">asitemade4u</a>
 </td>
 </tr>
-
 </table>
-
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
