@@ -432,10 +432,13 @@ aggr <- ms_aggregate_polys (polys)
 polys$type <- "raw polygons"
 aggr$type <- "aggregated polygons"
 polys <- rbind (polys, aggr)
+# Convert type to factor to order facets:
+polys$type <- factor (polys$type, levels = c ("raw polygons", "aggregated polygons"))
 library (ggplot2)
 ggplot (polys, aes (fill = n)) + geom_sf () + facet_wrap (~type)
 ```
 ```{r random-polys, echo = FALSE, eval = TRUE}
+set.seed (1)
 n <- 5 # number of polygons
 polys <- lapply (seq (n), function (i) {
                      nxy <- 20 # number of points used to generate hull
@@ -448,12 +451,9 @@ aggr <- ms_aggregate_polys (polys)
 polys$type <- "raw polygons"
 aggr$type <- "aggregated polygons"
 polys <- rbind (polys, aggr)
+polys$type <- factor (polys$type, levels = c ("raw polygons", "aggregated polygons"))
 theme_set (theme_minimal ())
-labeller <- c (
-               `aggregated polygons` = "raw polygons",
-               `raw polygons` = "aggregated polygons")
-ggplot (polys, aes (fill = n)) + geom_sf () +
-    facet_wrap (~rev (type), labeller = as_labeller (labeller))
+ggplot (polys, aes (fill = n)) + geom_sf () + facet_wrap (~type)
 ```
 
 The left panel of that figure shows the random polygons in raw form
