@@ -33,7 +33,8 @@ ms_aggregate_polys <- function (p) {
                      gi <- p$geometry [p$n.overlaps >= i]
                      out <- sf::st_union (gi)
                      if (sf::st_geometry_type (out) == "GEOMETRYCOLLECTION") {
-                         out <- sf::st_collection_extract (out)
+                         out <- sf::st_collection_extract (out) %>%
+                             sf::st_union ()
                      }
                      return (out)
     })
