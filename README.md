@@ -6,13 +6,11 @@
 
 [![R build
 status](https://github.com/ropensci/mapscanner/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/mapscanner/actions?query=workflow%3AR-CMD-check)
-[![Travis build
-status](https://travis-ci.org/ropensci/mapscanner.svg?branch=master)](https://travis-ci.org/ropensci/mapscanner)
-[![codecov](https://codecov.io/gh/ropensci/mapscanner/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/mapscanner)
+[![codecov](https://codecov.io/gh/ropensci/mapscanner/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ropensci/mapscanner)
 [![Project Status:
 Concept](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
 
-[![](https://badges.ropensci.org/330_status.svg)](https://github.com/ropensci/onboarding/issues/330)
+[![](https://badges.ropensci.org/330_status.svg)](https://github.com/ropensci/software-review/issues/330)
 
 <!-- badges: end -->
 
@@ -107,8 +105,8 @@ which these may be converted.
 ### Mapbox API tokens
 
 Map generation with `mapscanner` requires a personal token or key from
-[`mapbox`](https://mapbox.com/), which can be obtained by following the
-links from
+[`mapbox`](https://www.mapbox.com/), which can be obtained by following
+the links from
 [https://docs.mapbox.com/api](https://docs.mapbox.com/api/#access-tokens-and-token-scopes/).
 If you already have a token, the easiest way to use it with `mapscanner`
 is to create (or edit) a file `~/.Renviron`, and insert a line,
@@ -126,7 +124,7 @@ private, and only use it for your current R session, you may load
 
 ### Map generation
 
-Having obtained and set a [`mapbox`](https://mapbox.com/) token as
+Having obtained and set a [`mapbox`](https://www.mapbox.com/) token as
 described above, `mapscanner` may then be used to generate maps. The
 package comes with a sample map of Omaha, Nebraska, USA, and one with
 some red lines drawn on it: ![](./man/figures/omaha-polygons.png)
@@ -161,7 +159,7 @@ original by drawing a red line around a particular region of Omaha.
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
 res <- ms_rectify_map (f_orig, f_mod, type = "polygons")
-#> ══ mapscanner ════════════════════════════════════════════════════════════════════════════════════════════════════════
+#> ══ mapscanner ═════════════════════════════════════════════════════════════════════════════════════════════════════════
 #> ✔ Image [/usr/lib/R/library/mapscanner/extdata/omaha.png] reduced in size by factor of 2
 #> ❯ Rectifying the two maps ✔ Rectified the two maps  
 #> ❯ Estimating optimal signal-to-noise threshold✔ Estimated optimal signal-to-noise threshold
@@ -228,7 +226,7 @@ project, you agree to abide by its terms.
 All contributions to this project are gratefully acknowledged using the
 [`allcontributors`
 package](https://github.com/ropenscilabs/allcontributors) following the
-[all-contributors](https://allcontributors.org) specification.
+[all-contributors](https://allcontributors.org/) specification.
 Contributions of any kind are welcome!
 
 ### Code

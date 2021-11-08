@@ -4,7 +4,7 @@
 #' Generate maps for 'mapscanner' use
 #'
 #' Generate a map image for a specified area or bounding box, by downloading
-#' tiles from \url{https://mapbox.com/}. Map is automatically saved in both
+#' tiles from \url{https://www.mapbox.com/}. Map is automatically saved in both
 #' `.pdf` and `.png` formats, by default in current working directory, or
 #' alternative location when `mapname` includes the full path.
 #'

@@ -41,7 +41,7 @@ package containing all data used to generate the map.
 }
 \description{
 Generate a map image for a specified area or bounding box, by downloading
-tiles from \url{https://mapbox.com/}. Map is automatically saved in both
+tiles from \url{https://www.mapbox.com/}. Map is automatically saved in both
 \code{.pdf} and \code{.png} formats, by default in current working directory, or
 alternative location when \code{mapname} includes the full path.
 }

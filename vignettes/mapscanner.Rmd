@@ -3,11 +3,7 @@ title: "mapscanner"
 author: "Mark Padgham and Michael D. Sumner"
 date: "`r Sys.Date()`"
 output: 
-    html_document:
-        toc: true
-        toc_float: true
-        number_sections: false
-        theme: flatly
+    html_document
 vignette: >
   %\VignetteIndexEntry{mapscanner}
   %\VignetteEngine{knitr::rmarkdown}
@@ -129,8 +125,8 @@ the kinds of spatial objects to which these may be converted.
 ## Mapbox API tokens
 
 Map generation with `mapscanner` requires a personal token or key from
-[`mapbox`](https://mapbox.com/), which can be obtained by following the links
-from
+[`mapbox`](https://www.mapbox.com/), which can be obtained by following the
+links from
 [https://docs.mapbox.com/api/](https://docs.mapbox.com/api/#access-tokens-and-token-scopes/).
 If you already have a token, the easiest way to use it with `mapscanner` is to
 create (or edit) a file `~/.Renviron`, and insert a line,
@@ -149,8 +145,8 @@ for your current R session, you may load `mapscanner`, and then run
 
 ## Map generation
 
-Having obtained and set a [`mapbox`](https://mapbox.com/) token as described
-above, the
+Having obtained and set a [`mapbox`](https://www.mapbox.com/) token as
+described above, the
 [`ms_generate_map()`](https://docs.ropensci.org/mapscanner/reference/ms_generate_map.html)
 function can be used to generate printable maps for a specified bounding box in
 both `.pdf` and `.png` formats. Usage is a simple as,
@@ -165,13 +161,14 @@ The two generated maps are saved in the current working directory (`getwd()`).
 To save maps in alternative locations, the `mapname` parameter can optionally
 specify paths. To provide finer control over the scales of maps, precise
 bounding boxes can also be submitted. To determine desired bounding boxes, we
-recommend using the ['openstreetmap.org' website](https://openstreetmap.org/),
-zooming to a desired area, then clicking the "Export" button. A window will
-appear which includes the bounding coordinates of the current screen. Even
-finer control can be gained by clicking beneath this coordinate window on the
-line which says, "Manually select a different area," which brings a drag-able
-rectangle onto the current screen. The coordinates in the bounding box then
-simply need to be entered in to the `bbox` parameter of
+recommend using the ['openstreetmap.org'
+website](https://www.openstreetmap.org/), zooming to a desired area, then
+clicking the "Export" button. A window will appear which includes the bounding
+coordinates of the current screen. Even finer control can be gained by clicking
+beneath this coordinate window on the line which says, "Manually select
+a different area," which brings a drag-able rectangle onto the current screen.
+The coordinates in the bounding box then simply need to be entered in to the
+`bbox` parameter of
 [`ms_generate_map()`](https://docs.ropensci.org/mapscanner/reference/ms_generate_map.html)
 in the order (`xmin`, `ymin`, `xmax`, `ymax`) -- or anti-clockwise from the
 left-hand coordinate.
@@ -188,9 +185,10 @@ Maps are generated in two formats, because the `.pdf` version will generally
 be the most convenient for printing, while the `png` version should be retained
 as the "master" copy against which to rectify subsequently scanned-in version.
 Behind the scenes, the function downloads a series of vector map tiles from
-[mapbox](https://mapbox.com/), and converts them to a `rasterBrick` object from
-the [`raster` package](https://cran.r-project.org/package=raster). This
+[mapbox](https://www.mapbox.com/), and converts them to a `rasterBrick` object
+from the [`raster` package](https://cran.r-project.org/package=raster). This
 `rasterBrick` object is invisibly returned from the function:
+
 ```{r chennaiBrick-fakey, eval = FALSE}
 x <- ms_generate_map ("chennai india", mapname = "chennai")
 ```
