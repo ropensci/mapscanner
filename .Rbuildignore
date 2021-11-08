@@ -16,6 +16,7 @@
 ^inst/WORDLIST$
 ^inst/paper\.md$
 ^tests/spelling\.R$
+script\.bash$
 vignettes/mapstyles\.Rmd
 vignettes/mapstyles\.html
 vignettes/omaha*.png$
