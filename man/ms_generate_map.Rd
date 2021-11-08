@@ -29,7 +29,7 @@ only has effect for \code{style} values of \code{"streets"} or \code{"outdoors"}
 
 \item{style}{The style of the map to be generated; one of 'light', 'streets',
 or 'outdoors', rendered in black and white. See
-\url{https://docs.mapbox.com/api/maps/#styles} for examples.}
+\url{https://docs.mapbox.com/api/maps/#styles/} for examples.}
 
 \item{raster_brick}{Instead of automatically downloading tiles within a given
 \code{bbox}, a pre-downloaded \code{raster::rasterBrick} object may be submitted and
@@ -41,7 +41,7 @@ package containing all data used to generate the map.
 }
 \description{
 Generate a map image for a specified area or bounding box, by downloading
-tiles from \url{https://mapbox.com}. Map is automatically saved in both
+tiles from \url{https://mapbox.com/}. Map is automatically saved in both
 \code{.pdf} and \code{.png} formats, by default in current working directory, or
 alternative location when \code{mapname} includes the full path.
 }

@@ -4,7 +4,7 @@
 #' Generate maps for 'mapscanner' use
 #'
 #' Generate a map image for a specified area or bounding box, by downloading
-#' tiles from \url{https://mapbox.com}. Map is automatically saved in both
+#' tiles from \url{https://mapbox.com/}. Map is automatically saved in both
 #' `.pdf` and `.png` formats, by default in current working directory, or
 #' alternative location when `mapname` includes the full path.
 #'
@@ -19,7 +19,7 @@
 #' only has effect for `style` values of `"streets"` or `"outdoors"`.
 #' @param style The style of the map to be generated; one of 'light', 'streets',
 #' or 'outdoors', rendered in black and white. See
-#' \url{https://docs.mapbox.com/api/maps/#styles} for examples.
+#' \url{https://docs.mapbox.com/api/maps/#styles/} for examples.
 #' @param raster_brick Instead of automatically downloading tiles within a given
 #' `bbox`, a pre-downloaded `raster::rasterBrick` object may be submitted and
 #' used to generate the `.pdf` and `.png` equivalents.
@@ -264,7 +264,7 @@ get_tiles <- function (bbox_pair, max_tiles = 16L, style)
     style <- c ("light-v10", "streets-v11", "outdoors-v11") [style]
 
     # format <- "jpg" # new API is strict png only
-    baseurl <- "https://api.mapbox.com/v4" # old API
+    #baseurl <- "https://api.mapbox.com/v4" # old API
     baseurl <- "https://api.mapbox.com/styles/v1/mapbox"
     mapbox_token <- get_mapbox_token ()
     query_string <- paste0 (sprintf ("%s/%s/tiles/{zoom}/{x}/{y}",

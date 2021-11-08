@@ -107,9 +107,9 @@ which these may be converted.
 ### Mapbox API tokens
 
 Map generation with `mapscanner` requires a personal token or key from
-[`mapbox`](https://mapbox.com), which can be obtained by following the
+[`mapbox`](https://mapbox.com/), which can be obtained by following the
 links from
-[https://docs.mapbox.com/api](https://docs.mapbox.com/api/#access-tokens-and-token-scopes).
+[https://docs.mapbox.com/api](https://docs.mapbox.com/api/#access-tokens-and-token-scopes/).
 If you already have a token, the easiest way to use it with `mapscanner`
 is to create (or edit) a file `~/.Renviron`, and insert a line,
 
@@ -126,7 +126,7 @@ private, and only use it for your current R session, you may load
 
 ### Map generation
 
-Having obtained and set a [`mapbox`](https://mapbox.com) token as
+Having obtained and set a [`mapbox`](https://mapbox.com/) token as
 described above, `mapscanner` may then be used to generate maps. The
 package comes with a sample map of Omaha, Nebraska, USA, and one with
 some red lines drawn on it: ![](./man/figures/omaha-polygons.png)
@@ -161,7 +161,7 @@ original by drawing a red line around a particular region of Omaha.
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
 res <- ms_rectify_map (f_orig, f_mod, type = "polygons")
-#> ══ mapscanner ════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+#> ══ mapscanner ════════════════════════════════════════════════════════════════════════════════════════════════════════
 #> ✔ Image [/usr/lib/R/library/mapscanner/extdata/omaha.png] reduced in size by factor of 2
 #> ❯ Rectifying the two maps ✔ Rectified the two maps  
 #> ❯ Estimating optimal signal-to-noise threshold✔ Estimated optimal signal-to-noise threshold

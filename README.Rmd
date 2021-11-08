@@ -109,9 +109,9 @@ the kinds of spatial objects to which these may be converted.
 ### Mapbox API tokens
 
 Map generation with `mapscanner` requires a personal token or key from
-[`mapbox`](https://mapbox.com), which can be obtained by following the links
+[`mapbox`](https://mapbox.com/), which can be obtained by following the links
 from
-[https://docs.mapbox.com/api](https://docs.mapbox.com/api/#access-tokens-and-token-scopes).
+[https://docs.mapbox.com/api](https://docs.mapbox.com/api/#access-tokens-and-token-scopes/).
 If you already have a token, the easiest way to use it with `mapscanner` is to
 create (or edit) a file `~/.Renviron`, and insert a line,
 
@@ -127,7 +127,7 @@ for your current R session, you may load `mapscanner`, and then run
 
 ### Map generation
 
-Having obtained and set a [`mapbox`](https://mapbox.com) token as described
+Having obtained and set a [`mapbox`](https://mapbox.com/) token as described
 above, `mapscanner` may then be used to generate maps. The package comes with
 a sample map of Omaha, Nebraska, USA, and one with some red lines drawn on it:
 ![](./man/figures/omaha-polygons.png)

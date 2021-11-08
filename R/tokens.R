@@ -29,7 +29,7 @@ stop0 <- function ()
           "Sys.setenv\nor the package's 'set_mapbox_token' function, ",
           "using a token name that\nincludes either the strings ",
           "'mapbox' or 'mapscanner'. Tokens can be obtained\nfrom ",
-          "https://docs.mapbox.com/api/#access-tokens-and-token-scopes",
+          "https://docs.mapbox.com/api/overview/",
           call. = FALSE)
 }
 
