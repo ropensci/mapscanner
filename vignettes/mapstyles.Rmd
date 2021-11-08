@@ -18,94 +18,54 @@ vignette: >
 library (mapscanner)
 ```
 
-This short vignette demonstrates the three map styles available in the 
-[`ms_generate_map()`](https://docs.ropensci.org/mapscanner/reference/ms_generate_map.html)
-function. These correspond to three of the styles provided by
-[mapbox](https://docs.mapbox.com/api/maps/#styles), converted to black and
-white format for use with `mapscanner`. The styles are demonstrated here using
-the same area of Omaha, Nebraska, U.S.A., defined as the bounding box provided
-by the [`osmdata::getbb()`
-function](https://ropensci.github.io/osmdata/reference/getbb.html), shrunk to
-30% of it's size.
-```{r omaha-bb-fakey, eval = FALSE}
-bb <- osmdata::getbb ("omaha nebraska")
+The `mapscanner` package is able to generate maps in the [three styles provided
+by mapbox](https://docs.mapbox.com/api/maps/#styles). [The `ms_generate_map()`
+function](https://docs.ropensci.org/mapscanner/reference/ms_generate_map.html)
+has a `bw` parameter with a default of `TRUE` to generate black-and-white maps,
+including conversion of coloured mapbox styles to black-and-white. The use of
+coloured maps, generated with `bw = FALSE`, is not generally recommended in
+`mapscanner`, and overdrawn markings are identified exclusively by colour, and
+any markings in a colour which is also present in the underlying maps will
+generally not be accurately identified.
+
+Because illustrations of these map styles requires files too large to be placed
+inside an R package, they are not included with this vignette. The styles can
+nevertheless be easily examined from [the main mapbox styles
+page](https://docs.mapbox.com/api/maps/styles/), or by clicking the hyperlinked
+text below, and are:
+
+1. `style = "light"` - the generally recommended style for `mapscanner`,
+   ["designed to provide geographic context while highlighting the data on your
+   analytics dashboard, data visualization, or data
+   overlay](https://www.mapbox.com/maps/light/).
+2. `style = "streets"`, which is,
+   ["a comprehensive, general-purpose map that emphasizes accurate, legible
+   styling of road and transit networks](https://www.mapbox.com/maps/streets/).
+3. `style = "outdoors"`, which is, ["a general-purpose map with curated
+   tilesets and specialized styling tailored to hiking, biking, and the most
+   adventurous use cases"](https://www.mapbox.com/maps/outdoors/).
+
+Alternatively, these different styles can be examined for any desired area with
+the following code.
+
+```{r map-gen, eval = FALSE}
+bb <- osmdata::getbb ("<name of location>")
 shrink <- 0.3 # shrink that bounding box to 30% size
 bb <- t (apply (bb, 1, function (i)
                  mean (i) + c (-shrink, shrink) * diff (i) / 2))
-bb
-```
-```{r omaha-bb, echo = FALSE}
-bb <- t (cbind ("x" = c (-96.12923, -96.01011),
-                "y" = c (41.26145,  41.32220)))
-bb
-```
 
-The following illustrates the three different styles enabled by the
-`style` parameter of the [`ms_generate_map()`
-function](https://docs.ropensci.org/mapscanner/reference/ms_generate_map.html).
-
-### style = 'light'
-
-The "light" style is the only monochrome style, and so is always rendered
-black-and-white.
-
-```{r style-light, eval = !file.exists ("omaha-light.png")}
 ms_generate_map (bbox = bb,
                  max_tiles = 16L,
-                 mapname = "omaha-light",
+                 mapname = "map-light",
                  style = "light")
-```
-```{r light-output, echo = FALSE}
-msg <- function (type)
-    message (paste0 ("Successfully generated 'omaha-",
-                     type, ".pdf' and 'omaha-", type, ".png'"))
-msg ("light")
-```
-
-<!--
-<img src="omaha-light.png" width="600" height="400"/>
--->
-```{r omaha-light-png, echo = FALSE, out.width = "100%", eval = TRUE}
-knitr::include_graphics ("omaha-light.png")
-```
-
-
-### style = 'streets'
-
-Both the "streets" and the following "outdoors" styles are coloured maps,
-rendered here with `bw = FALSE`. These maps may be easier to draw on if
-generated with the default `bw = TRUE`.
-
-```{r style-streets, eval = !file.exists ("omaha-streets.png")}
 ms_generate_map (bbox = bb,
                  max_tiles = 16L,
                  mapname = "omaha-streets",
                  style = "streets",
                  bw = FALSE)
-```
-```{r streets-output, echo = FALSE}
-msg ("streets")
-```
-```{r omaha-streets-png, echo = FALSE, out.width = "100%", eval = TRUE}
-knitr::include_graphics ("omaha-streets.png")
-```
-
-
-### style = 'outdoors'
-
-```{r style-outdoors, eval = !file.exists ("omaha-outdoors.png")}
 ms_generate_map (bbox = bb,
                  max_tiles = 16L,
                  mapname = "omaha-outdoors",
                  style = "outdoors",
                  bw = FALSE)
 ```
-```{r outdoors-output, echo = FALSE}
-msg ("outdoors")
-```
-```{r omaha-outdoors-png, echo = FALSE, out.width = "100%", eval = TRUE}
-knitr::include_graphics ("omaha-outdoors.png")
-```
-
-
-

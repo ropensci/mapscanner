@@ -1,4 +1,4 @@
-LFILE = mapscanner
+LFILE = mapstyles
 
 all: knith
 #all: knith open 
