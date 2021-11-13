@@ -39,6 +39,9 @@ ms_rotate_map <- function (map_original, map_modified, rotation = 0,
         map <- png::readPNG (map_original)
         map_scanned <- png::readPNG (f)
 
+        oldpar <- graphics::par (no.readonly = TRUE)
+        on.exit (par (oldpar))
+
         graphics::par (mfrow = c (1, 2), mar = c (0, 0, 1, 0))
         graphics::plot.new ()
         mmand::display (map, add = TRUE)
