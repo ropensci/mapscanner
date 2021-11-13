@@ -1,6 +1,12 @@
-# CRAN notes for mapscanner_0.0.4 submission
+# CRAN notes for mapscanner_0.0.5 submission
 
-This is a first submission. There is no accompanying DOI because the study for which the package was developed was field-based, and could not happen due to COVID. We hope to continue the study in the near future, and will include a DOI as soon as practicable. The package may also exceed a 5MB installed size on some systems, due to sizes and numbers of included image files. This is necessary because the package encodes a technique to rectify hand-drawn marks on maps, for which sufficiently intelligible examples are necessary. Every effort has been given to ensuing the included files are as small as possible while maintaining sufficient visual clarity to demonstrate the techniques.
+This is a first submission. There is no accompanying DOI because the study for which the package was developed was field-based, and could not happen due to COVID. We hope to continue the study in the near future, and will include a DOI as soon as practicable. Modifications make in response to feedback from the initial submission attempt are:
+
+- Description does not include the phrase "This package ...", or the package name.
+- All functions now document return values, including from functions called for side-effects only.
+- Code in examples which was previously commented out has now been wrapped in `\dontrun{}`.
+- One line in vignette which inadvertently wrote file to that directory now writes to `tempdir()`.
+- `graphics::par` values now reset via `on.exit`.
 
 The package has been checked on all environments listed below, and generates only the one note regarding the multiple licenses used here - one for the main package, and another + LICENSE file for internally bundled code.
 
