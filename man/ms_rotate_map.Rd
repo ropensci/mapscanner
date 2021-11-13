@@ -19,6 +19,11 @@ it (either a \code{.pdf} or \code{.png}; extension will be ignored).}
 actually applying it; otherwise transform the specified \code{map_modified} image
 according to the specified rotation.}
 }
+\value{
+No return value. Function either modifies files on disk by rotating
+images by the specified amount (if \code{apply_rotation = TRUE}), or displays a
+rotated version of \code{map_original} (if \code{apply_rotation = FALSE}).
+}
 \description{
 Display original and modified maps to determine necessary rotation
 }

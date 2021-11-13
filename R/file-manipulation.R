@@ -6,6 +6,9 @@
 #' @param apply_rotation If `FALSE`, display results of rotation without
 #' actually applying it; otherwise transform the specified `map_modified` image
 #' according to the specified rotation.
+#' @return No return value. Function either modifies files on disk by rotating
+#' images by the specified amount (if `apply_rotation = TRUE`), or displays a
+#' rotated version of `map_original` (if `apply_rotation = FALSE`).
 #'
 #' @note If a call to \link{ms_rectify_map} detects potential image rotation,
 #' that function will stop and suggest that rotation be applied using this
