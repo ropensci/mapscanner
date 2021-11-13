@@ -9,6 +9,10 @@ ms_aggregate_polys(p)
 \arguments{
 \item{p}{input (multi-)polygons (assumed to be overlapping)}
 }
+\value{
+Set of \pkg{sf}-format polygons with additional column, \code{n}, denoting
+number of overlaps contributing to each of the resultant polygons.
+}
 \description{
 Planar partition from disparate polygon inputs. Overlaps aggregate to \code{n}.
 }

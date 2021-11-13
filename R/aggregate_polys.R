@@ -5,6 +5,8 @@
 #' Input is a single simple features polygon data frame. No attribute data is
 #' considered.
 #' @param p input (multi-)polygons (assumed to be overlapping)
+#' @return Set of \pkg{sf}-format polygons with additional column, `n`, denoting
+#' number of overlaps contributing to each of the resultant polygons.
 #' @export
 #' @examples
 #' g <- sf::st_sfc(list(sf::st_point(cbind(0, 0)),
