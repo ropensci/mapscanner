@@ -255,7 +255,7 @@ rectification, while the second has two red lines drawn upon it:
 
 ```{r omaha-poly-png, echo = FALSE, out.width = "75%", eval = TRUE}
 op <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
-f <- file.path (getwd (), "omama-polygons.png")
+f <- file.path (tempdir (), "omama-polygons.png")
 chk <- file.copy (op, f)
 knitr::include_graphics (f)
 ```
