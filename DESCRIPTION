@@ -1,6 +1,6 @@
 Package: mapscanner
 Title: Print Maps, Draw on Them, Scan Them Back in
-Version: 0.0.4.015
+Version: 0.0.4.016
 Authors@R: c(
     person("Mark", "Padgham", , "mark.padgham@email.com", role = c("aut", "cre")),
     person("Michael D.", "Sumner", , "mdsumner@gmail.com", role = "aut"),
