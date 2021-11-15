@@ -7,6 +7,7 @@ This is a first submission. There is no accompanying DOI because the study for w
 - Code in examples which was previously commented out has now been wrapped in `\dontrun{}`.
 - One line in vignette which inadvertently wrote file to that directory now writes to `tempdir()`.
 - `graphics::par` values now reset via `on.exit`.
+- All instances of `par` now properly namespaced as `graphics::par`.
 
 The package has been checked on all environments listed below, and generates only the one note regarding the multiple licenses used here - one for the main package, and another + LICENSE file for internally bundled code.
 
