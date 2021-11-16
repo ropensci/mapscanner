@@ -35,7 +35,10 @@ ms_rotate_map <- function (map_original, map_modified, rotation = 0,
 
     if (!apply_rotation)
     {
-        requireNamespace ("mmand")
+        if (!requireNamespace ("mmand")) {
+            stop ("rotation requires the 'mmand' package to be installed",
+                  call. = FALSE)
+        }
         map <- png::readPNG (map_original)
         map_scanned <- png::readPNG (f)
 

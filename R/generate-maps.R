@@ -165,7 +165,11 @@ convert_bbox <- function (bbox)
 {
     if (is.character (bbox))
     {
-        requireNamespace ("osmdata")        # nocov
+        if (!requireNamespace ("osmdata")) {    # nocov
+            stop ("Extracting bounding boxes requires ",
+                  "the 'osmdata' package to be installed.",
+                  call. = FALSE)
+        }
         bbox <- osmdata::getbb (bbox)       # nocov
     }
 
@@ -321,7 +325,10 @@ is_pdf <- function (x)
 raster_brick <- function (x) {
   out <- NULL
   if (is_jpeg (x)) {
-    requireNamespace ("jpeg")
+    if (!requireNamespace ("jpeg")) {
+        stop ("jpeg conversion requires the 'jpeg' ",
+              "package to be installed", call. = FALSE)
+    }
     out <- jpeg::readJPEG (x) # nocov
   } else if (is_png(x))
     out <- png::readPNG (x)
