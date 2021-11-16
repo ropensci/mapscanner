@@ -1,6 +1,6 @@
 Package: mapscanner
 Title: Print Maps, Draw on Them, Scan Them Back in
-Version: 0.0.4.021
+Version: 0.0.4.022
 Authors@R: c(
     person("Mark", "Padgham", , "mark.padgham@email.com", role = c("aut", "cre")),
     person("Michael D.", "Sumner", , "mdsumner@gmail.com", role = "aut"),
@@ -11,8 +11,9 @@ Authors@R: c(
     person("Stanislaw", "Adaszewski", role = "cph",
            comment = "author of include concaveman-cpp code")
   )
-Description: Print maps, draw on them, scan them back in, and convert to
-    spatial objects.
+Description: Enables preparation of maps to be printed and drawn on.
+    Modified maps can then be scanned back in, and hand-drawn marks
+    converted to spatial objects.
 License: GPL-3 | BSD_2_clause + file LICENSE
 URL: https://github.com/ropensci/mapscanner
 BugReports: https://github.com/ropensci/mapscanner/issues

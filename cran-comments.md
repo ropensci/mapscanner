@@ -5,6 +5,7 @@ This is a first submission. There is no accompanying DOI because the study for w
 - Description does not include the phrase "This package ...", or the package name.
 - All 'requireNamespace' calls now wrapped in 'if' conditions
 - One 'dontrun' removed from one example, leaving two for (1) code which relies on a suggested package; and (2) code which requires an API key, and also calls an additional, potentially unreliable external API.
+- "Description" field modified to differ from "Title"
 - All functions now document return values, including from functions called for side-effects only.
 - Code in examples which was previously commented out has now been wrapped in `\dontrun{}`.
 - One line in vignette which inadvertently wrote file to that directory now writes to `tempdir()`.

@@ -5,12 +5,12 @@
   ],
   "@type": "SoftwareSourceCode",
   "identifier": "mapscanner",
-  "description": "Print maps, draw on them, scan them back in, and convert to\n    spatial objects.",
+  "description": "Enables preparation of maps to be printed and drawn on.\n    Modified maps can then be scanned back in, and hand-drawn marks\n    converted to spatial objects.",
   "name": "mapscanner: Print Maps, Draw on Them, Scan Them Back in",
   "codeRepository": "https://github.com/ropensci/mapscanner",
   "issueTracker": "https://github.com/ropensci/mapscanner/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.0.4.021",
+  "version": "0.0.4.22",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -423,11 +423,8 @@
     }
   ],
   "readme": "https://github.com/ropensci/mapscanner/blob/main/README.md",
-  "fileSize": "8133.873KB",
-  "contIntegration": [
-    "https://github.com/ropensci/mapscanner/actions?query=workflow%3AR-CMD-check",
-    "https://app.codecov.io/gh/ropensci/mapscanner"
-  ],
+  "fileSize": "8133.95KB",
+  "contIntegration": ["https://github.com/ropensci/mapscanner/actions?query=workflow%3AR-CMD-check", "https://app.codecov.io/gh/ropensci/mapscanner"],
   "developmentStatus": "https://www.repostatus.org/#concept",
   "keywords": [
     "r-package",
