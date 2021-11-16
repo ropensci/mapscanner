@@ -10,7 +10,7 @@
   "codeRepository": "https://github.com/ropensci/mapscanner",
   "issueTracker": "https://github.com/ropensci/mapscanner/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.0.4.19",
+  "version": "0.0.4.020",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -424,7 +424,10 @@
   ],
   "readme": "https://github.com/ropensci/mapscanner/blob/main/README.md",
   "fileSize": "8133.873KB",
-  "contIntegration": ["https://github.com/ropensci/mapscanner/actions?query=workflow%3AR-CMD-check", "https://app.codecov.io/gh/ropensci/mapscanner"],
+  "contIntegration": [
+    "https://github.com/ropensci/mapscanner/actions?query=workflow%3AR-CMD-check",
+    "https://app.codecov.io/gh/ropensci/mapscanner"
+  ],
   "developmentStatus": "https://www.repostatus.org/#concept",
   "keywords": [
     "r-package",

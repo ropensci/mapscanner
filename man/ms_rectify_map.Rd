@@ -76,11 +76,7 @@ considerably longer than with lower values.
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png",
                       package = "mapscanner")
-\dontrun{
-xy_hull <- ms_rectify_map (f_orig, f_mod, type = "hull")
-xy_poly <- ms_rectify_map (f_orig, f_mod, type = "polygons")
-xy_pts <- ms_rectify_map (f_orig, f_mod, type = "points")
-}
+
 # reduce file sizes to 1/4 to speed up these examples:
 f_orig2 <- file.path (tempdir (), "omaha.png")
 f_modified2 <- file.path (tempdir (), "omaha-polygons.png")
@@ -95,5 +91,4 @@ magick::image_read (f_mod) \%>\%
 xy_hull <- ms_rectify_map (f_orig2, f_modified2, type = "hull")
 xy_poly <- ms_rectify_map (f_orig2, f_modified2, type = "polygons")
 xy_pts <- ms_rectify_map (f_orig2, f_modified2, type = "points")
-
 }
