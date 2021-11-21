@@ -60,6 +60,8 @@ test_that("rectify", {
               expect_is (res_1$geometry, "sfc_POINT")
 
               # ------- hulls
+              skip_on_os ("solaris")
+
               expect_message (res_h <- ms_rectify_map (f_orig2, f_modified2,
                                                        downsample = 11,
                                                        type = "hulls",
