@@ -1,16 +1,6 @@
 # CRAN notes for mapscanner_0.0.5 submission
 
-This is a first submission. There is no accompanying DOI because the study for which the package was developed was field-based, and could not happen due to COVID. We hope to continue the study in the near future, and will include a DOI as soon as practicable. Modifications make in response to feedback from the initial submission attempt are:
-
-- Description does not include the phrase "This package ...", or the package name.
-- All 'requireNamespace' calls now wrapped in 'if' conditions
-- One 'dontrun' removed from one example, leaving two for (1) code which relies on a suggested package; and (2) code which requires an API key, and also calls an additional, potentially unreliable external API.
-- "Description" field modified to differ from "Title"
-- All functions now document return values, including from functions called for side-effects only.
-- Code in examples which was previously commented out has now been wrapped in `\dontrun{}`.
-- One line in vignette which inadvertently wrote file to that directory now writes to `tempdir()`.
-- `graphics::par` values now reset via `on.exit`.
-- All instances of `par` now properly namespaced as `graphics::par`.
+This submission fixes the solaris failure on previous submission. The submission still generates NOTEs on some systems regarding large installed size, which slightly exceeds 5MB (6.4MB at most on apple-darwin17.0). The docs are slightly under half of this, yet are necessary as the package enables digital rectification of hand-drawn marks on maps. Including example maps as image files is therefore an essential part of the documentation. Every effort has been made to ensure numbers and sizes of included files are as small as possible. Any further reduction in file sizes renders images markedly less useful, and would decrease the ability of people to understand how the package is intended to be used.
 
 The package has been checked on all environments listed below, and generates only the one note regarding the multiple licenses used here - one for the main package, and another + LICENSE file for internally bundled code.
 
