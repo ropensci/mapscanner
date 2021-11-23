@@ -6,7 +6,7 @@
 \alias{mapscanner-package}
 \title{mapscanner: Print Maps, Draw on Them, Scan Them Back in}
 \description{
-Print maps, draw on them, scan them back in, and convert to spatial objects.
+Enables preparation of maps to be printed and drawn on. Modified maps can then be scanned back in, and hand-drawn marks converted to spatial objects.
 }
 \seealso{
 Useful links:
