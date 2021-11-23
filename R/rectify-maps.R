@@ -60,9 +60,11 @@
 #'     magick::image_write (f_modified2)
 #'
 #' # then rectify those files:
+#' \dontrun
 #' xy_hull <- ms_rectify_map (f_orig2, f_modified2, type = "hull")
 #' xy_poly <- ms_rectify_map (f_orig2, f_modified2, type = "polygons")
 #' xy_pts <- ms_rectify_map (f_orig2, f_modified2, type = "points")
+#' }
 #' @export
 ms_rectify_map <- function (map_original, map_modified, nitems = NULL,
                             non_linear = 1, type = "hulls", downsample = 10,
