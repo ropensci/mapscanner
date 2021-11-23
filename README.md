@@ -1,6 +1,6 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# mapscanner
+# mapscanner <a href='https://docs.ropensci.org/mapscanner/'><img src='man/figures/mapscanner.png' align="right" height=210 width=182/></a>
 
 <!-- badges: start -->
 
@@ -162,7 +162,7 @@ original by drawing a red line around a particular region of Omaha.
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
 res <- ms_rectify_map (f_orig, f_mod, type = "polygons")
-#> ══ mapscanner ════════════════════════════════════════════════════════════════════════════════════════════════════════
+#> ══ mapscanner ════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
 #> ✔ Image [/usr/lib/R/library/mapscanner/extdata/omaha.png] reduced in size by factor of 2
 #> ❯ Rectifying the two maps ✔ Rectified the two maps  
 #> ❯ Estimating optimal signal-to-noise threshold✔ Estimated optimal signal-to-noise threshold

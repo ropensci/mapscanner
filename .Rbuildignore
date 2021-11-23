@@ -18,6 +18,7 @@
 ^tests/spelling\.R$
 script\.bash$
 rev-testdata/*
+data-raw/
 ^.*\.Rproj$
 ^.*\.bash$
 ^\.Rproj\.user$

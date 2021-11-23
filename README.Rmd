@@ -11,7 +11,8 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 ```
-# mapscanner
+
+# mapscanner <a href='https://docs.ropensci.org/mapscanner/'><img src='man/figures/mapscanner.png' align="right" height=210 width=182/></a>
 
 <!-- badges: start -->
 [![R build
