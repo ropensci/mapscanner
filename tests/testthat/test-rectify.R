@@ -42,6 +42,8 @@ test_that("rectify", {
                   magick::image_resize ("25%") %>%
                   magick::image_write (f_modified2)
 
+              skip_on_cran ()
+
               # ------- polygons
               expect_silent (res_p <- ms_rectify_map (f_orig2, f_modified2,
                                                       type = "polygons",
@@ -60,7 +62,6 @@ test_that("rectify", {
               expect_is (res_1$geometry, "sfc_POINT")
 
               # ------- hulls
-              skip_on_os ("solaris")
 
               expect_message (res_h <- ms_rectify_map (f_orig2, f_modified2,
                                                        downsample = 11,
