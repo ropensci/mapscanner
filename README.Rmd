@@ -132,7 +132,7 @@ for your current R session, you may load `mapscanner`, and then run
 Having obtained and set a [`mapbox`](https://www.mapbox.com/) token as
 described above, `mapscanner` may then be used to generate maps. The package
 comes with a sample map of Omaha, Nebraska, USA, and one with some red lines
-drawn on it: ![](./man/figures/omaha-polygons.png)
+drawn on it: ![](man/figures/omaha-polygons.png)
 
 That's just a standard `png` image with no notion of geographical coordinates.
 The original map was generated with
@@ -202,7 +202,7 @@ leaflet (res) %>%
              zoom = 12)
 ```
 
-![](./man/figures/leaflet-1.png)
+![](man/figures/leaflet-1.png)
 
 And our hand-drawn lines shown above have been converted to standard spatial
 objects able to be analysed in any desired way. See the [package
