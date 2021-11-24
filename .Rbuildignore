@@ -8,7 +8,7 @@
 ^CODE_OF_CONDUCT\.md$
 ^CONTRIBUTING\.md$
 ^cran-comments\.md$
-man/figures/mapscanner\.png$
+man/figures/.*\.png$
 ^WORDLIST$
 ^paper\.md$
 ^review\.md$
