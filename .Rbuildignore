@@ -1,7 +1,5 @@
-^README\.Rmd$
-^\.travis\.yml$
 ^_pkgdown\.yml$
-^README\.md$
+^README\.*
 ^makefile$
 ^appveyor\.yml$
 ^aaa.Rmd$
