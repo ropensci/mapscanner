@@ -31,14 +31,20 @@ screen-based markings need to be saved as `.png`-format images.
 
 ## Installation
 
-`mapscanner` is not (yet) on CRAN. The development version can be
-installed with any of the following options:
+The current stable version can be installed from CRAN with:
 
 ``` r
-remotes::install_github("ropensci/mapscanner")
-remotes::install_git("https://git.sr.ht/~mpadge/mapscanner")
-remotes::install_bitbucket("mpadge/mapscanner")
-remotes::install_gitlab("mpadge/mapscanner")
+install.packages ("mapscanner")
+```
+
+Alternatively, the development version can be installed via [rOpenSci’s
+r-universe](https://ropensci.r-universe.dev/) by running the following
+prior to calling `install.packages()`:
+
+``` r
+options(repos = c(
+                  ropensci = 'https://ropensci.r-universe.dev',
+                  CRAN = 'https://cloud.r-project.org'))
 ```
 
 The package can then be loaded for usage in a R session with
@@ -162,7 +168,7 @@ original by drawing a red line around a particular region of Omaha.
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
 res <- ms_rectify_map (f_orig, f_mod, type = "polygons")
-#> ══ mapscanner ════════════════════════════════════════════════════════════════════════════════════════════════════════
+#> ══ mapscanner ════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
 #> ✔ Image [/usr/lib/R/library/mapscanner/extdata/omaha.png] reduced in size by factor of 2
 #> ❯ Rectifying the two maps ✔ Rectified the two maps  
 #> ❯ Estimating optimal signal-to-noise threshold✔ Estimated optimal signal-to-noise threshold
