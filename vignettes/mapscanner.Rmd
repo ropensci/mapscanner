@@ -246,17 +246,31 @@ knitr::include_graphics (f)
 
 Converting the lines on this scanned image file is then as simple as:
 
-```{r rectify, message = FALSE}
+```{r rectify, message = FALSE, eval = FALSE}
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
 xy <- ms_rectify_map (f_orig, f_mod, nitems = 2)
 xy
 ```
+```{r rectify-output, echo = FALSE}
+m <- c (
+"Simple feature collection with 2 features and 0 fields",
+"Geometry type: POLYGON",
+"Dimension:     XY",
+"Bounding box:  xmin: -96.11801 ymin: 41.26638 xmax: -96.02722 ymax: 41.30108",
+"Geodetic CRS:  WGS 84",
+"                        geometry",
+"1 POLYGON ((-96.10692 41.2684...",
+"2 POLYGON ((-96.0276 41.2964,...")
+m <- paste0 (m, collapse = "\n")
+message (m)
+```
+
 The result of
 [`ms_rectify_map()`](https://docs.ropensci.org/mapscanner/reference/ms_rectify_map.html)
 can be plotted using any standard option for plotting spatial data, such as
 through online mapping packages such as `mapview`:
-```{r mapshot-hulls, eval = TRUE, echo = FALSE}
+```{r mapshot-hulls, eval = FALSE, echo = FALSE}
 xy$id <- seq (nrow (xy))
 if (!file.exists ("mapshot-polys.png"))
 {
@@ -275,7 +289,7 @@ mapview::mapview (xy)
 ![](mapshot-polys.png)
 -->
 ```{r mapshot-hulls-png, echo = FALSE, out.width = "75%"}
-knitr::include_graphics ("mapshot-hulls.png")
+knitr::include_graphics ("./mapshot-hulls.png")
 #plot (xy)
 ```
 
@@ -318,12 +332,12 @@ desired kind of marks, enabling areal-filling scribbles can be converted to
 polygons representing the outer boundaries.
 
 The `"polygon"` and `"point"` types are illustrated in the following maps:
-```{r type-polys}
+```{r type-polys, eval = FALSE}
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
 xy <- ms_rectify_map (f_orig, f_mod, type = "polygons", quiet = TRUE)
 ```
-```{r mapview-polys, eval = TRUE, echo = FALSE}
+```{r mapview-polys, eval = FALSE, echo = FALSE}
 xy$id <- seq (nrow (xy))
 if (!file.exists ("mapshot-polys.png"))
 {
@@ -342,18 +356,18 @@ mapview::mapview (xy)
 ![](mapshot-polys.png)
 -->
 ```{r mapshot-polys-png, echo = FALSE, out.width = "75%"}
-knitr::include_graphics ("mapshot-polys.png")
+knitr::include_graphics ("./mapshot-polys.png")
 #plot (xy)
 ```
 
 
 
-```{r type-points}
+```{r type-points, eval = FALSE}
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
 xy <- ms_rectify_map (f_orig, f_mod, type = "points", quiet = TRUE)
 ```
-```{r mapview-points, eval = TRUE, echo = FALSE}
+```{r mapview-points, eval = FALSE, echo = FALSE}
 xy$id <- seq (nrow (xy))
 if (!file.exists ("mapshot-points.png"))
 {
@@ -372,7 +386,7 @@ mapview::mapview (xy)
 ![](mapshot-points.png)
 -->
 ```{r mapshot-points-png, echo = FALSE, out.width = "75%"}
-knitr::include_graphics ("mapshot-points.png")
+knitr::include_graphics ("./mapshot-points.png")
 #plot (xy)
 ```
 
