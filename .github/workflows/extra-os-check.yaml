@@ -51,10 +51,10 @@ jobs:
           sudo apt-get install libudunits2-dev libgdal-dev
           sudo apt-get install libmagick++-dev libpoppler-cpp-dev
 
-     - name: MacOS dependencies
-       if: runner.os == 'macOS'
-       run: |
-         brew install pkg-config gdal proj
+      - name: MacOS dependencies
+        if: runner.os == 'macOS'
+        run: |
+          brew install pkg-config gdal proj
 
       - uses: r-lib/actions/setup-r-dependencies@v1
         with:
