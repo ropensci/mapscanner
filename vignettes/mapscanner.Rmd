@@ -54,23 +54,6 @@ digitised, while maps with screen-based markings need to be saved as
 
 ## How do I use it?
 
-### Installation
-
-`mapscanner` is not yet on CRAN, so must be installed with the `remotes`
-package, via any one of the following options:
-```{r install, eval = FALSE}
-remotes::install_github ("ropensci/mapscanner")
-remotes::install_git("https://git.sr.ht/~mpadge/mapscanner")
-remotes::install_bitbucket("mpadge/mapscanner")
-remotes::install_gitlab("mpadge/mapscanner")
-```
-After that, the library can be loaded with
-```{r load}
-library (mapscanner)
-```
-
-### Usage
-
 The package is designed to enable the following workflow:
 
 1. Generate a map with the
