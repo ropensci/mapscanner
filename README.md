@@ -1,6 +1,6 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# mapscanner <a href='https://docs.ropensci.org/mapscanner/'><img src='man/figures/mapscanner.png' align="right" height=210 width=182/></a>
+# mapscanner <a href='https://docs.ropensci.org/mapscanner/'><img src='man/figures/logo.png' align="right" height=210 width=182/></a>
 
 <!-- badges: start -->
 
