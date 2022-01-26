@@ -6,7 +6,7 @@
 
 [![R build
 status](https://github.com/ropensci/mapscanner/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/mapscanner/actions?query=workflow%3AR-CMD-check)
-[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/mapscanner)](https://cran.r-project.org/web/packages/mapscanner/)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/mapscanner)](https://cran.r-project.org/package=mapscanner/)
 [![CRAN
 Downloads](https://cranlogs.r-pkg.org/badges/grand-total/mapscanner?color=orange)](https://cran.r-project.org/package=mapscanner)
 [![codecov](https://codecov.io/gh/ropensci/mapscanner/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ropensci/mapscanner)
