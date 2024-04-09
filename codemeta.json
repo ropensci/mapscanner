@@ -1,22 +1,25 @@
 {
-  "@context": [
-    "https://doi.org/10.5063/schema/codemeta-2.0",
-    "http://schema.org"
-  ],
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "mapscanner",
-  "description": "Enables preparation of maps to be printed and drawn on.\n    Modified maps can then be scanned back in, and hand-drawn marks\n    converted to spatial objects.",
+  "description": "Enables preparation of maps to be printed and drawn on. Modified maps can then be scanned back in, and hand-drawn marks converted to spatial objects.",
   "name": "mapscanner: Print Maps, Draw on Them, Scan Them Back in",
   "codeRepository": "https://github.com/ropensci/mapscanner",
   "issueTracker": "https://github.com/ropensci/mapscanner/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.0.6.023",
+  "version": "0.1.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.2 (2021-11-01)",
+  "runtimePlatform": "R version 4.3.3 (2024-02-29)",
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  },
   "author": [
     {
       "@type": "Person",
@@ -31,7 +34,6 @@
       "email": "mdsumner@gmail.com"
     }
   ],
-  "contributor": {},
   "copyrightHolder": [
     {
       "@type": "Person",
@@ -39,7 +41,6 @@
       "familyName": "Adaszewski"
     }
   ],
-  "funder": {},
   "maintainer": [
     {
       "@type": "Person",
@@ -206,14 +207,14 @@
       "sameAs": "https://CRAN.R-project.org/package=testthat"
     }
   ],
-  "softwareRequirements": [
-    {
+  "softwareRequirements": {
+    "1": {
       "@type": "SoftwareApplication",
       "identifier": "R",
       "name": "R",
       "version": ">= 3.5.0"
     },
-    {
+    "2": {
       "@type": "SoftwareApplication",
       "identifier": "cli",
       "name": "cli",
@@ -225,7 +226,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=cli"
     },
-    {
+    "3": {
       "@type": "SoftwareApplication",
       "identifier": "curl",
       "name": "curl",
@@ -237,7 +238,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=curl"
     },
-    {
+    "4": {
       "@type": "SoftwareApplication",
       "identifier": "fs",
       "name": "fs",
@@ -249,7 +250,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=fs"
     },
-    {
+    "5": {
       "@type": "SoftwareApplication",
       "identifier": "glue",
       "name": "glue",
@@ -261,7 +262,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=glue"
     },
-    {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "magick",
       "name": "magick",
@@ -273,7 +274,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=magick"
     },
-    {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "magrittr",
       "name": "magrittr",
@@ -285,7 +286,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=magrittr"
     },
-    {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "memoise",
       "name": "memoise",
@@ -297,7 +298,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=memoise"
     },
-    {
+    "9": {
       "@type": "SoftwareApplication",
       "identifier": "pdftools",
       "name": "pdftools",
@@ -309,7 +310,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=pdftools"
     },
-    {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "png",
       "name": "png",
@@ -321,7 +322,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=png"
     },
-    {
+    "11": {
       "@type": "SoftwareApplication",
       "identifier": "purrr",
       "name": "purrr",
@@ -333,7 +334,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=purrr"
     },
-    {
+    "12": {
       "@type": "SoftwareApplication",
       "identifier": "raster",
       "name": "raster",
@@ -345,7 +346,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=raster"
     },
-    {
+    "13": {
       "@type": "SoftwareApplication",
       "identifier": "Rcpp",
       "name": "Rcpp",
@@ -357,7 +358,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=Rcpp"
     },
-    {
+    "14": {
       "@type": "SoftwareApplication",
       "identifier": "reproj",
       "name": "reproj",
@@ -369,7 +370,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=reproj"
     },
-    {
+    "15": {
       "@type": "SoftwareApplication",
       "identifier": "RNiftyReg",
       "name": "RNiftyReg",
@@ -381,7 +382,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=RNiftyReg"
     },
-    {
+    "16": {
       "@type": "SoftwareApplication",
       "identifier": "sf",
       "name": "sf",
@@ -393,7 +394,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=sf"
     },
-    {
+    "17": {
       "@type": "SoftwareApplication",
       "identifier": "slippymath",
       "name": "slippymath",
@@ -405,7 +406,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=slippymath"
     },
-    {
+    "18": {
       "@type": "SoftwareApplication",
       "identifier": "tibble",
       "name": "tibble",
@@ -417,35 +418,18 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=tibble"
     },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "https://sysreqs.r-hub.io/get/cxx11"
-    }
-  ],
+    "SystemRequirements": "C++11"
+  },
+  "fileSize": "8522.231KB",
+  "releaseNotes": "https://github.com/ropensci/mapscanner/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/mapscanner/blob/main/README.md",
-  "fileSize": "6286.705KB",
-  "contIntegration": [
-    "https://github.com/ropensci/mapscanner/actions?query=workflow%3AR-CMD-check",
-    "https://app.codecov.io/gh/ropensci/mapscanner"
-  ],
+  "contIntegration": ["https://github.com/ropensci/mapscanner/actions?query=workflow%3AR-CMD-check", "https://app.codecov.io/gh/ropensci/mapscanner"],
   "developmentStatus": "https://www.repostatus.org/#active",
-  "keywords": [
-    "r-package",
-    "maps",
-    "scan",
-    "spatial"
-  ],
   "review": {
     "@type": "Review",
     "url": "https://github.com/ropensci/software-review/issues/330",
     "provider": "https://ropensci.org"
   },
-  "provider": {
-    "@id": "https://cran.r-project.org",
-    "@type": "Organization",
-    "name": "Comprehensive R Archive Network (CRAN)",
-    "url": "https://cran.r-project.org"
-  },
-  "releaseNotes": "https://github.com/ropensci/mapscanner/blob/master/NEWS.md",
+  "keywords": ["r-package", "maps", "scan", "spatial"],
   "relatedLink": "https://CRAN.R-project.org/package=mapscanner"
 }
