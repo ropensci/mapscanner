@@ -1,34 +1,37 @@
 # nocov start
 
 get_mapbox_token <- function () {
-    e <- Sys.getenv()
+    e <- Sys.getenv ()
     e <- e [grep ("mapbox|mapscan", names (e), ignore.case = TRUE)]
     tok <- unique (as.character (e))
-    if (all (tok == ""))
+    if (all (tok == "")) {
         stop0 ()
-    else if (length (tok) > 1)
-    {
+    } else if (length (tok) > 1) {
         e <- e [grep ("mapscan", names (e), ignore.case = TRUE)]
         tok <- unique (as.character (e))
-        if (length (tok) == 0)
+        if (length (tok) == 0) {
             stop0 ()
-        else if (length (tok) > 1)
-            stop ("Found multiple potential tokens named [",
-                  paste0 (names (e), collapse = ","), "];\nplease specify ",
-                  "only one environnmental variable which includes the ",
-                  "name\n'mapscan', and contains a personal API key for ",
-                  "mapbox services.")
+        } else if (length (tok) > 1) {
+            stop (
+                "Found multiple potential tokens named [",
+                paste0 (names (e), collapse = ","), "];\nplease specify ",
+                "only one environnmental variable which includes the ",
+                "name\n'mapscan', and contains a personal API key for ",
+                "mapbox services."
+            )
+        }
     }
     return (tok)
 }
 
 stop0 <- function () {
     stop ("Map generation requires a mapbox API key to be set with ",
-          "Sys.setenv\nor the package's 'set_mapbox_token' function, ",
-          "using a token name that\nincludes either the strings ",
-          "'mapbox' or 'mapscanner'. Tokens can be obtained\nfrom ",
-          "https://docs.mapbox.com/api/overview/",
-          call. = FALSE)
+        "Sys.setenv\nor the package's 'set_mapbox_token' function, ",
+        "using a token name that\nincludes either the strings ",
+        "'mapbox' or 'mapscanner'. Tokens can be obtained\nfrom ",
+        "https://docs.mapbox.com/api/overview/",
+        call. = FALSE
+    )
 }
 
 #' Set 'mapbox' token
@@ -41,10 +44,11 @@ stop0 <- function () {
 #' @export
 set_mapbox_token <- function (token) {
     chk <- Sys.setenv ("mapscanner" = token)
-    if (chk)
+    if (chk) {
         message ("Token successfully set")
-    else
+    } else {
         warning ("Unable to set token")
+    }
 }
 
 # nocov end
