@@ -19,8 +19,7 @@
 #'
 #' @export
 ms_rotate_map <- function (map_original, map_modified, rotation = 0,
-                           apply_rotation = FALSE)
-{
+                           apply_rotation = FALSE) {
     map_original <- get_map_png (map_original, quiet = TRUE)
     map_modified <- get_map_png (map_modified, quiet = TRUE)
 
@@ -33,8 +32,7 @@ ms_rotate_map <- function (map_original, map_modified, rotation = 0,
         magick::image_rotate (rotation) %>%
         magick::image_write (f)
 
-    if (!apply_rotation)
-    {
+    if (!apply_rotation) {
         if (!requireNamespace ("mmand")) {
             stop ("rotation requires the 'mmand' package to be installed",
                   call. = FALSE)
@@ -55,8 +53,7 @@ ms_rotate_map <- function (map_original, map_modified, rotation = 0,
 }
 
 # params are names of .png files
-check_rotation <- function (map_original, map_modified)
-{
+check_rotation <- function (map_original, map_modified) {
     o <- magick::image_read (map_original) %>%
         magick::image_info ()
     o_w2h <- o$width / o$height
@@ -72,17 +69,15 @@ check_rotation <- function (map_original, map_modified)
 }
 
 # get name of png file, converting pdf to png if neccesary
-get_map_png <- function (mapfile, quiet = TRUE)
-{
+get_map_png <- function (mapfile, quiet = TRUE) {
     png_name <- paste0 (tools::file_path_sans_ext (mapfile), ".png")
-    if (!(file.exists (mapfile) | file.exists (png_name)))
+    if (!(file.exists (mapfile) || file.exists (png_name)))
         stop ("Neither ", mapfile, " nor ", png_name, " exist")
 
     if (!file.exists (png_name))
         pdf_to_png (mapfile) # nocov
 
-    if (file.size (png_name) > 1e6)
-    {
+    if (file.size (png_name) > 1e6) {
         png_name <- reduce_size (png_name, quiet = quiet) # nocov
     }
     return (png_name)
@@ -90,8 +85,7 @@ get_map_png <- function (mapfile, quiet = TRUE)
 
 # nocov start
 # the following 2 functions are not currently tested
-pdf_to_png <- function (file)
-{
+pdf_to_png <- function (file) {
     file <- paste0 (tools::file_path_sans_ext (file), ".pdf")
     if (!file.exists (file))
         stop ("file ", file, " does not exist")
@@ -104,18 +98,15 @@ pdf_to_png <- function (file)
     magick::image_write (img, path = fout, comment = bb)
 }
 
-hash <- function (len = 10)
-{
+hash <- function (len = 10) {
     sample (c (letters, LETTERS, 0:9), len, replace = TRUE) %>%
         paste0 (collapse = "")
 }
 
 # nocov start
-reduce_size <- function (mapfile, quiet = TRUE)
-{
+reduce_size <- function (mapfile, quiet = TRUE) {
     s <- file.size (mapfile)
-    if (!quiet)
-    {
+    if (!quiet) {
         smb <- formatC (s / 1e6, format = "f", digits = 1)
         message (cli::symbol$pointer, " Reducing size of '", mapfile,
                  "' of ", smb, "MB", appendLF = FALSE)
@@ -131,8 +122,7 @@ reduce_size <- function (mapfile, quiet = TRUE)
     magick::image_resize (img, geometry = red) %>%
         magick::image_write (path = newname, comment = bbox)
 
-    if (!quiet)
-    {
+    if (!quiet) {
         snew <- formatC (file.size (newname) / 1e6, format = "f", digits = 1)
         message ("\r", cli::symbol$tick, " Reduced size of '", mapfile,
                  "' of ", smb, "MB to ", snew, "MB")
@@ -143,14 +133,12 @@ reduce_size <- function (mapfile, quiet = TRUE)
 # nocov end
 
 # maxdim is maximal pixel size in any one dimension
-reduce_image_size <- function (mapfile, maxdim = 1000, quiet = FALSE)
-{
+reduce_image_size <- function (mapfile, maxdim = 1000, quiet = FALSE) {
     o <- magick::image_read (mapfile)
     i <- magick::image_info (o)
     maxpix <- max (c (i$width, i$height))
     newname <- mapfile # default return value
-    if (maxpix > maxdim)
-    {
+    if (maxpix > maxdim) {
         # new name for modified file
         newname <- file.path (tempdir (), paste0 ("img", hash (10), ".png"))
         scl <- ceiling (maxpix / maxdim)
@@ -165,14 +153,12 @@ reduce_image_size <- function (mapfile, maxdim = 1000, quiet = FALSE)
     return (newname)
 }
 
-bbox_from_pdf <- function (file, as_string = FALSE)
-{
+bbox_from_pdf <- function (file, as_string = FALSE) {
     file <- paste0 (tools::file_path_sans_ext (file), ".pdf")
     if (!file.exists (file))
         stop ("file ", file, " does not exist")
     bbox <- pdftools::pdf_info (file)$keys$Title    # nolint
-    if (!as_string)
-    {
+    if (!as_string) {
         bbox <- strsplit (bbox, "\\+") [[1]]
         bbox [1] <- substring (bbox [1], 3, nchar (bbox [1])) # rm "EX"
         bbox <- as.numeric (bbox)
@@ -181,8 +167,7 @@ bbox_from_pdf <- function (file, as_string = FALSE)
 }
 # nocov end
 
-bbox_from_png <- function (file)
-{
+bbox_from_png <- function (file) {
     img <- magick::image_read (file)
     bbox <- magick::image_comment (img)
     bbox <- strsplit (bbox, "\\+") [[1]]
@@ -191,20 +176,14 @@ bbox_from_png <- function (file)
 }
 
 # trim white space from border of png images
-trim_white <- function (fname)
-{
+trim_white <- function (fname) {
     i <- magick::image_read (fname)
     bbox <- magick::image_comment (i)
     # change "EX" at start of file comment to "TX" to flag trimmed:
-    if (substring (bbox, 1, 1) != "T")
-    {
+    if (substring (bbox, 1, 1) != "T") {
         # nocov start
         # -- sample images have already been trimmed, so can't be tested
-        dims <- magick::image_info (i)
-        dims0 <- as.integer (dims [c ("width", "height")])
         img <- magick::image_trim (i, fuzz = 1)
-        dims <- magick::image_info (img)
-        dims1 <- as.integer (dims [c ("width", "height")])
         bbox <- paste0 ("T", substring (bbox, 2, nchar (bbox)))
         magick::image_write (img, path = fname, comment = bbox)
         # nocov end

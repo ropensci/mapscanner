@@ -10,7 +10,7 @@
   "codeRepository": "https://github.com/ropensci/mapscanner",
   "issueTracker": "https://github.com/ropensci/mapscanner/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.0.6.015",
+  "version": "0.0.6.016",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
