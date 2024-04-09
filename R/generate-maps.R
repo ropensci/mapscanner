@@ -42,8 +42,7 @@ ms_generate_map <- function (bbox,
                              mapname = NULL,
                              bw = TRUE,
                              style = "light",
-                             raster_brick = NULL)
-{
+                             raster_brick = NULL) {
     if (is.null (mapname))
         stop ("Please provide a 'mapname' (with optional path) ",
               "for the maps to be generated")
@@ -51,8 +50,7 @@ ms_generate_map <- function (bbox,
     style <- match.arg (tolower (style), c ("light", "streets", "outdoors"))
 
 
-    if (is.null (raster_brick))
-    {
+    if (is.null (raster_brick)) {
         # nocov start
         # used here just to confirm token exists:
         mapbox_token <- get_mapbox_token ()
@@ -72,8 +70,7 @@ ms_generate_map <- function (bbox,
 }
 
 # nocov start
-get_raster_brick <- function (bbox, max_tiles = 16L, style, bw)
-{
+get_raster_brick <- function (bbox, max_tiles = 16L, style, bw) {
     bbox <- convert_bbox (bbox)
     bbox_pair <- slippy_bbox (bbox)
     tiles <- get_tiles (bbox_pair, max_tiles = max_tiles, style = style)
@@ -90,27 +87,26 @@ get_raster_brick <- function (bbox, max_tiles = 16L, style, bw)
     out <- fast_merge (br)
 
     out <- raster::crop (out, tiles$extent, snap = "out")
-    if (bw)
-    {
+    if (bw) {
         out_avg <- raster::stackApply (out, c (1, 1, 1), fun = mean)
         out <- raster::brick (out_avg, out_avg, out_avg)
     }
 
-    #raster::projection (out) <- .sph_merc() ## "+proj=merc +a=6378137 +b=6378137"
+    # raster::projection (out) <- .sph_merc()
+    # # "+proj=merc +a=6378137 +b=6378137"
     out@crs@projargs <- .sph_merc()  ## no churn through mill
 
     return (out)
 }
 # nocov end
 
-map_to_pdf <- function (my_map, file)
-{
+map_to_pdf <- function (my_map, file) {
     file <- paste0 (tools::file_path_sans_ext (file), ".pdf")
 
     ex <- attributes (raster::extent (my_map))
     aspect <- (ex$ymax - ex$ymin) / (ex$xmax - ex$xmin)
     A4L <- 11.7 # A4 paper is 8.3-by-11.7
-    #A4H <- 8.3
+    # A4H <- 8.3
 
     # embed extent as file name
     fname <- paste0 ("EX", ex$xmin, "+", ex$ymin, "+",
@@ -134,8 +130,7 @@ map_to_pdf <- function (my_map, file)
     invisible (file)
 }
 
-map_to_png <- function (my_map, file)
-{
+map_to_png <- function (my_map, file) {
     file <- paste0 (tools::file_path_sans_ext (file), ".png")
 
     ex <- attributes (raster::extent (my_map))
@@ -161,10 +156,8 @@ map_to_png <- function (my_map, file)
     invisible (file)
 }
 
-convert_bbox <- function (bbox)
-{
-    if (is.character (bbox))
-    {
+convert_bbox <- function (bbox) {
+    if (is.character (bbox)) {
         if (!requireNamespace ("osmdata")) {    # nocov
             stop ("Extracting bounding boxes requires ",
                   "the 'osmdata' package to be installed.",
@@ -173,8 +166,7 @@ convert_bbox <- function (bbox)
         bbox <- osmdata::getbb (bbox)       # nocov
     }
 
-    if (!is.matrix (bbox))
-    {
+    if (!is.matrix (bbox)) {
         if (length (bbox) != 4)
             stop ("bbox must have four elements")
         bbox <- matrix (bbox, nrow = 2)
@@ -182,8 +174,7 @@ convert_bbox <- function (bbox)
     return (bbox)
 }
 
-slippy_bbox <- function (bbox)
-{
+slippy_bbox <- function (bbox) {
     pxy <- matrix (rowMeans (bbox), nrow = 1)
     idx <- c (1, 1, 3, 3, 1,
               2, 4, 4, 2, 2)
@@ -191,8 +182,10 @@ slippy_bbox <- function (bbox)
 
     afun <- function (aa)
         stats::approx (seq_along (aa), aa, n = 180L)$y
-    srcproj <- .lonlat() #"+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
-    crs <- .sph_merc() # "+proj=merc +a=6378137 +b=6378137"
+    srcproj <- .lonlat()
+    # "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+    crs <- .sph_merc()
+    # "+proj=merc +a=6378137 +b=6378137"
     ex <- cbind (afun (xy [, 1L]), afun (xy [, 2L])) %>%
         reproj::reproj (target = crs, source = srcproj)
     ex <- raster::extent (ex [, 1:2])
@@ -220,8 +213,7 @@ slippy_bbox <- function (bbox)
     list(tile_bbox = tile_bbox, user_points = bb_points)
 }
 
-url_to_cache <- function (x)
-{
+url_to_cache <- function (x) {
     cache <- file.path (tempdir (), ".ceramic")
     if (!fs::dir_exists (cache)) fs::dir_create (cache)
     base_filepath <- file.path (cache, gsub ("^//", "",
@@ -231,33 +223,30 @@ url_to_cache <- function (x)
 }
 
 # nocov start
-down_loader <- function (x, query_string)
-{
+down_loader <- function (x, query_string) {
     purrr::pmap (x$tiles,
-                function (x, y, zoom)
-                {
+                function (x, y, zoom) {
                     api_query <- glue::glue (query_string)
 
                     outfile <- url_to_cache (api_query)
 
                     if (!file.exists (outfile) ||
-                        fs::file_info (outfile)$size < 101)
-                    {
+                        fs::file_info (outfile)$size < 101) {
                         cachedir <- fs::path_dir (outfile)
 
                         if (!fs::dir_exists (cachedir))
                             dir.create (cachedir, recursive = TRUE)
 
-                        zup <- curl::curl_download (url = api_query,
-                                                    outfile) # nolint
+                        zup <- curl::curl_download ( # nolint
+                            url = api_query, outfile
+                        )
                     }
                     outfile
                 },
                 zoom = x$zoom)
 }
 
-get_tiles <- function (bbox_pair, max_tiles = 16L, style)
-{
+get_tiles <- function (bbox_pair, max_tiles = 16L, style) {
     bb_points <- bbox_pair$user_points
 
     tile_grid <- slippymath::bbox_to_tile_grid (bbox_pair$tile_bbox,
@@ -268,7 +257,7 @@ get_tiles <- function (bbox_pair, max_tiles = 16L, style)
     style <- c ("light-v10", "streets-v11", "outdoors-v11") [style]
 
     # format <- "jpg" # new API is strict png only
-    #baseurl <- "https://api.mapbox.com/v4" # old API
+    # baseurl <- "https://api.mapbox.com/v4" # old API
     baseurl <- "https://api.mapbox.com/styles/v1/mapbox"
     mapbox_token <- get_mapbox_token ()
     query_string <- paste0 (sprintf ("%s/%s/tiles/{zoom}/{x}/{y}",
@@ -287,8 +276,7 @@ get_tiles <- function (bbox_pair, max_tiles = 16L, style)
 # nocov end
 
 
-is_jpeg <- function (x)
-{
+is_jpeg <- function (x) {
   if (!file.exists (x [1]))
       return (FALSE)                                # nocov
   if (file.info (x [1])$size <= 11L)
@@ -298,8 +286,7 @@ is_jpeg <- function (x)
       rawToChar (rawb [7:11]) == "JFIF"
 }
 
-is_png <- function (x)
-{
+is_png <- function (x) {
   #"89 50 4e 47 0d 0a 1a 0a"
   if (!file.exists (x[1]))
       return (FALSE)                                # nocov
@@ -310,8 +297,7 @@ is_png <- function (x)
 }
 
 # nocov start
-is_pdf <- function (x)
-{
+is_pdf <- function (x) {
   #"25 50 44 46 2d
   if (!file.exists (x[1]))
       return (FALSE)
@@ -330,10 +316,11 @@ raster_brick <- function (x) {
               "package to be installed", call. = FALSE)
     }
     out <- jpeg::readJPEG (x) # nocov
-  } else if (is_png(x))
+  } else if (is_png(x)) {
     out <- png::readPNG (x)
-  else
+  } else {
     stop ("Unrecognised format; must be jpg or png") # nocov
+  }
 
   if (is.null (out))
       stop (sprintf ("cannot read %s", x)) # nocov
@@ -346,8 +333,7 @@ raster_brick <- function (x) {
                      raster::extent (0, nrow (out), 0, ncol (out)))
 }
 
-spherical_mercator <- function (provider = "mapbox")
-{
+spherical_mercator <- function (provider = "mapbox") {
     #maxextent is the bounds between [-180, 180] and [-85.0511, 85.0511]
     res <- tibble::tibble (provider = provider,
                            maxextent = 20037508.342789244,
@@ -358,8 +344,7 @@ spherical_mercator <- function (provider = "mapbox")
 }
 
 # nocov start
-mercator_tile_extent <- function (tile_x, tile_y, zoom, tile_size = 256)
-{
+mercator_tile_extent <- function (tile_x, tile_y, zoom, tile_size = 256) {
   params <- spherical_mercator (provider = "mapbox")
   params <- params [1, ]  ## FIXME: param query should provide a unique set
   maxextent <- params$maxextent
@@ -369,15 +354,13 @@ mercator_tile_extent <- function (tile_x, tile_y, zoom, tile_size = 256)
   stats::setNames (c (xlim, ylim), c ("xmin", "xmax", "ymin", "ymax"))
 }
 
-raster_readAll <- function (x)
-{
+raster_readAll <- function (x) {
   if (!raster::hasValues (x))
       x <- raster::readAll (x)
   x
 }
 
-fast_merge <- function (x)
-{
+fast_merge <- function (x) {
   ## about 3 times faster than reduce(, merge)
   out <- purrr::map (x, raster::extent) %>%
       purrr::reduce (raster::union) %>%
