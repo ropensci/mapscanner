@@ -72,3 +72,25 @@ have somehow been non-linearly distorted, for example through having been
 crumpled or screwed up. Rectification with \code{non-linear = 2} will likely take
 considerably longer than with lower values.
 }
+\examples{
+f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
+f_mod <- system.file ("extdata", "omaha-polygons.png",
+                      package = "mapscanner")
+
+# reduce file sizes to 1/4 to speed up these examples:
+f_orig2 <- file.path (tempdir (), "omaha.png")
+f_modified2 <- file.path (tempdir (), "omaha-polygons.png")
+magick::image_read (f_orig) \%>\%
+    magick::image_resize ("25\%") \%>\%
+    magick::image_write (f_orig2)
+magick::image_read (f_mod) \%>\%
+    magick::image_resize ("25\%") \%>\%
+    magick::image_write (f_modified2)
+
+# then rectify those files:
+\dontrun{
+xy_hull <- ms_rectify_map (f_orig2, f_modified2, type = "hull")
+xy_poly <- ms_rectify_map (f_orig2, f_modified2, type = "polygons")
+xy_pts <- ms_rectify_map (f_orig2, f_modified2, type = "points")
+}
+}

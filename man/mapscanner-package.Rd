@@ -6,6 +6,8 @@
 \alias{mapscanner-package}
 \title{mapscanner: Print Maps, Draw on Them, Scan Them Back in}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Enables preparation of maps to be printed and drawn on. Modified maps can then be scanned back in, and hand-drawn marks converted to spatial objects.
 }
 \seealso{
