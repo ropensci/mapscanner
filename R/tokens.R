@@ -1,7 +1,6 @@
 # nocov start
 
-get_mapbox_token <- function ()
-{
+get_mapbox_token <- function () {
     e <- Sys.getenv()
     e <- e [grep ("mapbox|mapscan", names (e), ignore.case = TRUE)]
     tok <- unique (as.character (e))
@@ -23,8 +22,7 @@ get_mapbox_token <- function ()
     return (tok)
 }
 
-stop0 <- function ()
-{
+stop0 <- function () {
     stop ("Map generation requires a mapbox API key to be set with ",
           "Sys.setenv\nor the package's 'set_mapbox_token' function, ",
           "using a token name that\nincludes either the strings ",
@@ -41,8 +39,7 @@ stop0 <- function ()
 #' \url{https://docs.mapbox.com/api/#access-tokens-and-token-scopes}.
 #' @return `TRUE` if the token was able to be set; otherwise `FALSE`.
 #' @export
-set_mapbox_token <- function (token)
-{
+set_mapbox_token <- function (token) {
     chk <- Sys.setenv ("mapscanner" = token)
     if (chk)
         message ("Token successfully set")
