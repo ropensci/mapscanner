@@ -75,7 +75,8 @@ considerably longer than with lower values.
 \examples{
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png",
-                      package = "mapscanner")
+    package = "mapscanner"
+)
 
 # reduce file sizes to 1/4 to speed up these examples:
 f_orig2 <- file.path (tempdir (), "omaha.png")
