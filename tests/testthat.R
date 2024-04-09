@@ -1,4 +1,4 @@
-library(testthat)
-library(mapscanner)
+library (testthat)
+library (mapscanner)
 
-test_check("mapscanner")
+test_check ("mapscanner")
