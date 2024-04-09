@@ -42,9 +42,10 @@ r-universe](https://ropensci.r-universe.dev/) by running the following
 prior to calling `install.packages()`:
 
 ``` r
-options(repos = c(
-                  ropensci = 'https://ropensci.r-universe.dev',
-                  CRAN = 'https://cloud.r-project.org'))
+options (repos = c (
+    ropensci = "https://ropensci.r-universe.dev",
+    CRAN = "https://cloud.r-project.org"
+))
 ```
 
 The package can then be loaded for usage in a R session with
@@ -142,8 +143,10 @@ That’s just a standard `png` image with no notion of geographical
 coordinates. The original map was generated with
 
 ``` r
-bbox <- rbind (c (-96.12923, -96.01011),
-               c (41.26145, 41.32220)) # portion of omaha
+bbox <- rbind (
+    c (-96.12923, -96.01011),
+    c (41.26145, 41.32220)
+) # portion of omaha
 ms_generate_map (bbox, max_tiles = 16L, mapname = "omaha")
 ```
 
@@ -168,7 +171,7 @@ original by drawing a red line around a particular region of Omaha.
 f_orig <- system.file ("extdata", "omaha.png", package = "mapscanner")
 f_mod <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
 res <- ms_rectify_map (f_orig, f_mod, type = "polygons")
-#> ══ mapscanner ════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+#> ══ mapscanner ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
 #> ✔ Image [/usr/lib/R/library/mapscanner/extdata/omaha.png] reduced in size by factor of 2
 #> ❯ Rectifying the two maps ✔ Rectified the two maps  
 #> ❯ Estimating optimal signal-to-noise threshold✔ Estimated optimal signal-to-noise threshold
@@ -207,8 +210,10 @@ requires a mapbox token:
 library (mapdeck)
 set_token (Sys.getenv ("<my_mapbox_token>"))
 mapdeck () %>%
-    add_polygon (res, fill_colour = "#ffff00cc",
-                 stroke_colour = "#ff0000", stroke_width = 20)
+    add_polygon (res,
+        fill_colour = "#ffff00cc",
+        stroke_colour = "#ff0000", stroke_width = 20
+    )
 ```
 
 ![](man/figures/leaflet-1.png)
