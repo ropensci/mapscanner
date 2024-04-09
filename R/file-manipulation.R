@@ -23,10 +23,11 @@ ms_rotate_map <- function (map_original, map_modified, rotation = 0,
     map_original <- get_map_png (map_original, quiet = TRUE)
     map_modified <- get_map_png (map_modified, quiet = TRUE)
 
-    if (!apply_rotation)
+    if (!apply_rotation) {
         f <- file.path (tempdir (), "test.png")
-    else
+    } else {
         f <- map_modified
+    }
 
     magick::image_read (map_modified) %>%
         magick::image_rotate (rotation) %>%
@@ -35,7 +36,8 @@ ms_rotate_map <- function (map_original, map_modified, rotation = 0,
     if (!apply_rotation) {
         if (!requireNamespace ("mmand")) {
             stop ("rotation requires the 'mmand' package to be installed",
-                  call. = FALSE)
+                call. = FALSE
+            )
         }
         map <- png::readPNG (map_original)
         map_scanned <- png::readPNG (f)
@@ -62,8 +64,9 @@ check_rotation <- function (map_original, map_modified) {
     m_w2h <- m$width / m$height
 
     rotated <- FALSE
-    if (sign (1 - o_w2h) != sign (1 - m_w2h))
-        rotated <- TRUE # nocov
+    if (sign (1 - o_w2h) != sign (1 - m_w2h)) {
+        rotated <- TRUE
+    } # nocov
 
     return (rotated)
 }
@@ -71,11 +74,13 @@ check_rotation <- function (map_original, map_modified) {
 # get name of png file, converting pdf to png if neccesary
 get_map_png <- function (mapfile, quiet = TRUE) {
     png_name <- paste0 (tools::file_path_sans_ext (mapfile), ".png")
-    if (!(file.exists (mapfile) || file.exists (png_name)))
+    if (!(file.exists (mapfile) || file.exists (png_name))) {
         stop ("Neither ", mapfile, " nor ", png_name, " exist")
+    }
 
-    if (!file.exists (png_name))
-        pdf_to_png (mapfile) # nocov
+    if (!file.exists (png_name)) {
+        pdf_to_png (mapfile)
+    } # nocov
 
     if (file.size (png_name) > 1e6) {
         png_name <- reduce_size (png_name, quiet = quiet) # nocov
@@ -87,8 +92,9 @@ get_map_png <- function (mapfile, quiet = TRUE) {
 # the following 2 functions are not currently tested
 pdf_to_png <- function (file) {
     file <- paste0 (tools::file_path_sans_ext (file), ".pdf")
-    if (!file.exists (file))
+    if (!file.exists (file)) {
         stop ("file ", file, " does not exist")
+    }
 
     bb <- bbox_from_pdf (file, as_string = TRUE)
 
@@ -109,7 +115,9 @@ reduce_size <- function (mapfile, quiet = TRUE) {
     if (!quiet) {
         smb <- formatC (s / 1e6, format = "f", digits = 1)
         message (cli::symbol$pointer, " Reducing size of '", mapfile,
-                 "' of ", smb, "MB", appendLF = FALSE)
+            "' of ", smb, "MB",
+            appendLF = FALSE
+        )
     }
 
     newname <- file.path (tempdir (), paste0 ("img", hash (10), ".png"))
@@ -124,8 +132,10 @@ reduce_size <- function (mapfile, quiet = TRUE) {
 
     if (!quiet) {
         snew <- formatC (file.size (newname) / 1e6, format = "f", digits = 1)
-        message ("\r", cli::symbol$tick, " Reduced size of '", mapfile,
-                 "' of ", smb, "MB to ", snew, "MB")
+        message (
+            "\r", cli::symbol$tick, " Reduced size of '", mapfile,
+            "' of ", smb, "MB to ", snew, "MB"
+        )
     }
 
     return (newname)
@@ -142,9 +152,12 @@ reduce_image_size <- function (mapfile, maxdim = 1000, quiet = FALSE) {
         # new name for modified file
         newname <- file.path (tempdir (), paste0 ("img", hash (10), ".png"))
         scl <- ceiling (maxpix / maxdim)
-        if (!quiet)
-            message (cli::symbol$tick, " Image [", mapfile,
-                     "] reduced in size by factor of ", scl)
+        if (!quiet) {
+            message (
+                cli::symbol$tick, " Image [", mapfile,
+                "] reduced in size by factor of ", scl
+            )
+        }
         dims <- paste0 (ceiling (c (i$width, i$height) / scl), collapse = "x")
         bbox <- magick::image_comment (o)
         magick::image_resize (o, geometry = dims) %>%
@@ -155,9 +168,10 @@ reduce_image_size <- function (mapfile, maxdim = 1000, quiet = FALSE) {
 
 bbox_from_pdf <- function (file, as_string = FALSE) {
     file <- paste0 (tools::file_path_sans_ext (file), ".pdf")
-    if (!file.exists (file))
+    if (!file.exists (file)) {
         stop ("file ", file, " does not exist")
-    bbox <- pdftools::pdf_info (file)$keys$Title    # nolint
+    }
+    bbox <- pdftools::pdf_info (file)$keys$Title # nolint
     if (!as_string) {
         bbox <- strsplit (bbox, "\\+") [[1]]
         bbox [1] <- substring (bbox [1], 3, nchar (bbox [1])) # rm "EX"
