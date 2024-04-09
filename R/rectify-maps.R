@@ -131,10 +131,10 @@ ms_rectify_map <- function (map_original, map_modified, nitems = NULL,
 }
 
 check_concavity <- function (concavity) {
-    if (!(is.numeric (concavity) | length (concavity) > 1)) {
+    if (!(is.numeric (concavity) || length (concavity) > 1)) {
         stop ("concavity must be numeric")
     }
-    if (concavity < 0 | concavity > 1) {
+    if (concavity < 0 || concavity > 1) {
         message ("concavity must be between 0 and 1; setting to default of 0")
         concavity <- 0
     }
@@ -142,7 +142,7 @@ check_concavity <- function (concavity) {
 }
 
 check_threshold <- function (length_threshold) {
-    if (!(is.numeric (length_threshold) | length (length_threshold) > 1)) {
+    if (!(is.numeric (length_threshold) || length (length_threshold) > 1)) {
         stop ("length_threshold must be numeric")
     }
     if (length_threshold < 1) {
@@ -154,7 +154,7 @@ check_threshold <- function (length_threshold) {
 
 # Convert [1,2,3] non_linear param to niftyreg scope values
 non_lin_to_scope <- function (non_linear) {
-    if (!(is.numeric (non_linear) & length (non_linear) == 1)) {
+    if (!(is.numeric (non_linear) && length (non_linear) == 1)) {
         stop ("non_linear must be a single integer value")
     }
     if (!non_linear %in% 0:2) {
@@ -279,19 +279,19 @@ get_num_components <- function (img) {
     dn <- diff (n)
     # do no consider any initial positive values
     index <- which (dn > 0)
-    if (length (index) == 0) # all thresholds give same #comps
-        {
-            thr0 <- thr [1]
-            n <- n [1]
-        } else {
+    if (length (index) == 0) {
+        # all thresholds give same #comps
+        thr0 <- thr [1]
+        n <- n [1]
+    } else {
         if (index [1] == 1) {
             index <- index [c (1, which (diff (index) == 1) + 1)]
             dn [index] <- -1 # arbitrary negative value for next step
         }
         if (all (dn <= 0)) {
             thr0 <- thr [which.min (dn)]
-        } # in case no local min
-        else {
+        } else {
+            # in case no local min
             thr0 <- thr [which (dn > 0) [1]]
         }
 
@@ -338,8 +338,8 @@ rectify_channel <- function (channel, original, type, n = 10,
                 i$x <- ((i$x - 1) / (nrow (channel) - 1))
                 i$y <- ((i$y - 1) / (ncol (channel) - 1))
                 return (i)    })
-        } else # concaveman
-        {
+        } else {
+            # concaveman
             hulls <- polygon_hulls (channel, as_index = TRUE)
             # values -> 0 translate to large concaveman values;
             # values -> 1 translate to concaveman values of 1
@@ -366,8 +366,8 @@ rectify_channel <- function (channel, original, type, n = 10,
             sf::st_polygon (list (as.matrix (i)))
         })
         geometry <- sf::st_sfc (hulls, crs = crs_from)
-    } else # make polygons
-    {
+    } else {
+        # make polygons
         boundaries <- polygon_boundaries (channel)
         boundaries <- lapply (boundaries, function (i) {
             i$x <- ((i$x - 1) / (nrow (channel) - 1))
@@ -417,8 +417,7 @@ polygon_boundaries <- function (img) {
     comps <- seq (1:max (cmat))
 
     boundaries <- list ()
-    for (ci in comps)
-    {
+    for (ci in comps) {
         cmat_i <- cmat
         cmat_i [cmat_i != ci] <- 0
         i1 <- get_shape_index (cmat_i, x = TRUE)
@@ -452,8 +451,8 @@ get_shape_index <- function (cmat, x = TRUE) {
 # fit spline at every n points:
 smooth_polygon <- function (xy, n = 10) {
     n <- floor (nrow (xy) / n)
-    x <- stats::spline (seq (nrow (xy)), xy$x, n = n, method = "periodic")$y
-    y <- stats::spline (seq (nrow (xy)), xy$y, n = n, method = "periodic")$y
+    x <- stats::spline (seq_len (nrow (xy)), xy$x, n = n, method = "periodic")$y
+    y <- stats::spline (seq_len (nrow (xy)), xy$y, n = n, method = "periodic")$y
     data.frame (x = x, y = y)
 }
 
@@ -463,13 +462,12 @@ polygon_hulls <- function (img, as_index = FALSE) {
     comps <- seq (1:max (cmat))
 
     hulls <- list ()
-    for (ci in comps)
-    {
+    for (ci in comps) {
         cmat_i <- cmat
         cmat_i [cmat_i != ci] <- 0
 
-        y <- t (array (seq (ncol (img)), dim = c (ncol (img), nrow (img))))
-        x <- array (seq (nrow (img)), dim = c (nrow (img), ncol (img)))
+        y <- t (array (seq_len (ncol (img)), dim = c (ncol (img), nrow (img))))
+        x <- array (seq_len (nrow (img)), dim = c (nrow (img), ncol (img)))
 
         index <- which (cmat == ci)
         # only make hulls around > 4 points:
