@@ -21,23 +21,27 @@ Input is a single simple features polygon data frame. No attribute data is
 considered.
 }
 \examples{
-g <- sf::st_sfc(list(sf::st_point(cbind(0, 0)),
-                     sf::st_point(cbind(0, 1)),
-                     sf::st_point(cbind(1, 0))))
-pts <- sf::st_sf(a = 1:3,  geometry = g)
-overlapping_polys <- sf::st_buffer(pts, 0.75)
+g <- sf::st_sfc (list (
+    sf::st_point (cbind (0, 0)),
+    sf::st_point (cbind (0, 1)),
+    sf::st_point (cbind (1, 0))
+))
+pts <- sf::st_sf (a = 1:3, geometry = g)
+overlapping_polys <- sf::st_buffer (pts, 0.75)
 
 ## decompose and count space-filling from overlapping polygons
-x <- ms_aggregate_polys(overlapping_polys)
-plot(x)
+x <- ms_aggregate_polys (overlapping_polys)
+plot (x)
 \dontrun{
-library(ggplot2)
-ggplot(x) + geom_sf() + facet_wrap(~n)
+library (ggplot2)
+ggplot (x) +
+    geom_sf () +
+    facet_wrap (~n)
 }
 
-library(sf)
-set.seed(6)
-pts <- expand.grid (x = 1:8, y = 1:10) \%>\% st_as_sf (coords = c("x", "y"))
+library (sf)
+set.seed (6)
+pts <- expand.grid (x = 1:8, y = 1:10) \%>\% st_as_sf (coords = c ("x", "y"))
 xsf <- sf::st_buffer (pts, runif (nrow (pts), 0.2, 1.5))
 \dontrun{
 out <- ms_aggregate_polys (xsf)
