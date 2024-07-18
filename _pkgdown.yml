@@ -7,19 +7,19 @@ templates:
 reference:
   - title: Package doc
     contents:
-    - mapscanner-package
+      - mapscanner-package
   - title: The Main Functions
     contents:
-    - ms_generate_map
-    - ms_rectify_map
+      - ms_generate_map
+      - ms_rectify_map
   - title: Bonus Features
     contents:
-        - ms_aggregate_polys
-        - ms_rotate_map
-        - set_mapbox_token
+      - ms_aggregate_polys
+      - ms_rotate_map
+      - set_mapbox_token
 
 articles:
   - title: The mapscanner package
     contents:
-    - mapscanner
-    - mapstyles
+      - mapscanner
+      - mapstyles
