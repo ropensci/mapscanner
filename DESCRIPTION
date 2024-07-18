@@ -1,6 +1,6 @@
 Package: mapscanner
 Title: Print Maps, Draw on Them, Scan Them Back in
-Version: 0.1.0.005
+Version: 0.1.0.006
 Authors@R: c(
     person("Mark", "Padgham", , "mark.padgham@email.com", role = c("aut", "cre")),
     person("Michael D.", "Sumner", , "mdsumner@gmail.com", role = "aut"),
@@ -60,4 +60,4 @@ Language: en-GB
 LazyData: true
 NeedsCompilation: yes
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
