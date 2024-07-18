@@ -33,13 +33,13 @@ text below, and are:
 1. `style = "light"` - the generally recommended style for `mapscanner`,
    ["designed to provide geographic context while highlighting the data on your
    analytics dashboard, data visualization, or data
-   overlay](https://www.mapbox.com/maps/light/).
+   overlay](https://www.mapbox.com/maps/light).
 2. `style = "streets"`, which is,
    ["a comprehensive, general-purpose map that emphasizes accurate, legible
-   styling of road and transit networks](https://www.mapbox.com/maps/streets/).
+   styling of road and transit networks](https://www.mapbox.com/maps/streets).
 3. `style = "outdoors"`, which is, ["a general-purpose map with curated
    tilesets and specialized styling tailored to hiking, biking, and the most
-   adventurous use cases"](https://www.mapbox.com/maps/outdoors/).
+   adventurous use cases"](https://www.mapbox.com/maps/outdoors).
 
 Alternatively, these different styles can be examined for any desired area with
 the following code.
