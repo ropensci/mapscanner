@@ -7,13 +7,13 @@
   "codeRepository": "https://github.com/ropensci/mapscanner",
   "issueTracker": "https://github.com/ropensci/mapscanner/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.1.0.003",
+  "version": "0.1.0.004",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.3.3 (2024-02-29)",
+  "runtimePlatform": "R version 4.4.1 (2024-06-14)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -418,9 +418,9 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=tibble"
     },
-    "SystemRequirements": "C++11"
+    "SystemRequirements": {}
   },
-  "fileSize": "8522.231KB",
+  "fileSize": "8588.587KB",
   "releaseNotes": "https://github.com/ropensci/mapscanner/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/mapscanner/blob/main/README.md",
   "contIntegration": [
