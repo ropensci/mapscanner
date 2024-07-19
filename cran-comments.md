@@ -1,4 +1,4 @@
-# CRAN notes for mapscanner_0.1.0 submission
+# CRAN notes for mapscanner_0.1.1 submission
 
 This submission fixes previous warnings from g++ 14.x which arose on CRAN Fedora checks, and also drops previous explicit C++11 specification.
 
