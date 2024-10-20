@@ -7,7 +7,7 @@
   "codeRepository": "https://github.com/ropensci/mapscanner",
   "issueTracker": "https://github.com/ropensci/mapscanner/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.1.1",
+  "version": "0.1.1.001",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -418,18 +418,26 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=tibble"
     },
-    "SystemRequirements": null
+    "SystemRequirements": {}
   },
   "fileSize": "8494.334KB",
   "releaseNotes": "https://github.com/ropensci/mapscanner/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/mapscanner/blob/main/README.md",
-  "contIntegration": ["https://github.com/ropensci/mapscanner/actions?query=workflow%3AR-CMD-check", "https://app.codecov.io/gh/ropensci/mapscanner"],
+  "contIntegration": [
+    "https://github.com/ropensci/mapscanner/actions?query=workflow%3AR-CMD-check",
+    "https://app.codecov.io/gh/ropensci/mapscanner"
+  ],
   "developmentStatus": "https://www.repostatus.org/#active",
   "review": {
     "@type": "Review",
     "url": "https://github.com/ropensci/software-review/issues/330",
     "provider": "https://ropensci.org"
   },
-  "keywords": ["r-package", "maps", "scan", "spatial"],
+  "keywords": [
+    "r-package",
+    "maps",
+    "scan",
+    "spatial"
+  ],
   "relatedLink": "https://CRAN.R-project.org/package=mapscanner"
 }
