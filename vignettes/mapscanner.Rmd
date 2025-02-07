@@ -234,15 +234,10 @@ auto-converted from `.pdf` if needed. The package comes with two sample maps,
 both in `.png` format. The first is the reference version needed for
 rectification, while the second has two red lines drawn upon it:
 
-<!--
-<img src="omaha-polygons.png" width="600" height="400"/>
--->
 
 ```{r omaha-poly-png, echo = FALSE, out.width = "75%", eval = TRUE}
 op <- system.file ("extdata", "omaha-polygons.png", package = "mapscanner")
-f <- file.path (tempdir (), "omama-polygons.png")
-chk <- file.copy (op, f)
-knitr::include_graphics (f)
+knitr::include_graphics (op, auto_pdf = FALSE, rel_path = FALSE)
 ```
 
 
